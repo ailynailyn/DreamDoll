@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "386184856087",
+    "firebase_url": "https://dreamdoll-2951b.firebaseio.com",
+    "project_id": "dreamdoll-2951b",
+    "storage_bucket": "dreamdoll-2951b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386184856087:android:035f7930e4fa58eb1e5252",
+        "android_client_info": {
+          "package_name": "com.example.edu.utap.dreamdoll"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386184856087-nto6rmub2bunrgshco715ikg4d92ns22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3sILvBkQZ8lWYW1jWiMBSNMWxveAv76w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "386184856087-nto6rmub2bunrgshco715ikg4d92ns22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

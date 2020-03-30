@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">DreamDoll</string>
+    <string name="app_font">Font</string>
+    <string name="dream_doll">Dream Doll</string>
 </resources>
