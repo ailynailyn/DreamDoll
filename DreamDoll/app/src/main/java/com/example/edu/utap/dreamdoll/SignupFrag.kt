@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.signup.*
 class SignupFrag : Fragment() {
 
     private var mAuth = FirebaseAuth.getInstance();
+    var signUpSuccessListener: SignUpSuccessListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +32,9 @@ class SignupFrag : Fragment() {
         return inflater.inflate(R.layout.signup, container, false)
     }
 
+    interface SignUpSuccessListener {
+        fun signUpSuccessful()
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -47,6 +51,7 @@ class SignupFrag : Fragment() {
                             // Sign up success.
                             Log.d("XXX", "signUPWithEmail:success");
                             // Go to main screen.
+                            signUpSuccessListener?.signUpSuccessful()
                         } else {
                             // Sign up failed. Display message.
                             Log.w("XXX", "signUPWithEmail:failure", task.getException());
@@ -60,5 +65,9 @@ class SignupFrag : Fragment() {
     /// makes sure interfaces are implemented
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        signUpSuccessListener = context as? SignUpSuccessListener
+        if(signUpSuccessListener == null) {
+            throw ClassCastException("$context must implement SignUpSuccessListener")
+        }
     }
 }
