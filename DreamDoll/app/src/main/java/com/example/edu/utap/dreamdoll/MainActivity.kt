@@ -1,10 +1,14 @@
 package com.example.edu.utap.dreamdoll
 
+import android.app.Activity
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +26,6 @@ class MainActivity :
     var signin_frag = SignupFrag()
     var newsfeed_frag = NewsFeedFrag()
     var optionsMenu_frag = OptionsMenuFrag()
-    var menuIsOpen = false
 
     // Menu.
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -37,7 +40,7 @@ class MainActivity :
         val id = item.getItemId()
 
         if (id == R.id.options) {
-            Toast.makeText(this, "Options Clicked: menuisopen: $menuIsOpen. will do opposite", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "Options Clicked: menuisopen: $menuIsOpen. will do opposite", Toast.LENGTH_LONG).show()
             var fragment = supportFragmentManager.findFragmentByTag("menu_frag")
             if(fragment == null) {
                 // Display the options.
@@ -45,11 +48,9 @@ class MainActivity :
                     .beginTransaction()
                     .add(R.id.container, optionsMenu_frag, "menu_frag")
                     .commit()
-                menuIsOpen = true
             } else {
                 // Close the options.
                 supportFragmentManager.beginTransaction().remove(optionsMenu_frag).commit()
-                menuIsOpen = false
             }
             return true
         }
@@ -96,6 +97,19 @@ class MainActivity :
             .replace(R.id.container, login_frag)
             .addToBackStack(null)
             .commit()
+    }
+
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
     }
 
     // Signin button was clicked.

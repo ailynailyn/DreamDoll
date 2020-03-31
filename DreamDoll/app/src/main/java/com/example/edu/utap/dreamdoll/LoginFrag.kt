@@ -1,20 +1,25 @@
 package com.example.edu.utap.dreamdoll
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthActionCodeException
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
@@ -37,12 +42,37 @@ class LoginFrag : Fragment() {
         fun signInSuccessful()
     }
 
+    fun reset() {
+        login_emailET.getText().clear()
+        login_passwordET.getText().clear()
+        login_invalidEmailTV.visibility = View.INVISIBLE
+        login_invalidPasswordTV.visibility = View.INVISIBLE
+    }
+
+    // Code to hide the keyboard.
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        reset()
         // Set up login button.
         login_button.setOnClickListener {
+            hideKeyboard()
             var email = login_emailET.text.toString()
             var password = login_passwordET.text.toString()
+            login_invalidEmailTV.visibility = View.INVISIBLE
+            login_invalidPasswordTV.visibility = View.INVISIBLE
             if(!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
                 // Check firebase.
                 Log.d("login", "email: $email. password: $password")
@@ -57,7 +87,23 @@ class LoginFrag : Fragment() {
                             } else {
                                 // Sign in failed. Display message.
                                 Log.w("XXX", "signInWithEmail:failure", task.getException());
-                                Toast.makeText(this.context, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                Log.w("XXX", "signInWithEmail:localizedMessage: ${task.getException()!!.localizedMessage}");
+                                var errorMsg = task.getException()!!.localizedMessage
+                                if(Regex("email address is badly formatted").containsMatchIn(errorMsg)) {
+                                    login_invalidEmailTV.visibility = View.VISIBLE
+                                    Log.d("XXX", "in email address badly format")
+                                } else if (Regex("password is invalid").containsMatchIn(errorMsg)) {
+                                    login_invalidPasswordTV.text = "Invalid password."
+                                    login_invalidPasswordTV.visibility = View.VISIBLE
+                                } else if (Regex("no user record corresponding to this identifier").containsMatchIn(errorMsg)) {
+                                    login_invalidEmailTV.visibility = View.VISIBLE
+                                } else if (Regex("Too many unsuccessful login attempts").containsMatchIn(errorMsg)) {
+                                    login_invalidPasswordTV.text = "Too many unsuccessful login attempts.\nPlease try again later."
+                                    login_invalidPasswordTV.visibility = View.VISIBLE
+                                } else {
+                                    login_invalidPasswordTV.text = errorMsg
+                                    login_invalidPasswordTV.visibility = View.VISIBLE
+                                }
                             }
                     }
             }

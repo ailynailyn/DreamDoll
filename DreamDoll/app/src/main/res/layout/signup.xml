@@ -4,47 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundWhite"
     tools:context=".MainActivity"
     >
-
-    <TextView
-        android:id="@+id/signup_emailTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="16dp"
-        android:text="Email"
-        />
 
     <EditText
         android:id="@+id/signup_emailET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/signup_emailTV"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_margin="16dp"
         android:hint="Email"
         />
 
     <TextView
-        android:id="@+id/signup_passwordTV"
+        android:id="@+id/signup_invalidEmailTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/signup_emailET"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="16dp"
-        android:text="Password"
+        app:layout_constraintBottom_toTopOf="@+id/signup_passwordET"
+        app:layout_constraintLeft_toLeftOf="@+id/signup_emailET"
+        android:layout_marginStart="4dp"
+        android:textColor="@color/red"
+        android:text="Provide a valid email."
         />
 
     <EditText
         android:id="@+id/signup_passwordET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/signup_passwordTV"
+        app:layout_constraintTop_toBottomOf="@+id/signup_invalidEmailTV"
+        app:layout_constraintBottom_toTopOf="@+id/signup_invalidPasswordTV"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_margin="16dp"
         android:hint="Password"
+        />
+
+    <TextView
+        android:id="@+id/signup_invalidPasswordTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/signup_passwordET"
+        app:layout_constraintLeft_toLeftOf="@+id/signup_passwordET"
+        android:layout_marginStart="4dp"
+        android:textColor="@color/red"
+        android:text="Provide a valid password."
         />
 
     <Button
@@ -55,6 +60,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/backgroundWhite"
+        android:textAllCaps="false"
         android:text="sign up"
         />
 

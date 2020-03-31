@@ -1,5 +1,6 @@
 package com.example.edu.utap.dreamdoll
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
@@ -36,12 +38,37 @@ class SignupFrag : Fragment() {
         fun signUpSuccessful()
     }
 
+    fun reset() {
+        signup_emailET.getText().clear()
+        signup_passwordET.getText().clear()
+        signup_invalidEmailTV.visibility = View.INVISIBLE
+        signup_invalidPasswordTV.visibility = View.INVISIBLE
+    }
+
+    // Code to hide the keyboard.
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        reset()
         // Set up login button.
         signup_button.setOnClickListener {
+            hideKeyboard()
             var email = signup_emailET.text.toString()
             var password = signup_passwordET.text.toString()
+            signup_invalidEmailTV.visibility = View.INVISIBLE
+            signup_invalidPasswordTV.visibility = View.INVISIBLE
             if(!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
                 // Check firebase.
                 Log.d("sign up", "email: $email. password: $password")
@@ -55,7 +82,19 @@ class SignupFrag : Fragment() {
                         } else {
                             // Sign up failed. Display message.
                             Log.w("XXX", "signUPWithEmail:failure", task.getException());
-                            Toast.makeText(this.context, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Log.w("XXX", "signInWithEmail:localizedMessage: ${task.getException()!!.localizedMessage}");
+                            var errorMsg = task.getException()!!.localizedMessage
+                            if(Regex("email address is badly formatted").containsMatchIn(errorMsg)) {
+                                signup_invalidEmailTV.visibility = View.VISIBLE
+                                Log.d("XXX", "in email address badly format")
+                            } else if(Regex("should be at least 6 characters").containsMatchIn(errorMsg)) {
+                                signup_invalidPasswordTV.setText("Password should be at least 6 characters.")
+                                signup_invalidPasswordTV.visibility = View.VISIBLE
+                                Log.d("XXX", "in should be at least 6 characters")
+                            } else {
+                                signup_invalidPasswordTV.text = errorMsg
+                                signup_invalidPasswordTV.visibility = View.VISIBLE
+                            }
                         }
                     }
             }
