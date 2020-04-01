@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Display
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,10 +28,18 @@ class MainActivity :
     var newsfeed_frag = NewsFeedFrag()
     var optionsMenu_frag = OptionsMenuFrag()
 
+    var displayOptions = false;
+
     // Menu.
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
+        var optionsButton = menu.findItem(R.id.options)
+        if(displayOptions) {
+            optionsButton.setVisible(true)
+        } else {
+            optionsButton.setVisible(false)
+        }
         return true
     }
 
@@ -58,6 +67,12 @@ class MainActivity :
 
     }
 
+    // Hides the menu options.
+    fun displayOptionsMenu(shouldDisplay: Boolean) {
+        displayOptions = shouldDisplay
+        invalidateOptionsMenu()
+    }
+
     // Create a character button was clicked.
     override fun createCharButtonClicked() {
 
@@ -81,6 +96,7 @@ class MainActivity :
     // Logout button was clicked.
     override fun logoutButtonClicked() {
         mAuth.signOut()
+        displayOptionsMenu(false)
         // Go to sign in screen.
         supportFragmentManager
             .beginTransaction()
@@ -99,6 +115,7 @@ class MainActivity :
             .commit()
     }
 
+    // Hides keyboard.
     fun Activity.hideKeyboard() {
         hideKeyboard(currentFocus ?: View(this))
     }
@@ -126,9 +143,20 @@ class MainActivity :
     // Sign in. Do any necessary updates.
     override fun signInSuccessful() {
         Log.d("MainActivity", "signInSuccessful")
+        displayOptionsMenu(true)
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, newsfeed_frag)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    // Forgot password was clicked.
+    override fun forgotPassword() {
+        Log.d("MainActivity", "forgotPassword")
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, ForgotPasswordFrag())
             .addToBackStack(null)
             .commit()
     }
@@ -151,12 +179,14 @@ class MainActivity :
 
         if(curUser == null) {
             // Start in the login/signup screen.
+            displayOptionsMenu(false)
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container, startup_frag)
                 .commit()
         } else {
             // else bring them to the main feed
+            displayOptionsMenu(true)
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container, newsfeed_frag)

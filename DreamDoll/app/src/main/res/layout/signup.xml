@@ -8,13 +8,27 @@
     tools:context=".MainActivity"
     >
 
+    <TextView
+        android:id="@+id/signupTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="36dp"
+        android:textSize="32dp"
+        android:text="Sign Up"
+        />
+
     <EditText
         android:id="@+id/signup_emailET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupTV"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Email"
         />
 
@@ -37,7 +51,8 @@
         app:layout_constraintTop_toBottomOf="@+id/signup_invalidEmailTV"
         app:layout_constraintBottom_toTopOf="@+id/signup_invalidPasswordTV"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Password"
         />
 

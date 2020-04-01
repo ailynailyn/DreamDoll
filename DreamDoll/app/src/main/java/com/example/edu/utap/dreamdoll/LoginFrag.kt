@@ -40,6 +40,7 @@ class LoginFrag : Fragment() {
 
     interface SignInSuccessListener {
         fun signInSuccessful()
+        fun forgotPassword()
     }
 
     fun reset() {
@@ -66,6 +67,12 @@ class LoginFrag : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         reset()
+        // Set up forgot password button.
+        login_forgotButton.setOnClickListener {
+            Log.d("Loginfrag", "forgot button clicked")
+            signInSuccessListener?.forgotPassword()
+        }
+
         // Set up login button.
         login_button.setOnClickListener {
             hideKeyboard()
