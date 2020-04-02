@@ -74,6 +74,15 @@ class MainActivity :
         invalidateOptionsMenu()
     }
 
+    // Newsfeed button was clicked.
+    override fun newsFeedButtonClicked() {
+        // Go to newsfeed page.
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, newsfeed_frag)
+            .commit()
+    }
+
     // Create a character button was clicked.
     override fun createCharButtonClicked() {
 
@@ -125,11 +134,13 @@ class MainActivity :
         hideKeyboard(currentFocus ?: View(this))
     }
 
+    // Hides keyboard.
     fun Context.hideKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
+    // Hides keyboard.
     fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
     }

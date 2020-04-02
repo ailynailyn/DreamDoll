@@ -30,6 +30,7 @@ class OptionsMenuFrag : Fragment() {
 
     // Notifies activity which button was clicked.
     interface OptionsMenuButtonListener {
+        fun newsFeedButtonClicked()
         fun createCharButtonClicked()
         fun editCharButtonClicked()
         fun buyItemsButtonClicked()
@@ -40,6 +41,10 @@ class OptionsMenuFrag : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // Sets up the buttons.
+        news_feed.setOnClickListener {
+            Log.d("options menu fragment", "newfeed button clicked")
+            buttonListener?.newsFeedButtonClicked()
+        }
         create_character.setOnClickListener {
             Log.d("options menu fragment", "create character button clicked")
             buttonListener?.createCharButtonClicked()

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     tools:context=".MainActivity"
     >
 
-    <TextView
+    <Button
         android:id="@+id/editFull_backButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -20,9 +21,11 @@
         android:textSize="32sp"
         android:layout_marginLeft="16dp"
         android:textColor="@color/black"
+        android:gravity="left"
+        android:background="?android:attr/selectableItemBackground"
         />
 
-    <TextView
+    <Button
         android:id="@+id/editFull_saveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,6 +38,7 @@
         android:gravity="right"
         android:textColor="@color/black"
         android:layout_marginRight="16dp"
+        android:background="?android:attr/selectableItemBackground"
         />
 
     <Button
@@ -47,7 +51,7 @@
         android:text="@string/back_arrow"
         android:textSize="50sp"
         android:layout_marginTop="16dp"
-        android:background="@color/backgroundWhite"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/red"
         />
 
@@ -61,7 +65,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editFull_bottomsPrev"
         android:text="@string/back_arrow"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/red"
         />
 
@@ -75,7 +79,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editFull_shoesPrev"
         android:text="@string/back_arrow"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/red"
         />
 
@@ -88,7 +92,7 @@
         app:layout_constraintBottom_toTopOf="@id/editFull_currentTV"
         android:text="@string/back_arrow"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/red"
         />
 
@@ -119,8 +123,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/editFull_headPrev"
         android:text=">"
+        android:background="?android:attr/selectableItemBackground"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
         android:textColor="@color/red"
         android:layout_weight="2"
         />
@@ -134,8 +138,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/editFull_topsPrev"
         android:text=">"
+        android:background="?android:attr/selectableItemBackground"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
         android:textColor="@color/red"
         android:layout_weight="2"
         />
@@ -150,7 +154,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/editFull_bottomsPrev"
         android:text=">"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/red"
         android:layout_weight="2"
         />
@@ -165,7 +169,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/editFull_shoesPrev"
         android:text=">"
         android:textSize="50sp"
-        android:background="@color/backgroundWhite"
+        android:background="?android:attr/selectableItemBackground"
         android:textColor="@color/red"
         android:layout_weight="1"
         />
