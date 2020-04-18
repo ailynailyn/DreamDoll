@@ -11,8 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -51,9 +50,45 @@ class EditFeaturesFrag : Fragment() {
 
     }
 
-    // Instantiates the grid recycler view of items.
-    fun initGrid() {
+    // Initializes the options spinner.
+    private fun initSpinner() {
+        val spinner: Spinner = view!!.findViewById(R.id.editFeatures_spinner)
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            this.context!!,
+            R.array.edit_options,
+            R.layout.spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
 
+        spinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d("item selected", resources.getStringArray(R.array.edit_options)[position])
+            }
+
+        }
+
+    }
+
+    // Initializes the grid recycler view of items.
+    private fun initGrid() {
+        recyclerView = view!!.findViewById(R.id.editFeatures_recyclerView)
+        gridLayoutManager = GridLayoutManager(this.context, numCols)
+        recyclerView.layoutManager = gridLayoutManager
     }
 
     // Code to hide the keyboard.
@@ -75,17 +110,13 @@ class EditFeaturesFrag : Fragment() {
         super.onActivityCreated(savedInstanceState)
         reset()
         initGrid()
-
-        recyclerView = view!!.findViewById(R.id.editFeatures_recyclerView)
-        gridLayoutManager = GridLayoutManager(this.context, numCols)
-
-        recyclerView.layoutManager = gridLayoutManager  // should glbl vars be instantiated here?
+        initSpinner()
 
         // Set item decoration.
         //recyclerView.addItemDecoration(GridItemDecoration())
 
         // Set adapter.
-         recyclerView.adapter = rvAdapter
+        recyclerView.adapter = rvAdapter
         rvAdapter.setItemList(repository.fetchEyeColors())
 
     }

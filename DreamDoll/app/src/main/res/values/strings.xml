@@ -3,4 +3,12 @@
     <string name="app_font">Font</string>
     <string name="dream_doll">Dream Doll</string>
     <string name="back_arrow">&lt;</string>
+    <string-array name="edit_options">
+        <item>Eyes</item>
+        <item>Hair</item>
+        <item>Head</item>
+        <item>Tops</item>
+        <item>Bottoms</item>
+        <item>Shoes</item>
+    </string-array>
 </resources>
