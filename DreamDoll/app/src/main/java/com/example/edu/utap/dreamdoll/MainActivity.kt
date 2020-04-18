@@ -27,6 +27,7 @@ class MainActivity :
     var signin_frag = SignupFrag()
     var newsfeed_frag = NewsFeedFrag()
     var optionsMenu_frag = OptionsMenuFrag()
+    var editFeatures_frag = EditFeaturesFrag()
     var editFullBody_frag = EditFullBodyFrag()
 
     var displayOptions = false;
@@ -93,7 +94,7 @@ class MainActivity :
         // Go to edit character page.
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, editFullBody_frag)
+            .replace(R.id.container, editFeatures_frag)
             .commit()
     }
 
