@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuthActionCodeException
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
-// EditFaceFrag.kt & edit_features.xml
 class GVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -36,6 +35,12 @@ class GVAdapter()
 
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
         internal var captionTV = itemView.findViewById<TextView>(R.id.gridItem_caption)
+
+        init {
+            itemView.setOnClickListener {
+                Log.d("GVAdapter", "item clicked ${captionTV.text}")
+            }
+        }
 
         fun bindView(item: DollItem) {
             Log.d("GVAdapter", "bindView(item: DollItem)")

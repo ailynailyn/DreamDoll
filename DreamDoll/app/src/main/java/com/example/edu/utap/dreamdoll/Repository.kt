@@ -13,9 +13,21 @@ class Repository {
             DollItem("white", R.drawable.doll_face),
             DollItem("brown", R.drawable.doll_face)
         )
+        private var hairColorList = listOf (
+            DollItem("black", R.drawable.doll_face),
+            DollItem("brown", R.drawable.doll_face),
+            DollItem("red", R.drawable.doll_face),
+            DollItem("blonde", R.drawable.doll_face),
+            DollItem("blue", R.drawable.doll_face),
+            DollItem("white", R.drawable.doll_face)
+        )
     }
 
     fun fetchEyeColors() : List<DollItem> {
         return eyeColorList
+    }
+
+    fun fetchHairColors() : List<DollItem> {
+        return hairColorList
     }
 }

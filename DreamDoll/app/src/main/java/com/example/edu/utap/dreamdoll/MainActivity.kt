@@ -2,15 +2,14 @@ package com.example.edu.utap.dreamdoll
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Display
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 
@@ -27,7 +26,7 @@ class MainActivity :
     var signin_frag = SignupFrag()
     var newsfeed_frag = NewsFeedFrag()
     var optionsMenu_frag = OptionsMenuFrag()
-    var editFeatures_frag = EditFeaturesFrag()
+    var editFeatures_frag = EditCharacterActivity()
     var editFullBody_frag = EditFullBodyFrag()
 
     var displayOptions = false;
@@ -92,10 +91,14 @@ class MainActivity :
     // Edit a character button was clicked.
     override fun editCharButtonClicked() {
         // Go to edit character page.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, editFeatures_frag)
-            .commit()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.container, editFeatures_frag)
+//            .commit()
+
+        val intent = Intent(this, EditCharacterActivity::class.java)
+        intent.putExtra("title", "madeit")
+        startActivity(intent)
     }
 
     // Buy items button was clicked.
