@@ -5,6 +5,9 @@
     <string name="back_arrow">&lt;</string>
     <color name="navy">#090f34</color>
     <color name="gold">#d69511</color>
+    <color name="powder_blue">#d1dcef</color>
+    <color name="menu_blue">#e0e8f4</color>
+    <color name="white_blue">#edf1f9</color>
     <string-array name="edit_options">
         <item>Eyes</item>
         <item>Hair</item>
