@@ -38,8 +38,10 @@ class MainActivity :
         menuInflater.inflate(R.menu.menu, menu)
         var optionsButton = menu.findItem(R.id.options)
         if(displayOptions) {
+            supportActionBar?.show()
             optionsButton.setVisible(true)
         } else {
+            supportActionBar?.hide()
             optionsButton.setVisible(false)
         }
         return true
@@ -200,7 +202,6 @@ class MainActivity :
         var curUser = mAuth.currentUser
 
         if(curUser == null) {
-            supportActionBar?.hide()
             // Start in the login/signup screen.
             displayOptionsMenu(false)
             supportFragmentManager
@@ -208,7 +209,6 @@ class MainActivity :
                 .replace(R.id.container, startup_frag)
                 .commit()
         } else {
-            supportActionBar?.show()
             // else bring them to the main feed
             displayOptionsMenu(true)
             supportFragmentManager
