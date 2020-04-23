@@ -9,9 +9,12 @@
     <color name="menu_blue">#e0e8f4</color>
     <color name="white_blue">#edf1f9</color>
     <string-array name="edit_options">
-        <item>Eyes</item>
         <item>Hair</item>
-        <item>Head</item>
+        <item>Eyes</item>
+        <item>Eyebrows</item>
+        <item>Nose</item>
+        <item>Lips</item>
+        <item>Hats</item>
         <item>Tops</item>
         <item>Bottoms</item>
         <item>Shoes</item>
