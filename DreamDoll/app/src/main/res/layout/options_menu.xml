@@ -1,149 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundWhite"
+    android:orientation="vertical"
+    android:background="@color/navy"
     tools:context=".MainActivity"
     >
 
-    <Button
-        android:id="@+id/news_feed"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/create_character"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:textSize="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="newsfeed"
-        />
+        android:layout_height="30dp"/>
 
-    <FrameLayout
+    <LinearLayout
+        android:layout_weight="2"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/news_feed"
-        app:layout_constraintBottom_toTopOf="@+id/create_character"
-        android:background="@color/black"
-        >
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="250dp" />
+    <ImageView
+        android:layout_weight="2"
+        android:src="@drawable/loading"
+        android:layout_width="0dp"
+        android:layout_height="200dp" />
+    <TextView
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="250dp" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/create_character"
+    <LinearLayout
+        android:layout_weight="7"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/news_feed"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/edit_character"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:textSize="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="create character"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <FrameLayout
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/news_feed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:background="@drawable/custom0menu0box0dark"
+            android:text="newsfeed"
+            android:textColor="@color/gold"
+            android:textAllCaps="true"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+            <Button
+                android:layout_weight="7"
+                android:id="@+id/create_character"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textSize="20sp"
+                android:background="@drawable/custom0menu0box0light"
+                android:textColor="@color/gold"
+                android:text="create"
+                />
+
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/create_character"
-        app:layout_constraintBottom_toTopOf="@+id/edit_character"
-        android:background="@color/black"
-        >
-    </FrameLayout>
+        android:layout_height="15dp"/>
 
-    <Button
-        android:id="@+id/edit_character"
+    <LinearLayout
+        android:layout_weight="7"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/create_character"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buy_items"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:textSize="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="edit character"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <FrameLayout
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="7"
+            android:id="@+id/edit_character"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:background="@drawable/custom0menu0box0light"
+            android:textColor="@color/gold"
+            android:text="edit"
+            />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="7"
+            android:id="@+id/buy_items"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/edit_character"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/earn_coins"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:background="@drawable/custom0menu0box0dark"
+            android:textColor="@color/gold"
+            android:text="shop"
+            />
+
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/edit_character"
-        app:layout_constraintBottom_toTopOf="@+id/buy_items"
-        android:background="@color/black"
-        >
-    </FrameLayout>
+        android:layout_height="15dp"/>
 
-    <Button
-        android:id="@+id/buy_items"
+    <LinearLayout
+        android:layout_weight="7"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/edit_character"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/earn_coins"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:textSize="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="buy items"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <FrameLayout
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="7"
+            android:id="@+id/earn_coins"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:background="@drawable/custom0menu0box0dark"
+            android:textColor="@color/gold"
+            android:text="earn"
+            />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_weight="7"
+            android:id="@+id/logout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textSize="20sp"
+            android:background="@drawable/custom0menu0box0light"
+            android:textColor="@color/gold"
+            android:text="logout"
+            />
+
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/buy_items"
-        app:layout_constraintBottom_toTopOf="@+id/earn_coins"
-        android:background="@color/black"
-        >
-    </FrameLayout>
+        android:layout_height="30dp"/>
 
-    <Button
-        android:id="@+id/earn_coins"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/buy_items"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/logout"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:textSize="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="earn coins"
-        />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/earn_coins"
-        app:layout_constraintBottom_toTopOf="@+id/logout"
-        android:background="@color/black"
-        >
-
-    </FrameLayout>
-
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/earn_coins"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:textAllCaps="false"
-        android:textSize="30dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="logout"
-        />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

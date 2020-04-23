@@ -4,6 +4,7 @@
     <string name="dream_doll">Dream Doll</string>
     <string name="back_arrow">&lt;</string>
     <color name="navy">#090f34</color>
+    <color name="gold">#d69511</color>
     <string-array name="edit_options">
         <item>Eyes</item>
         <item>Hair</item>
