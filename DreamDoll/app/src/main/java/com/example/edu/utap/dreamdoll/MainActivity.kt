@@ -200,6 +200,7 @@ class MainActivity :
         var curUser = mAuth.currentUser
 
         if(curUser == null) {
+            supportActionBar?.hide()
             // Start in the login/signup screen.
             displayOptionsMenu(false)
             supportFragmentManager
