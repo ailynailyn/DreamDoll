@@ -27,6 +27,11 @@ import kotlinx.android.synthetic.main.login_signup.*
 class EditFullBodyFrag : Fragment() {
 
     private var mAuth = FirebaseAuth.getInstance();
+    private val repository = Repository()
+    private var hatIdx = 0
+    private var topIdx = 0
+    private var bottomIdx = 0
+    private var shoeIdx = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -78,15 +78,25 @@ class EditCharacterActivity : AppCompatActivity() {
                     "Eyes" -> {
                         Log.d("xxx", "eyes pressed")
                         rvAdapter.setItemList(repository.fetchEyeDemo())
-//                        rvAdapter.setItemList(repository.fetchEyeColors())
                     }
                     "Hair" -> {
                         Log.d("xxx", "hair pressed")
                         rvAdapter.setItemList(repository.fetchHairDemo())
-//                        rvAdapter.setItemList(repository.fetchHairColors())
                     }
-                    "Head" -> {
-                        Log.d("xxx", "head pressed")
+                    "Eyebrows" -> {
+                        Log.d("xxx", "eyebrows pressed")
+                        rvAdapter.setItemList(repository.fetchBrows())
+                    }
+                    "Nose" -> {
+                        Log.d("xxx", "nose pressed")
+                        rvAdapter.setItemList(repository.fetchNoses())
+                    }
+                    "Lips" -> {
+                        Log.d("xxx", "lips pressed")
+                        rvAdapter.setItemList(repository.fetchLips())
+                    }
+                    "Hats" -> {
+                        Log.d("xxx", "hats pressed")
                         rvAdapter.setItemList(repository.fetchHats())
                         beginFullBodyFrag()
                     }
@@ -126,14 +136,11 @@ class EditCharacterActivity : AppCompatActivity() {
             if(prevPos >= 0) {
                 var prevCategory = resources.getStringArray(R.array.edit_options)[prevPos]
                 when(prevCategory) {
-                    "Eyes" -> {
+                    "Hair", "Eyes", "Eyebrows", "Nose", "Lips" -> {
                         editFeatures_spinner.setSelection(prevPos)
                         curCategoryIdx = prevPos
                     }
-                    "Hair" -> {
-                        editFeatures_spinner.setSelection(prevPos)
-                        curCategoryIdx = prevPos
-                    }
+
                     else -> {
                         beginFullBodyFrag()
                     }
@@ -146,11 +153,7 @@ class EditCharacterActivity : AppCompatActivity() {
             if(nextPos < resources.getStringArray(R.array.edit_options).size) {
                 var prevCategory = resources.getStringArray(R.array.edit_options)[nextPos]
                 when(prevCategory) {
-                    "Eyes" -> {
-                        editFeatures_spinner.setSelection(nextPos)
-                        curCategoryIdx = nextPos
-                    }
-                    "Hair" -> {
+                    "Hair", "Eyes", "Eyebrows", "Nose", "Lips" -> {
                         editFeatures_spinner.setSelection(nextPos)
                         curCategoryIdx = nextPos
                     }
