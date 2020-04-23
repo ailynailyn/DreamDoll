@@ -85,6 +85,7 @@ class EditCharacterActivity : AppCompatActivity() {
                     }
                     "Head" -> {
                         Log.d("xxx", "head pressed")
+                        rvAdapter.setItemList(repository.fetchHats())
                         beginFullBodyFrag()
                     }
                     "Tops" -> {
@@ -93,10 +94,12 @@ class EditCharacterActivity : AppCompatActivity() {
                     }
                     "Bottoms" -> {
                         Log.d("xxx", "bottoms pressed")
+                        rvAdapter.setItemList(repository.fetchBottoms())
                         beginFullBodyFrag()
                     }
                     "Shoes" -> {
                         Log.d("xxx", "shoes pressed")
+                        rvAdapter.setItemList(repository.fetchShoes())
                         beginFullBodyFrag()
                     }
                 }
