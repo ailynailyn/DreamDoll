@@ -22,6 +22,16 @@ class Repository {
             DollItem("white", R.drawable.doll_face)
         )
 
+        private var hairDemoList = listOf(
+            DollItem("pink bangs", R.drawable.pink_bang_demo),
+            DollItem("brown center part", R.drawable.center_brown_demo)
+        )
+
+        private var eyeDemoList = listOf(
+            DollItem("green oval eyes", R.drawable.oval_eyes_demo),
+            DollItem("blue round eyes", R.drawable.round_eyes_demo)
+        )
+
         private var lipsList = listOf(
             DollItem("oval", R.drawable.lips_oval),
             DollItem("round", R.drawable.lips_round)
@@ -92,5 +102,13 @@ class Repository {
 
     fun fetchShoes() : List<DollItem> {
         return shoesList
+    }
+
+    fun fetchHairDemo() : List<DollItem> {
+        return hairDemoList
+    }
+
+    fun fetchEyeDemo() : List<DollItem> {
+        return eyeDemoList
     }
 }

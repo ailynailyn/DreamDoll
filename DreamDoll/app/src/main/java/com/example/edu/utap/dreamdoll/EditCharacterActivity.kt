@@ -77,11 +77,13 @@ class EditCharacterActivity : AppCompatActivity() {
                 when(item) {
                     "Eyes" -> {
                         Log.d("xxx", "eyes pressed")
-                        rvAdapter.setItemList(repository.fetchEyeColors())
+                        rvAdapter.setItemList(repository.fetchEyeDemo())
+//                        rvAdapter.setItemList(repository.fetchEyeColors())
                     }
                     "Hair" -> {
                         Log.d("xxx", "hair pressed")
-                        rvAdapter.setItemList(repository.fetchHairColors())
+                        rvAdapter.setItemList(repository.fetchHairDemo())
+//                        rvAdapter.setItemList(repository.fetchHairColors())
                     }
                     "Head" -> {
                         Log.d("xxx", "head pressed")
