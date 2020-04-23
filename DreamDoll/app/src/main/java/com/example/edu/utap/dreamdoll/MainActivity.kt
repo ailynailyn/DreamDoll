@@ -208,6 +208,7 @@ class MainActivity :
                 .replace(R.id.container, startup_frag)
                 .commit()
         } else {
+            supportActionBar?.show()
             // else bring them to the main feed
             displayOptionsMenu(true)
             supportFragmentManager
