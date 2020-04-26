@@ -28,13 +28,16 @@ class MenuActivity : BaseActivity() {
 
 
     // Newsfeed button was clicked.
-    fun newsFeedButtonClicked() {
+    fun newsfeedButtonClicked() {
         displayOptionsMenu(true)
         // Go to newsfeed page.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, newsfeed_frag)
-            .commit()
+//        supportFragmentManager
+//            .beginTransaction()
+//            .replace(R.id.container, newsfeed_frag)
+//            .commit()
+        val intent = Intent(this, NewsfeedActivity::class.java)
+        intent.putExtra("title", "neewsfeed button clicked")
+        startActivity(intent)
     }
 
     // Create a character button was clicked.
@@ -74,7 +77,7 @@ class MenuActivity : BaseActivity() {
         // Sets up the buttons.
         news_feed.setOnClickListener {
             Log.d("options menu fragment", "newfeed button clicked")
-            newsFeedButtonClicked()
+            newsfeedButtonClicked()
         }
         create_character.setOnClickListener {
             Log.d("options menu fragment", "create character button clicked")

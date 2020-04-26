@@ -19,8 +19,6 @@ class MainActivity :
     SignupFrag.SignUpSuccessListener
      {
 
-
-
     // Hides keyboard.
     fun Activity.hideKeyboard() {
         hideKeyboard(currentFocus ?: View(this))
@@ -36,12 +34,6 @@ class MainActivity :
     fun Fragment.hideKeyboard() {
         view?.let { activity?.hideKeyboard(it) }
     }
-
-
-
-
-
-
 
     // Sign in. Do any necessary updates.
     override fun signUpSuccessful() {
@@ -73,10 +65,10 @@ class MainActivity :
             Log.d("signed in.", "going to newsfeed")
             // else bring them to the main feed
             displayOptionsMenu(true)
+
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container, newsfeed_frag)
-                .addToBackStack(null)
                 .commit()
         }
     }
