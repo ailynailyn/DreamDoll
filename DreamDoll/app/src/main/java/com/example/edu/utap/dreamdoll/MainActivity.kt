@@ -19,9 +19,6 @@ class MainActivity :
     SignupFrag.SignUpSuccessListener
      {
 
-    private lateinit var mAuth : FirebaseAuth
-
-
 
 
     // Hides keyboard.
@@ -57,14 +54,15 @@ class MainActivity :
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("main activity", "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mAuth = FirebaseAuth.getInstance()
 
         var curUser = mAuth.currentUser
 
         if(curUser == null) {
+            Log.d("cur user is null", "going to signuplogin")
             // Start in the login/signup screen.
             displayOptionsMenu(false)
             supportFragmentManager
@@ -72,6 +70,7 @@ class MainActivity :
                 .replace(R.id.container, startup_frag)
                 .commit()
         } else {
+            Log.d("signed in.", "going to newsfeed")
             // else bring them to the main feed
             displayOptionsMenu(true)
             supportFragmentManager

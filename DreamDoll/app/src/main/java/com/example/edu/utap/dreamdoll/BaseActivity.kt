@@ -16,15 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity :
     AppCompatActivity(),
-    OptionsMenuFrag.OptionsMenuButtonListener,
     StartupFrag.StartupButtonListener,
     LoginFrag.SignInSuccessListener
     {
 
-    private lateinit var mAuth : FirebaseAuth
+        lateinit var mAuth : FirebaseAuth
     var startup_frag = StartupFrag()   // for login and signup
     var newsfeed_frag = NewsFeedFrag()
-    var optionsMenu_frag = OptionsMenuFrag()
         var login_frag = LoginFrag()
         var signin_frag = SignupFrag()
 
@@ -32,6 +30,7 @@ open class BaseActivity :
 
     // Menu.
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Log.d("creating options menu", "yup")
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu, menu)
         var optionsButton = menu.findItem(R.id.options)
@@ -45,24 +44,49 @@ open class BaseActivity :
         return true
     }
 
+//        override fun onBackPressed() {
+//            super.onBackPressed()
+//            Log.d("Back pressed", "yup")
+//            if(menuFragIsPresent()) {
+//                displayOptionsMenu(true)
+//                supportFragmentManager.beginTransaction().remove(optionsMenu_frag).commit()
+//            } else {
+//                Log.d("should have", "done something else...?")
+//            }
+//        }
+
+        fun menuFragIsPresent() : Boolean {
+            var fragment = supportFragmentManager.findFragmentByTag("menu_frag")
+            if(fragment == null) {
+                return false
+            }
+            return true
+        }
+
     // Menu options.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d("in onOptionsItemSelected", "yup")
         // Handle action bar item clicks here.
         val id = item.getItemId()
 
         if (id == R.id.options) {
 //            Toast.makeText(this, "Options Clicked: menuisopen: $menuIsOpen. will do opposite", Toast.LENGTH_LONG).show()
-            var fragment = supportFragmentManager.findFragmentByTag("menu_frag")
-            if(fragment == null) {
+//            if(!menuFragIsPresent()) {
                 // Display the options.
-                supportFragmentManager
-                    .beginTransaction()
-                    .add(R.id.container, optionsMenu_frag, "menu_frag")
-                    .commit()
-            } else {
-                // Close the options.
-                supportFragmentManager.beginTransaction().remove(optionsMenu_frag).commit()
-            }
+//                displayOptionsMenu(false)
+//                supportFragmentManager
+//                    .beginTransaction()
+//                    .add(R.id.container, optionsMenu_frag, "menu_frag")
+//                    .commit()
+                // Start the activity
+                val intent = Intent(this, MenuActivity::class.java)
+                intent.putExtra("going to options menu", "madeit")
+                startActivity(intent)
+//            } else {
+//                displayOptionsMenu(true)
+//                // Close the options.
+////                supportFragmentManager.beginTransaction().remove(optionsMenu_frag).commit()
+//            }
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -71,6 +95,7 @@ open class BaseActivity :
 
     // Hides the menu options.
     fun displayOptionsMenu(shouldDisplay: Boolean) {
+        Log.d("displaying menu: ", "$shouldDisplay")
         displayOptions = shouldDisplay
         invalidateOptionsMenu()
     }
@@ -118,54 +143,14 @@ open class BaseActivity :
                 .commit()
         }
 
-    // Newsfeed button was clicked.
-    override fun newsFeedButtonClicked() {
-        // Go to newsfeed page.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, newsfeed_frag)
-            .commit()
-    }
 
-    // Create a character button was clicked.
-    override fun createCharButtonClicked() {
-
-    }
-
-    // Edit a character button was clicked.
-    override fun editCharButtonClicked() {
-        val intent = Intent(this, EditCharacterActivity::class.java)
-        intent.putExtra("title", "madeit")
-        startActivity(intent)
-    }
-
-    // Buy items button was clicked.
-    override fun buyItemsButtonClicked() {
-
-    }
-
-    // Earn coins button was clicked.
-    override fun earnCoinsButtonClicked() {
-
-    }
-
-    // Logout button was clicked.
-    override fun logoutButtonClicked() {
-        mAuth.signOut()
-        displayOptionsMenu(false)
-        // Go to sign in screen.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, startup_frag)
-            .commit()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        displayOptionsMenu(false)
+//        displayOptionsMenu(false)
         mAuth = FirebaseAuth.getInstance()
 
 
