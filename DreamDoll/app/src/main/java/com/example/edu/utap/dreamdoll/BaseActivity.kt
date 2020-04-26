@@ -16,17 +16,17 @@ import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity :
     AppCompatActivity(),
-    OptionsMenuFrag.OptionsMenuButtonListener
+    OptionsMenuFrag.OptionsMenuButtonListener,
+    StartupFrag.StartupButtonListener,
+    LoginFrag.SignInSuccessListener
     {
 
     private lateinit var mAuth : FirebaseAuth
     var startup_frag = StartupFrag()   // for login and signup
-//    var login_frag = LoginFrag()
-//    var signin_frag = SignupFrag()
     var newsfeed_frag = NewsFeedFrag()
     var optionsMenu_frag = OptionsMenuFrag()
-//    var editFeatures_frag = EditCharacterActivity()
-//    var editFullBody_frag = EditFullBodyFrag()
+        var login_frag = LoginFrag()
+        var signin_frag = SignupFrag()
 
     var displayOptions = false;
 
@@ -75,7 +75,48 @@ open class BaseActivity :
         invalidateOptionsMenu()
     }
 
+        // Forgot password was clicked.
+        override fun forgotPassword() {
+            Log.d("MainActivity", "forgotPassword")
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, ForgotPasswordFrag())
+                .addToBackStack(null)
+                .commit()
+        }
 
+        // Signin button was clicked.
+        override fun signupButtonClicked() {
+            Log.d("MainActivity", "signin button clicked listener in mainactivity")
+            // Go to login screen.
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, signin_frag)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Login button was clicked.
+        override fun loginButtonClicked() {
+            Log.d("MainActivity", "login button clicked listener in mainactivity")
+            // Go to login screen.
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, login_frag)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Sign in. Do any necessary updates.
+        override fun signInSuccessful() {
+            Log.d("MainActivity", "signInSuccessful")
+            displayOptionsMenu(true)
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, newsfeed_frag)
+                .addToBackStack(null)
+                .commit()
+        }
 
     // Newsfeed button was clicked.
     override fun newsFeedButtonClicked() {
@@ -93,12 +134,6 @@ open class BaseActivity :
 
     // Edit a character button was clicked.
     override fun editCharButtonClicked() {
-        // Go to edit character page.
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.container, editFeatures_frag)
-//            .commit()
-
         val intent = Intent(this, EditCharacterActivity::class.java)
         intent.putExtra("title", "madeit")
         startActivity(intent)
@@ -124,98 +159,15 @@ open class BaseActivity :
             .replace(R.id.container, startup_frag)
             .commit()
     }
-/*
-    // Login button was clicked.
-    override fun loginButtonClicked() {
-        Log.d("MainActivity", "login button clicked listener in mainactivity")
-        // Go to login screen.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, login_frag)
-            .addToBackStack(null)
-            .commit()
-    }
 
-    // Hides keyboard.
-    fun Activity.hideKeyboard() {
-        hideKeyboard(currentFocus ?: View(this))
-    }
-
-    // Hides keyboard.
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    // Hides keyboard.
-    fun Fragment.hideKeyboard() {
-        view?.let { activity?.hideKeyboard(it) }
-    }
-
-    // Signin button was clicked.
-    override fun signupButtonClicked() {
-        Log.d("MainActivity", "signin button clicked listener in mainactivity")
-        // Go to login screen.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, signin_frag)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    // Sign in. Do any necessary updates.
-    override fun signInSuccessful() {
-        Log.d("MainActivity", "signInSuccessful")
-        displayOptionsMenu(true)
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, newsfeed_frag)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    // Forgot password was clicked.
-    override fun forgotPassword() {
-        Log.d("MainActivity", "forgotPassword")
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, ForgotPasswordFrag())
-            .addToBackStack(null)
-            .commit()
-    }
-
-    // Sign in. Do any necessary updates.
-    override fun signUpSuccessful() {
-        Log.d("MainActivity", "signInSuccessful")
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, newsfeed_frag)
-            .addToBackStack(null)
-            .commit()
-    }
-*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        mAuth = FirebaseAuth.getInstance()
-//        var curUser = mAuth.currentUser
-//
-//        if(curUser == null) {
-            // Start in the login/signup screen.
-            displayOptionsMenu(false)
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.container, startup_frag)
-//                .commit()
-//        } else {
-//            // else bring them to the main feed
-//            displayOptionsMenu(true)
-//            supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.container, newsfeed_frag)
-//                .addToBackStack(null)
-//                .commit()
-//        }
+
+        displayOptionsMenu(false)
+        mAuth = FirebaseAuth.getInstance()
+
+
     }
 }
