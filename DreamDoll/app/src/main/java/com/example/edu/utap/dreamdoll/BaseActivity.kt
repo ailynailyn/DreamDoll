@@ -1,17 +1,12 @@
 package com.example.edu.utap.dreamdoll
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
+import com.example.edu.utap.dreamdoll.startUp.StartupFrag
 import com.google.firebase.auth.FirebaseAuth
 
 open class BaseActivity :
@@ -20,12 +15,11 @@ open class BaseActivity :
     LoginFrag.SignInSuccessListener
     {
 
-        lateinit var mAuth : FirebaseAuth
+    lateinit var mAuth : FirebaseAuth
     var startup_frag = StartupFrag()   // for login and signup
     var newsfeed_frag = NewsFeedFrag()
-        var login_frag = LoginFrag()
-        var signin_frag = SignupFrag()
-
+    var login_frag = LoginFrag()
+    var signin_frag = SignupFrag()
     var displayOptions = false;
 
     // Menu.
@@ -44,25 +38,6 @@ open class BaseActivity :
         return true
     }
 
-//        override fun onBackPressed() {
-//            super.onBackPressed()
-//            Log.d("Back pressed", "yup")
-//            if(menuFragIsPresent()) {
-//                displayOptionsMenu(true)
-//                supportFragmentManager.beginTransaction().remove(optionsMenu_frag).commit()
-//            } else {
-//                Log.d("should have", "done something else...?")
-//            }
-//        }
-
-        fun menuFragIsPresent() : Boolean {
-            var fragment = supportFragmentManager.findFragmentByTag("menu_frag")
-            if(fragment == null) {
-                return false
-            }
-            return true
-        }
-
     // Menu options.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Log.d("in onOptionsItemSelected", "yup")
@@ -70,23 +45,10 @@ open class BaseActivity :
         val id = item.getItemId()
 
         if (id == R.id.options) {
-//            Toast.makeText(this, "Options Clicked: menuisopen: $menuIsOpen. will do opposite", Toast.LENGTH_LONG).show()
-//            if(!menuFragIsPresent()) {
-                // Display the options.
-//                displayOptionsMenu(false)
-//                supportFragmentManager
-//                    .beginTransaction()
-//                    .add(R.id.container, optionsMenu_frag, "menu_frag")
-//                    .commit()
-                // Start the activity
-                val intent = Intent(this, MenuActivity::class.java)
-                intent.putExtra("going to options menu", "madeit")
-                startActivity(intent)
-//            } else {
-//                displayOptionsMenu(true)
-//                // Close the options.
-////                supportFragmentManager.beginTransaction().remove(optionsMenu_frag).commit()
-//            }
+            // Start the activity
+            val intent = Intent(this, MenuActivity::class.java)
+            intent.putExtra("going to options menu", "madeit")
+            startActivity(intent)
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -149,10 +111,7 @@ open class BaseActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-//        displayOptionsMenu(false)
         mAuth = FirebaseAuth.getInstance()
-
 
     }
 }

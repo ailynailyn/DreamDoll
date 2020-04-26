@@ -18,23 +18,16 @@ import kotlinx.android.synthetic.main.options_menu.*
 // MenuActivity.kt & options_menu.xml
 class MenuActivity : BaseActivity() {
 
-//    var buttonListener: OptionsMenuButtonListener? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.options_menu)
         initButtons()
     }
 
-
     // Newsfeed button was clicked.
     fun newsfeedButtonClicked() {
         displayOptionsMenu(true)
         // Go to newsfeed page.
-//        supportFragmentManager
-//            .beginTransaction()
-//            .replace(R.id.container, newsfeed_frag)
-//            .commit()
         val intent = Intent(this, NewsfeedActivity::class.java)
         intent.putExtra("title", "neewsfeed button clicked")
         startActivity(intent)
@@ -67,10 +60,9 @@ class MenuActivity : BaseActivity() {
         mAuth.signOut()
         displayOptionsMenu(false)
         // Go to sign in screen.
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, startup_frag)
-            .commit()
+        val intent = Intent(this, StartUpActivity::class.java)
+        intent.putExtra("going to start up activity", "madeit")
+        startActivity(intent)
     }
 
      fun initButtons() {

@@ -48,8 +48,4 @@ class NewsFeedFrag : Fragment() {
 
     }
 
-    // Makes sure interfaces are implemented.
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 }

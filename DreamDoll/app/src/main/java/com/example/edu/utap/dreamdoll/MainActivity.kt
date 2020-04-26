@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity :
-    BaseActivity(),
-    SignupFrag.SignUpSuccessListener
+    BaseActivity()
      {
 
     // Hides keyboard.
@@ -35,16 +34,6 @@ class MainActivity :
         view?.let { activity?.hideKeyboard(it) }
     }
 
-    // Sign in. Do any necessary updates.
-    override fun signUpSuccessful() {
-        Log.d("MainActivity", "signInSuccessful")
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, newsfeed_frag)
-            .addToBackStack(null)
-            .commit()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("main activity", "onCreate")
         super.onCreate(savedInstanceState)
@@ -57,19 +46,17 @@ class MainActivity :
             Log.d("cur user is null", "going to signuplogin")
             // Start in the login/signup screen.
             displayOptionsMenu(false)
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, startup_frag)
-                .commit()
+            val intent = Intent(this, StartUpActivity::class.java)
+            intent.putExtra("going to start up activity", "madeit")
+            startActivity(intent)
         } else {
             Log.d("signed in.", "going to newsfeed")
             // else bring them to the main feed
             displayOptionsMenu(true)
 
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, newsfeed_frag)
-                .commit()
+            val intent = Intent(this, NewsfeedActivity::class.java)
+            intent.putExtra("title", "neewsfeed button clicked")
+            startActivity(intent)
         }
     }
 }
