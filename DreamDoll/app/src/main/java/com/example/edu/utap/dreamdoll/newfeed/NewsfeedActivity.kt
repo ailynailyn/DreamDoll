@@ -29,6 +29,13 @@ import kotlinx.android.synthetic.main.login_signup.*
 // EditFaceFrag.kt & edit_features.xml
 class NewsfeedActivity : BaseActivity() {
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d("newfeed activity","onbackpressed")
+        finishAffinity()
+        finish()
+    }
+
     var newsfeedFrag = NewsFeedFrag()
 
     private fun beginNewsfeedFrag() {

@@ -35,6 +35,11 @@ class EditCharacterActivity : BaseActivity(),
     var editFeaturesFrag = EditFeaturesFrag()
     var editFullBody_frag = EditFullBodyFrag()
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d("edit char activity","onbackpressed")
+        startNewsfeed()
+    }
 
     private fun beginFeaturesFrag() {
         supportFragmentManager.beginTransaction()

@@ -62,48 +62,54 @@ open class BaseActivity :
         invalidateOptionsMenu()
     }
 
-        // Forgot password was clicked.
-        override fun forgotPassword() {
-            Log.d("MainActivity", "forgotPassword")
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, ForgotPasswordFrag())
-                .addToBackStack(null)
-                .commit()
-        }
+    // Forgot password was clicked.
+    override fun forgotPassword() {
+        Log.d("MainActivity", "forgotPassword")
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, ForgotPasswordFrag())
+            .addToBackStack(null)
+            .commit()
+    }
 
-        // Signin button was clicked.
-        override fun signupButtonClicked() {
-            Log.d("MainActivity", "signin button clicked listener in mainactivity")
-            // Go to login screen.
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, signin_frag)
-                .addToBackStack(null)
-                .commit()
-        }
+    // Signin button was clicked.
+    override fun signupButtonClicked() {
+        Log.d("MainActivity", "signin button clicked listener in mainactivity")
+        // Go to login screen.
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, signin_frag)
+            .addToBackStack(null)
+            .commit()
+    }
 
-        // Login button was clicked.
-        override fun loginButtonClicked() {
-            Log.d("MainActivity", "login button clicked listener in mainactivity")
-            // Go to login screen.
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, login_frag)
-                .addToBackStack(null)
-                .commit()
-        }
+    // Login button was clicked.
+    override fun loginButtonClicked() {
+        Log.d("MainActivity", "login button clicked listener in mainactivity")
+        // Go to login screen.
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, login_frag)
+            .addToBackStack(null)
+            .commit()
+    }
 
-        // Sign in. Do any necessary updates.
-        override fun signInSuccessful() {
-            Log.d("MainActivity", "signInSuccessful")
-            displayOptionsMenu(true)
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, newsfeed_frag)
-                .addToBackStack(null)
-                .commit()
-        }
+    // Sign in. Do any necessary updates.
+    override fun signInSuccessful() {
+        Log.d("MainActivity", "signInSuccessful")
+        displayOptionsMenu(true)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, newsfeed_frag)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    protected fun startNewsfeed() {
+        val intent = Intent(this, NewsfeedActivity::class.java)
+        intent.putExtra("title", "startNewsfeed() called")
+        startActivity(intent)
+    }
 
 
 
