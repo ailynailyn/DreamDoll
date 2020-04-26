@@ -27,164 +27,45 @@ import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFaceFrag.kt & edit_features.xml
-class EditCharacterActivity : AppCompatActivity() {
+class EditCharacterActivity : BaseActivity(),
+    EditFeaturesFrag.EditFullListener
+    {
 
-    private var mAuth = FirebaseAuth.getInstance();
-    private lateinit var recyclerView : RecyclerView
-    private lateinit var gridLayoutManager : GridLayoutManager
-    private val rvAdapter = GVAdapter()
-    private val repository = Repository()
-    private val numCols = 3
+
+    var editFeaturesFrag = EditFeaturesFrag()
     var editFullBody_frag = EditFullBodyFrag()
-    private var curCategoryIdx = 0
 
-    private fun beginFullBodyFrag() {
+
+    private fun beginFeaturesFrag() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .add(R.id.container, editFeaturesFrag)
+            .commit()
+    }
+
+    override fun beginFullBodyFrag() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .add(R.id.editCharacter_container, editFullBody_frag)
             .commit()
     }
 
-    // Initializes the options spinner.
-    private fun initSpinner() {
-        val spinner: Spinner = findViewById(R.id.editFeatures_spinner)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.edit_options,
-            R.layout.spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
-
-        spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                var item = resources.getStringArray(R.array.edit_options)[position]
-                Log.d("item selected", item)
-                // XXX
-                // Set data.
-                curCategoryIdx = position
-                when(item) {
-                    "Eyes" -> {
-                        Log.d("xxx", "eyes pressed")
-                        rvAdapter.setItemList(repository.fetchEyeDemo())
-                    }
-                    "Hair" -> {
-                        Log.d("xxx", "hair pressed")
-                        rvAdapter.setItemList(repository.fetchHairDemo())
-                    }
-                    "Eyebrows" -> {
-                        Log.d("xxx", "eyebrows pressed")
-                        rvAdapter.setItemList(repository.fetchBrows())
-                    }
-                    "Nose" -> {
-                        Log.d("xxx", "nose pressed")
-                        rvAdapter.setItemList(repository.fetchNoses())
-                    }
-                    "Lips" -> {
-                        Log.d("xxx", "lips pressed")
-                        rvAdapter.setItemList(repository.fetchLips())
-                    }
-                    "Hats" -> {
-                        Log.d("xxx", "hats pressed")
-                        rvAdapter.setItemList(repository.fetchHats())
-                        beginFullBodyFrag()
-                    }
-                    "Tops" -> {
-                        Log.d("xxx", "tops pressed")
-                        beginFullBodyFrag()
-                    }
-                    "Bottoms" -> {
-                        Log.d("xxx", "bottoms pressed")
-                        rvAdapter.setItemList(repository.fetchBottoms())
-                        beginFullBodyFrag()
-                    }
-                    "Shoes" -> {
-                        Log.d("xxx", "shoes pressed")
-                        rvAdapter.setItemList(repository.fetchShoes())
-                        beginFullBodyFrag()
-                    }
-                }
-            }
-
-        }
-
-    }
-
-    // Initializes the grid recycler view of items.
-    private fun initGrid() {
-        recyclerView = findViewById(R.id.editFeatures_recyclerView)
-        gridLayoutManager = GridLayoutManager(this, numCols)
-        recyclerView.layoutManager = gridLayoutManager
-    }
-
-    private fun initButtons() {
-        var prev = findViewById<Button>(R.id.editFeature_prev)
-        var next = findViewById<Button>(R.id.editFeature_next)
-        prev.setOnClickListener {
-            var prevPos = curCategoryIdx - 1
-            if(prevPos >= 0) {
-                var prevCategory = resources.getStringArray(R.array.edit_options)[prevPos]
-                when(prevCategory) {
-                    "Hair", "Eyes", "Eyebrows", "Nose", "Lips" -> {
-                        editFeatures_spinner.setSelection(prevPos)
-                        curCategoryIdx = prevPos
-                    }
-
-                    else -> {
-                        beginFullBodyFrag()
-                    }
-                }
-            }
-        }
-
-        next.setOnClickListener {
-            var nextPos = curCategoryIdx + 1
-            if(nextPos < resources.getStringArray(R.array.edit_options).size) {
-                var prevCategory = resources.getStringArray(R.array.edit_options)[nextPos]
-                when(prevCategory) {
-                    "Hair", "Eyes", "Eyebrows", "Nose", "Lips" -> {
-                        editFeatures_spinner.setSelection(nextPos)
-                        curCategoryIdx = nextPos
-                    }
-                    else -> {
-                        beginFullBodyFrag()
-                    }
-                }
-            }
-        }
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.edit_character)
+        setContentView(R.layout.activity_main)
+        displayOptionsMenu(true)
+
         // Get extra information.
         var extras = intent.extras
         if(extras != null) {
             var title = intent.extras!!.getString("title")
             Log.d("oncreate editfeatures", "$title")
         }
-        curCategoryIdx = 0
-        initGrid()
-        initSpinner()
-        initButtons()
 
-        // Set adapter.
-        recyclerView.adapter = rvAdapter
+        beginFeaturesFrag()
 
-        // Init with eyes
-        rvAdapter.setItemList(repository.fetchEyeColors())
     }
 
 }
