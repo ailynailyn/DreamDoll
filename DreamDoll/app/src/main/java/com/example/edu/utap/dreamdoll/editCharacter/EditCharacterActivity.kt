@@ -27,10 +27,7 @@ import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFaceFrag.kt & edit_features.xml
-class EditCharacterActivity : BaseActivity(),
-    EditFeaturesFrag.EditFullListener
-    {
-
+class EditCharacterActivity : BaseActivity() {
 
     var editFeaturesFrag = EditFeaturesFrag()
     var editFullBody_frag = EditFullBodyFrag()
@@ -48,14 +45,13 @@ class EditCharacterActivity : BaseActivity(),
             .commit()
     }
 
-    override fun beginFullBodyFrag() {
+    fun beginFullBodyFrag() {
+        Log.d("xx", "beginFullBodyFrag was called!!")
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.editCharacter_container, editFullBody_frag)
+            .add(R.id.container, editFullBody_frag)
             .commit()
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,19 +27,12 @@ import kotlinx.android.synthetic.main.login_signup.*
 // EditFeaturesFrag.kt & edit_features.xml
 class EditFeaturesFrag : Fragment() {
 
-    private var mAuth = FirebaseAuth.getInstance();
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
     private val rvAdapter = GVAdapter()
     private val repository = Repository()
     private val numCols = 3
     private var curCategoryIdx = 0
-
-    var editFullListener: EditFullListener? = null
-
-    interface EditFullListener {
-        fun beginFullBodyFrag()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +41,13 @@ class EditFeaturesFrag : Fragment() {
     ): View {
         // Inflate the root view and cache references to vital UI elements.
         return inflater.inflate(R.layout.edit_features, container, false)
+    }
+
+    fun goToFullBody() {
+
+        var editActivity : EditCharacterActivity = activity as EditCharacterActivity
+        editActivity.beginFullBodyFrag()
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -125,22 +124,22 @@ class EditFeaturesFrag : Fragment() {
                     "Hats" -> {
                         Log.d("xxx", "hats pressed")
                         rvAdapter.setItemList(repository.fetchHats())
-//                        beginFullBodyFrag()
+                        Log.d("xx", "hates. going to listen full body frag")
+                        goToFullBody()
                     }
                     "Tops" -> {
                         Log.d("xxx", "tops pressed")
-//                        beginFullBodyFrag()
+                       goToFullBody()
                     }
                     "Bottoms" -> {
                         Log.d("xxx", "bottoms pressed")
                         rvAdapter.setItemList(repository.fetchBottoms())
-//                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                     "Shoes" -> {
                         Log.d("xxx", "shoes pressed")
                         rvAdapter.setItemList(repository.fetchShoes())
-//                        beginFullBodyFrag()
-                        editFullListener?.beginFullBodyFrag()
+                        goToFullBody()
                     }
                 }
             }
@@ -170,7 +169,7 @@ class EditFeaturesFrag : Fragment() {
                     }
 
                     else -> {
-//                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                 }
             }
@@ -186,10 +185,11 @@ class EditFeaturesFrag : Fragment() {
                         curCategoryIdx = nextPos
                     }
                     else -> {
-//                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                 }
             }
         }
     }
+
 }
