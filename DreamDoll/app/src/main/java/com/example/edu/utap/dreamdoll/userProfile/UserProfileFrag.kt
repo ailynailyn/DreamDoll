@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.utap.dreamdoll.userProfile.ProfileGVAdapter
 import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.android.synthetic.main.news_feed.*
 
@@ -22,7 +23,7 @@ class UserProfileFrag : Fragment() {
 
     private lateinit var userProfileRV : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
-    private val rvAdapter = GVAdapter()
+    private val profileGVAdapter = ProfileGVAdapter()
     private val repository = Repository()
     private val numCols = 3
 
@@ -40,10 +41,10 @@ class UserProfileFrag : Fragment() {
         initGrid()
 
         // Set adapter.
-        userProfileRV.adapter = rvAdapter
+        userProfileRV.adapter = profileGVAdapter
 
         // Fetch the information about the user. Will have to get data from srver
-        rvAdapter.setItemList(repository.fetchUserPics())
+        profileGVAdapter.setItemList(repository.fetchUserPics())
 
     }
 
