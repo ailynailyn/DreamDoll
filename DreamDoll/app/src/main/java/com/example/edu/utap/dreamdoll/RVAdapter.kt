@@ -2,6 +2,7 @@ package com.example.edu.utap.dreamdoll
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -26,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthActionCodeException
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
+import kotlin.coroutines.coroutineContext
 
 class RVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -44,6 +47,7 @@ class RVAdapter()
         init {
             itemView.setOnClickListener {
                 Log.d("RVAdapter", "item clicked ${username.text}")
+
             }
         }
 
@@ -57,6 +61,10 @@ class RVAdapter()
 
             username.setOnClickListener {
                 Log.d("username clicked", "${username.text}")
+                // Go to user profile.
+                val intent = Intent(itemView.context, UserProfileActivity::class.java)
+                intent.putExtra("username", username.text.toString())
+                itemView.context.startActivity(intent)
             }
 
         }

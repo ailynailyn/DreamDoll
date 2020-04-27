@@ -73,6 +73,11 @@ class Repository {
             DollItem("black platforms", R.drawable.black_platforms),
             DollItem("pink bow platforms", R.drawable.pink_bow_platforms)
         )
+
+        private var sampleUserPics = listOf(
+            DollItem("", R.drawable.doll_face),
+            DollItem("", R.drawable.doll_face)
+        )
     }
 
     fun fetchEyeColors() : List<DollItem> {
@@ -117,5 +122,9 @@ class Repository {
 
     fun fetchEyeDemo() : List<DollItem> {
         return eyeDemoList
+    }
+
+    fun fetchUserPics() : List<DollItem> {
+        return sampleUserPics
     }
 }
