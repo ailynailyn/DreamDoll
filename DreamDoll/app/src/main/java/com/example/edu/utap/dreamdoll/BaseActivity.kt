@@ -8,18 +8,20 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.edu.utap.dreamdoll.startUp.StartupFrag
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.coroutines.CoroutineContext
 
 open class BaseActivity :
     AppCompatActivity(),
     StartupFrag.StartupButtonListener,
     LoginFrag.SignInSuccessListener
-    {
+{
 
     lateinit var mAuth : FirebaseAuth
     var startup_frag = StartupFrag()   // for login and signup
     var newsfeed_frag = NewsFeedFrag()
     var login_frag = LoginFrag()
     var signin_frag = SignupFrag()
+    var earnCoinsFrag= EarnCoinsFrag()
     var displayOptions = false;
 
     // Menu.

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/powder_blue"
+    tools:context=".FallingShoesActivity"
+    >
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="@id/shoesScoreTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/shoesHighScore"
+        android:background="@color/navy"
+        >
+        <Button
+            android:layout_margin="3dp"
+            android:id="@+id/shoesSettingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Menu"
+            android:gravity="center"
+            android:background="@color/white_blue"
+            />
+    </FrameLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/shoesScoreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="16dp"
+        android:text="787"
+        android:textSize="60sp"
+        android:gravity="center"
+        android:textColor="@color/gold"
+        />
+
+    <TextView
+        android:id="@+id/shoesCoinsTV"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/shoesScoreTV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/shoesHighScore"
+        android:textSize="20sp"
+        android:text="Coins\n1,565"
+        />
+
+    <TextView
+        android:id="@+id/shoesHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/shoesScoreTV"
+        app:layout_constraintLeft_toLeftOf="@id/shoesScoreTV"
+        app:layout_constraintRight_toRightOf="@id/shoesScoreTV"
+        app:layout_constraintBottom_toTopOf="@+id/shoesGameLayout"
+        android:text="High Score: 525"
+        android:textAllCaps="true"
+        />
+
+    <FrameLayout
+        android:id="@+id/shoesGameLayout"
+        android:layout_width="match_parent"
+        android:layout_marginVertical="25dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/shoesHighScore"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <com.example.edu.utap.dreamdoll.SGridView
+            android:id="@+id/sgrid_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

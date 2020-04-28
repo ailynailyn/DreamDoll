@@ -52,7 +52,9 @@ class MenuActivity : BaseActivity() {
 
     // Earn coins button was clicked.
     fun earnCoinsButtonClicked() {
-
+        val intent = Intent(this, EarnCoinsActivity::class.java)
+        intent.putExtra("title", "madeit")
+        startActivity(intent)
     }
 
     // Logout button was clicked.
