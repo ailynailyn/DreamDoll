@@ -25,7 +25,8 @@ import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 import java.util.ArrayList
 
-data class SCell(var color: Int, var xPosition: Int = -1, var yPosition: Int = -1) {
+// Bitmap null is a holder SCell for the image.
+data class SCell(var bitmap: Bitmap?, var xPosition: Int = -1, var yPosition: Int = -1) {
     override fun toString(): String {
         return "($xPosition, $yPosition)"
     }

@@ -2,10 +2,7 @@ package com.example.edu.utap.dreamdoll
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -43,7 +40,6 @@ open class SGridView : View {
         color = Color.BLACK
     }
 
-
     private fun init(rows: Int = 5, cols: Int = 5, invis: Int = 0) {
     }
 
@@ -55,30 +51,44 @@ open class SGridView : View {
 
     // Draws the current grid.
     fun drawGrid(canvas: Canvas) {
+
+//        var d = resources.getDrawable(R.drawable.pink_bow_platforms, null)
+//        d.setBounds(4, 10, 4, 4)
+//        d.draw(canvas)
+
         // Skip first two lines.
         for(x in 0..(visibleColumns - 1)) {
             for(y in 0..(visibleRows - 1)) {
                 var drawX = x * cellSz
                 var drawY = y * cellSz
-                var cell = grid.getCellAt(x, y + 3)
+                var cell = grid.getCellAt(x, y)
                 if(cell != null) {  // Paint non-null cells.
-                    var cellPaint = Paint().apply {
-                        color = cell!!.color
+                    Log.d("cell ($x, $y)is not null", "will check if it should draw")
+
+                    if(cell!!.bitmap != null) {
+                        Log.d("going to draw cell with bitmap", "x:$x, y:$y, BTMP:${cell!!.bitmap}")
+                        var left = drawX.toFloat()
+                        var right = drawX + (4* cellSz)
+                        var top = drawY.toFloat()
+                        var bottom = drawY + (2 * cellSz)
+                        var shoeRect = RectF(left, top, right, bottom)
+                        canvas.drawRect(drawX, drawY, drawX + (2*cellSz), drawY + (2*cellSz), borderPaint)
+//                        canvas.drawBitmap(cell!!.bitmap!!, 10f, 10f, null)
+                        canvas.drawBitmap(cell!!.bitmap!!, null, shoeRect, Paint())
                     }
-                    canvas.drawRect(drawX, drawY, drawX + cellSz, drawY + cellSz, borderPaint)
-                    canvas.drawRect(drawX + borderWidth, drawY + borderWidth, drawX + cellSz - borderWidth, drawY + cellSz - borderWidth, cellPaint)
                 }
             }
         }
     }
 
     fun refresh() {
+        Log.d("SGridView", "refreshing()")
         invalidate()
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        visibleRows = grid.height - 3
+        visibleRows = grid.height
         visibleColumns = grid.width
         cellSz = width.toFloat() / visibleColumns
 

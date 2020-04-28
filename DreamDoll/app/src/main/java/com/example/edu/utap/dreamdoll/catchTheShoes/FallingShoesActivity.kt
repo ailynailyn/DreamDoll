@@ -1,19 +1,15 @@
 package com.example.edu.utap.dreamdoll
 
 
-import android.opengl.Visibility
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import com.example.edu.utap.dreamdoll.catchTheShoes.ShoeBuilder
 import kotlinx.android.synthetic.main.falling_shoes.*
 import kotlinx.coroutines.*
-import kotlin.coroutines.coroutineContext
+import java.util.*
 
 // EditFaceFrag.kt & edit_features.xml
 class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
@@ -28,6 +24,59 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     private lateinit var curShoe: Shoe
     private lateinit var nextShoe: Shoe
     private var playing = false
+
+    private val seed = 2
+    private var rand = Random(seed.toLong())
+
+    private fun pinkShoe(): Shoe {
+        val pinkHeelsBtmp = BitmapFactory.decodeResource(
+            resources, R.drawable.pink_heels)
+        Log.d("pinkShoe()", "btmp: $pinkHeelsBtmp")
+        return Shoe(2, 2).apply {
+            putCell(0, 0, SCell(pinkHeelsBtmp))
+            putCell(0, 1, SCell(null))
+            putCell(1, 0, SCell(null))
+            putCell(1, 1, SCell(null))
+        }
+    }
+
+    private fun blackPlatforms(): Shoe {
+        val blackPlatformsBtmp = BitmapFactory.decodeResource(
+            resources, R.drawable.black_platforms)
+        Log.d("blackPlatforms()", "btmp: $blackPlatformsBtmp")
+        return Shoe(2, 2).apply {
+            putCell(0, 0, SCell(blackPlatformsBtmp))
+            putCell(0, 1, SCell(null))
+            putCell(1, 0, SCell(null))
+            putCell(1, 1, SCell(null))
+        }
+    }
+
+    private fun pinkBowPlatforms(): Shoe {
+        val pinkBowPlatformsBtmp = BitmapFactory.decodeResource(
+            resources, R.drawable.pink_bow_platforms)
+        Log.d("pinkBowPlatforms()", "btmp: $pinkBowPlatformsBtmp")
+        return Shoe(2, 2).apply {
+            putCell(0, 0, SCell(pinkBowPlatformsBtmp))
+            putCell(0, 1, SCell(null))
+            putCell(1, 0, SCell(null))
+            putCell(1, 1, SCell(null))
+        }
+    }
+
+    fun randomShoe(): Shoe? {
+        var tet = rand.nextInt(3)
+        return when (tet) {
+            0 -> pinkShoe()
+            1 -> blackPlatforms()
+            2 -> pinkBowPlatforms()
+            else -> null
+        }
+    }
+
+    fun resetRandom() {
+        rand = Random(seed.toLong())
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -91,11 +140,14 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         // Get the current shoe and place at top.
         if(!playing) {
             // Initial.
-            curShoe = ShoeBuilder.random()!!
+            curShoe = randomShoe()!!//ShoeBuilder.random()!!
+            Log.d("Inital.", "curShoe: ${curShoe.toString()}")
         } else {
             curShoe = nextShoe
+            Log.d("swapping next", "nextshoe -> curShoe: ${curShoe.toString()}")
         }
-        var added = curShoe.insertIntoGrid(4, 0, grid)
+        var added = curShoe.insertIntoGrid(4, 8, grid)
+        Log.d("Added?", "$added")
         if(!added) {
             // Game over.
             Toast.makeText(this, "You lose", Toast.LENGTH_SHORT).show()
@@ -104,7 +156,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         } else {
             playing = true
             // Get the next tetronimo ready.
-            nextShoe = ShoeBuilder.random()!!
+            nextShoe = randomShoe()!!//ShoeBuilder.random()!!
             launch {
                 dropShoe()
             }
