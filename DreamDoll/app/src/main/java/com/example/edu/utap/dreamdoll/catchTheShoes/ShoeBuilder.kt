@@ -18,17 +18,15 @@ object ShoeBuilder {
     private val ZColor = Color.parseColor("#F54747")
 
     private const val seed = 3
-    val debug = 0
     private var cur_cmd = 0
 
     private var rand = Random(seed.toLong())
-    private val debug_seq2 = intArrayOf(
-        5, 5, 6, 4, 0, 1, 5, 3, 1, 6, 4, 0, 4, 5, 5, 3, 6, 3, 5, 4, 1, 2, 3
-    )
-    private val debug_seq3 = intArrayOf(
-        5, 5, 6, 4, 0, 1, 5, 3, 1, 6, 4, 0, 4, 5, 5, 3, 6, 3, 5, 4, 1, 2, 3, 5, 2, 0, 2, 5, 5, 6, 1
-        , 6, 4, 4, 1, 5, 3, 3
-    )
+
+//    fun pinkShoe(): Shoe {
+//        return Shoe(5, 5).apply {
+//
+//        }
+//    }
 
     fun i(): Shoe {
         return Shoe(4, 4).apply {
@@ -94,16 +92,7 @@ object ShoeBuilder {
     }
 
     fun random(): Shoe? {
-        var tet = 0
-        if (debug == 2) {
-            tet = debug_seq2[cur_cmd]
-            cur_cmd += 1
-        } else if (debug == 3) {
-            tet = debug_seq3[cur_cmd]
-            cur_cmd += 1
-        } else {
-            tet = rand.nextInt(7)
-        }
+        var tet = rand.nextInt(7)
         return when (tet) {
             0 -> i()
             1 -> j()
@@ -117,9 +106,6 @@ object ShoeBuilder {
     }
 
     fun resetRandom() {
-        if ((debug == 2) || (debug == 3)) {
-            cur_cmd = 0
-        }
         rand = Random(seed.toLong())
     }
 }

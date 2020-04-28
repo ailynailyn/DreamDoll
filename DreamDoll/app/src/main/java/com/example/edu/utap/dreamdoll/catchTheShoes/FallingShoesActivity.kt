@@ -64,6 +64,11 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     }
 
+    private fun updateScoreTV() {
+        var scoreTV = findViewById<TextView>(R.id.shoesScoreTV)
+        scoreTV.text = curScore.toString()
+    }
+
     // Resets the game data.
     private fun resetGame() {
         coroutineContext.cancelChildren()
@@ -73,8 +78,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         curScore = 0
         shoesCaught = 0
         curLevel = 1
-        var scoreTV = findViewById<TextView>(R.id.shoesScoreTV)
-        scoreTV.text = curScore.toString()
+        updateScoreTV()
         playing = false
 
         // Also displays the play now layout for preparing a new game.
@@ -101,10 +105,6 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
             playing = true
             // Get the next tetronimo ready.
             nextShoe = ShoeBuilder.random()!!
-//            nextGrid.clear()
-//            nextTetromino.insertIntoGrid(1, 4, nextGrid)
-//            nextTgrid_view.refresh()
-            // Begin the slow drop down.
             launch {
                 dropShoe()
             }
@@ -115,8 +115,18 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     // Level up.
     private fun levelUp() {
         curLevel += 1
-//        level.text = curLevel.toString()
         dropDelay = (dropDelay * .8).toLong()
+    }
+
+    private fun caughtShoe() {
+        shoesCaught++
+        if(shoesCaught % 5 == 0) {  // THIS IS ALL UP TO US. RANDOM NUMS FOR NOW
+            levelUp()  // Might want to level up based on time instead of shoes cleared?
+        }
+        // Update score.
+        curScore += curLevel    // THIS ALL DEPENDS ON US. HOW WE WANT TO COUNT POINTS
+        updateScoreTV()
+
     }
 
 
@@ -127,22 +137,21 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
             sgrid_view.refresh()
             if(!shifted) {
                 Log.d("dropShoe", "shoe can not keep dropping.")
-                // Check for any cleared rows.
+                // SHOES
+                // Check if the shoe is at the same position that the basket is in.
+                var xPos = curShoe.xPos
+                var yPos = curShoe.yPos
+                var caught = false
+                Log.d("shoe landed", "($xPos, $yPos) is it caught? will check")
 
-                var fullRow = grid.firstFullRow
-                while(fullRow > 0) {
-                    grid.deleteRow(fullRow)
-                    shoesCaught++
-                    if(shoesCaught % 5 == 0) {
-                        levelUp()
-                    }
-//                    cleared.text = curRows.toString()
-                    curScore += curLevel
-                    var scoreTV = findViewById<TextView>(R.id.shoesScoreTV)
-                    scoreTV.text = curScore.toString()
-                    fullRow = grid.firstFullRow
-                    sgrid_view.refresh()
+                // Clear the shoe.
+                grid.deleteRow(1)   // Should delete ?
+                sgrid_view.refresh()
+
+                if(caught) {
+                    caughtShoe()
                 }
+
                 coroutineContext.cancelChildren()
                 playFallingShoes()
             }
