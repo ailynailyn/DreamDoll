@@ -2,6 +2,13 @@ package com.example.edu.utap.dreamdoll
 
 data class DollItem(val name: String, val imgID: Int)
 
+data class NewsfeedItem(val username: String,
+                        val profilePicID: Int?,
+                        val imageID: Int?,
+                        val likes: Int,
+                        val caption: String
+                        )
+
 class Repository {
 
     companion object {

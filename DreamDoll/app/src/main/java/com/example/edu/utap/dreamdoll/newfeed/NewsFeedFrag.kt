@@ -11,11 +11,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.login_signup.*
+import kotlinx.android.synthetic.main.news_feed.*
 
 // NewsFeedFrag.kt & news_feed.xml
 class NewsFeedFrag : Fragment() {
 
+    private lateinit var rvAdapter: RVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,12 +32,20 @@ class NewsFeedFrag : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         // Set up.
+        rvAdapter = RVAdapter()
+        newsfeed_RV.adapter = rvAdapter
+        newsfeed_RV.layoutManager = LinearLayoutManager(this.context)
+
+        // Fetch data.
+        var sampleList = listOf<NewsfeedItem>(
+            NewsfeedItem("ailyn",null, null, 3, "Caption for my picture. Woo!" ),
+            NewsfeedItem("lexi",null, null, 35, "Check out this doll!!!" ),
+            NewsfeedItem("patrick",null, null, 435, "Fancy lil pic here" )
+            )
+        rvAdapter.setItemList(sampleList)
 
     }
 
-    // Makes sure interfaces are implemented.
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 }

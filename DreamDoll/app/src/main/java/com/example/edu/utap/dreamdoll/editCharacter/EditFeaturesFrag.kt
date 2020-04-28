@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,30 +24,58 @@ import kotlinx.android.synthetic.main.edit_features.*
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
-// EditFaceFrag.kt & edit_features.xml
-class EditCharacterActivity : AppCompatActivity() {
+// EditFeaturesFrag.kt & edit_features.xml
+class EditFeaturesFrag : Fragment() {
 
-    private var mAuth = FirebaseAuth.getInstance();
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
     private val rvAdapter = GVAdapter()
     private val repository = Repository()
     private val numCols = 3
-    var editFullBody_frag = EditFullBodyFrag()
     private var curCategoryIdx = 0
 
-    private fun beginFullBodyFrag() {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .add(R.id.editCharacter_container, editFullBody_frag)
-            .commit()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the root view and cache references to vital UI elements.
+        return inflater.inflate(R.layout.edit_features, container, false)
     }
+
+    fun goToFullBody() {
+
+        var editActivity : EditCharacterActivity = activity as EditCharacterActivity
+        editActivity.beginFullBodyFrag()
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        curCategoryIdx = 0
+        initGrid()
+        initSpinner()
+        initButtons()
+
+        // Set adapter.
+        recyclerView.adapter = rvAdapter
+
+        // Init with eyes
+        rvAdapter.setItemList(repository.fetchEyeColors())
+    }
+
+    /// makes sure interfaces are implemented
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
 
     // Initializes the options spinner.
     private fun initSpinner() {
-        val spinner: Spinner = findViewById(R.id.editFeatures_spinner)
+        val spinner: Spinner = view!!.findViewById(R.id.editFeatures_spinner)
         ArrayAdapter.createFromResource(
-            this,
+            this.context!!,
             R.array.edit_options,
             R.layout.spinner_item
         ).also { adapter ->
@@ -98,21 +124,22 @@ class EditCharacterActivity : AppCompatActivity() {
                     "Hats" -> {
                         Log.d("xxx", "hats pressed")
                         rvAdapter.setItemList(repository.fetchHats())
-                        beginFullBodyFrag()
+                        Log.d("xx", "hates. going to listen full body frag")
+                        goToFullBody()
                     }
                     "Tops" -> {
                         Log.d("xxx", "tops pressed")
-                        beginFullBodyFrag()
+                       goToFullBody()
                     }
                     "Bottoms" -> {
                         Log.d("xxx", "bottoms pressed")
                         rvAdapter.setItemList(repository.fetchBottoms())
-                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                     "Shoes" -> {
                         Log.d("xxx", "shoes pressed")
                         rvAdapter.setItemList(repository.fetchShoes())
-                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                 }
             }
@@ -123,14 +150,14 @@ class EditCharacterActivity : AppCompatActivity() {
 
     // Initializes the grid recycler view of items.
     private fun initGrid() {
-        recyclerView = findViewById(R.id.editFeatures_recyclerView)
-        gridLayoutManager = GridLayoutManager(this, numCols)
+        recyclerView = view!!.findViewById(R.id.editFeatures_recyclerView)
+        gridLayoutManager = GridLayoutManager(this.context, numCols)
         recyclerView.layoutManager = gridLayoutManager
     }
 
     private fun initButtons() {
-        var prev = findViewById<Button>(R.id.editFeature_prev)
-        var next = findViewById<Button>(R.id.editFeature_next)
+        var prev = view!!.findViewById<Button>(R.id.editFeature_prev)
+        var next = view!!.findViewById<Button>(R.id.editFeature_next)
         prev.setOnClickListener {
             var prevPos = curCategoryIdx - 1
             if(prevPos >= 0) {
@@ -142,7 +169,7 @@ class EditCharacterActivity : AppCompatActivity() {
                     }
 
                     else -> {
-                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                 }
             }
@@ -158,33 +185,11 @@ class EditCharacterActivity : AppCompatActivity() {
                         curCategoryIdx = nextPos
                     }
                     else -> {
-                        beginFullBodyFrag()
+                        goToFullBody()
                     }
                 }
             }
         }
-    }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.edit_character)
-        // Get extra information.
-        var extras = intent.extras
-        if(extras != null) {
-            var title = intent.extras!!.getString("title")
-            Log.d("oncreate editfeatures", "$title")
-        }
-        curCategoryIdx = 0
-        initGrid()
-        initSpinner()
-        initButtons()
-
-        // Set adapter.
-        recyclerView.adapter = rvAdapter
-
-        // Init with eyes
-        rvAdapter.setItemList(repository.fetchEyeColors())
     }
 
 }
