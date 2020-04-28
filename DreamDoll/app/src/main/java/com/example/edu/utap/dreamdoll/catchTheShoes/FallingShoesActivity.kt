@@ -1,11 +1,15 @@
 package com.example.edu.utap.dreamdoll
 
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import com.example.edu.utap.dreamdoll.catchTheShoes.ShoeBuilder
 import kotlinx.android.synthetic.main.falling_shoes.*
 import kotlinx.coroutines.*
@@ -49,9 +53,14 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         grid = SGrid(cols, rows)
         sgrid_view.setGrid(grid)
 
-        // New game.
+        // Set on click listener for the play button.
+        fallingShoesPlayButton.setOnClickListener {
+            // New game.
+            playFallingPlayLayout.visibility = View.GONE
+            playFallingShoes()
+        }
+
         resetGame()
-        playFallingShoes()
 
     }
 
@@ -68,6 +77,8 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         scoreTV.text = curScore.toString()
         playing = false
 
+        // Also displays the play now layout for preparing a new game.
+        fallingShoesPlayButton.visibility = View.VISIBLE
     }
 
     // Falling Shoes game.
