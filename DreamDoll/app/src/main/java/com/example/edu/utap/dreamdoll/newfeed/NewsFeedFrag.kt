@@ -13,13 +13,14 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.utap.dreamdoll.newfeed.NewsfeedRVAdapter
 import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.android.synthetic.main.news_feed.*
 
 // NewsFeedFrag.kt & news_feed.xml
 class NewsFeedFrag : Fragment() {
 
-    private lateinit var rvAdapter: RVAdapter
+    private lateinit var rvAdapter: NewsfeedRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +35,7 @@ class NewsFeedFrag : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // Set up.
-        rvAdapter = RVAdapter()
+        rvAdapter = NewsfeedRVAdapter()
         newsfeed_RV.adapter = rvAdapter
         newsfeed_RV.layoutManager = LinearLayoutManager(this.context)
 

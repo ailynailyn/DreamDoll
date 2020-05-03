@@ -42,7 +42,7 @@
     <Button
         android:layout_weight="7"
         android:layout_gravity="center"
-        android:id="@+id/Other"
+        android:id="@+id/purchaseCoinsButton"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
@@ -50,7 +50,7 @@
         android:textSize="20sp"
         android:background="@drawable/custom0menu0box0dark"
         android:textColor="@color/gold"
-        android:text="other?"
+        android:text="Purchase coins"
         />
 
 

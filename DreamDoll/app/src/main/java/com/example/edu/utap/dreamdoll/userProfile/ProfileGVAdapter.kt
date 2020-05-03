@@ -1,33 +1,47 @@
 package com.example.edu.utap.dreamdoll.userProfile
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.edu.utap.dreamdoll.DollItem
+import com.example.edu.utap.dreamdoll.NewsfeedItem
 import com.example.edu.utap.dreamdoll.R
+import com.example.edu.utap.dreamdoll.UserProfileActivity
 
 class ProfileGVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var listOfItems = listOf<DollItem>()
+    private var listOfItems = listOf<NewsfeedItem>()
 
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
 
         init {
-            itemView.setOnClickListener {
+
+            imageView.setOnClickListener {
                 Log.d("GVAdapter", "userGVadapter photo was clicked.")
+                // Open up the picture.
+//                var picLayout = findViewById<FrameLayout>(R.id.singlePostLayout)
+//                picLayout.visibility = View.VISIBLE
 
             }
         }
 
-        fun bindView(item: DollItem) {
-            Log.d("GVAdapter", "bindView(item: DollItem)")
-            imageView.setImageResource(item.imgID)
+        // The grid of post pictures.
+        fun bindView(item: NewsfeedItem) {
+            Log.d("GVAdapter", "bindView(item: NewsfeedItem)")
+            var imageID = item.imageID
+            if(imageID == null) {
+                imageView.setImageResource(R.drawable.falling_shoes_bag)
+            } else {
+                imageView.setImageResource(R.drawable.doll_face)   // use glide???
+            }
         }
     }
 
@@ -44,7 +58,7 @@ class ProfileGVAdapter()
         itemVH.bindView(listOfItems[position])
     }
 
-    fun setItemList(listOfItems: List<DollItem>) {
+    fun setItemList(listOfItems: List<NewsfeedItem>) {
         this.listOfItems = listOfItems
         notifyDataSetChanged()
     }

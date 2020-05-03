@@ -32,13 +32,11 @@ class UserProfileActivity : BaseActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         Log.d("profile activity","onbackpressed")
-        finishAffinity()
         finish()
     }
 
-    var userProfileFrag = UserProfileFrag()
-
-    private fun beginProfileFrag() {
+    private fun beginProfileFrag(username: String) {
+        var userProfileFrag = UserProfileFrag(username)
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .add(R.id.container, userProfileFrag)
@@ -53,11 +51,12 @@ class UserProfileActivity : BaseActivity() {
         // Get extra information.
         var extras = intent.extras
         if(extras != null) {
-            var title = intent.extras!!.getString("title")
-            Log.d("oncreate user profile", "$title")
+            var currentUsername = intent.extras!!.getString("username")
+            Log.d("oncreate user profile activity", "$currentUsername")
+            if(!currentUsername.isNullOrEmpty()) {
+                beginProfileFrag(currentUsername)
+            }
         }
-
-        beginProfileFrag()
 
     }
 
