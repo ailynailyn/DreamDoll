@@ -101,6 +101,26 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
             playFallingShoes()
         }
 
+        db.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.d("got user data", "$curScore")
+                var data = document.data
+                if(data != null) {
+                    Log.d("get user data", "$data")
+                    var hs = data!!["fallingShoesHighScore"]
+                    if(hs != null && hs is Number) {
+                        Log.d("hs: ", hs.toString())
+                        updateHighScore(hs.toInt())
+                    }
+                }
+
+            }
+            .addOnFailureListener {
+                Log.d("couldnt get user data from database", "failed")
+            }
+
         var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
         resultsLayout.visibility = View.GONE
         resetGameBoard()
@@ -136,7 +156,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         curHighScore = curScore
         var hsTV = findViewById<TextView>(R.id.shoesHighScore)
         hsTV.text = "high score: $curHighScore"
-        val highScore = hashMapOf("fallingShoesHighScore" to curScore.toString())
+        val highScore = hashMapOf("fallingShoesHighScore" to curScore)
 
         db.collection("users")
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
