@@ -22,6 +22,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     private val cols = 200
     private var curScore = 0
     private var curLevel = 1
+    private var curCoins = 0
     private var shoesCaught = 0
     private val initDropDelay = 20L
     private var curDropDelay = initDropDelay
@@ -34,6 +35,12 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     private val seed = 2
     private var rand = Random(seed.toLong())
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("onresume", "yup")
+        setInitialData()
+    }
 
     private fun pinkShoe(): Shoe {
         val pinkHeelsBtmp = BitmapFactory.decodeResource(
@@ -75,6 +82,36 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         finish()
     }
 
+    private fun setInitialData() {
+        // High Score and coins.
+        db.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.d("got user data", "$curScore")
+                var data = document.data
+                if(data != null) {
+                    // High Score
+                    Log.d("get user data", "$data")
+                    var hs = data!!["fallingShoesHighScore"]
+                    if(hs != null && hs is Number) {
+                        Log.d("hs: ", hs.toString())
+                        updateHighScore(hs.toInt())
+                    }
+                    // Coins
+                    var coins = data!!["coins"]
+                    if(coins != null && coins is Number) {
+                        Log.d("coins: ", "coins")
+                        updateCoins(coins.toInt())
+                    }
+                }
+
+            }
+            .addOnFailureListener {
+                Log.d("couldnt get user data from database", "failed")
+            }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.falling_shoes)
@@ -101,25 +138,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
             playFallingShoes()
         }
 
-        db.collection("users")
-            .document(FirebaseAuth.getInstance().currentUser!!.uid)
-            .get()
-            .addOnSuccessListener { document ->
-                Log.d("got user data", "$curScore")
-                var data = document.data
-                if(data != null) {
-                    Log.d("get user data", "$data")
-                    var hs = data!!["fallingShoesHighScore"]
-                    if(hs != null && hs is Number) {
-                        Log.d("hs: ", hs.toString())
-                        updateHighScore(hs.toInt())
-                    }
-                }
-
-            }
-            .addOnFailureListener {
-                Log.d("couldnt get user data from database", "failed")
-            }
+        setInitialData()
 
         var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
         resultsLayout.visibility = View.GONE
@@ -156,16 +175,34 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         curHighScore = curScore
         var hsTV = findViewById<TextView>(R.id.shoesHighScore)
         hsTV.text = "high score: $curHighScore"
-        val highScore = hashMapOf("fallingShoesHighScore" to curScore)
+//        val highScore = hashMapOf("fallingShoesHighScore" to curScore)
 
         db.collection("users")
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
-            .set(highScore)
+            .update("fallingShoesHighScore", curScore)
             .addOnSuccessListener {
                 Log.d("added highscore", "$curScore")
             }
             .addOnFailureListener {
                 Log.d("couldnt add highscore to database", "failed")
+            }
+    }
+
+    // Updates the coins tv and the database.
+    private fun updateCoins(newCoins: Int) {
+        curCoins = newCoins
+        var coinsTV = findViewById<TextView>(R.id.shoesCoinsTV)
+        coinsTV.text = "coins\n$newCoins"
+//        val coins = hashMapOf("coins" to curCoins)
+
+        db.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .update("coins", curCoins)
+            .addOnSuccessListener {
+                Log.d("added coins", "$curCoins")
+            }
+            .addOnFailureListener {
+                Log.d("couldnt add coins to database", "failed")
             }
     }
 
@@ -175,14 +212,22 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
         var resultScoreTV = findViewById<TextView>(R.id.fallingShoesResultScoreTV)
         var resultsCoinsTV = findViewById<TextView>(R.id.fallingShoesResultsCoinsTV)
+
         resultScoreTV.text = curScore.toString()
+
         var coinsEarned = curScore  // Depends on how we want to award coins.
+
+        // Update total coins.
+        updateCoins(curCoins + coinsEarned)
+
         playFallingPlayLayout.visibility = View.VISIBLE
         resultsCoinsTV.text = coinsEarned.toString()
         resultsLayout.visibility = View.VISIBLE
+
         if(curScore > curHighScore) {
             updateHighScore(curScore)
         }
+
         // Also displays the play now layout for preparing a new game.
         fallingShoesPlayButton.visibility = View.VISIBLE
     }
