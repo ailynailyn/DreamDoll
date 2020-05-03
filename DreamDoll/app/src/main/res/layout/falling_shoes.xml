@@ -38,7 +38,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="16dp"
-        android:text="787"
+        android:text="0"
         android:textSize="60sp"
         android:gravity="center"
         android:textColor="@color/gold"
@@ -54,8 +54,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/shoesHighScore"
         android:textSize="20sp"
+        android:gravity="center"
         android:textColor="@color/white_blue"
-        android:text="Coins\n1,565"
+        android:text="Coins\n0"
         />
 
     <TextView
@@ -66,7 +67,7 @@
         app:layout_constraintLeft_toLeftOf="@id/shoesScoreTV"
         app:layout_constraintRight_toRightOf="@id/shoesScoreTV"
         app:layout_constraintBottom_toTopOf="@+id/shoesGameLayout"
-        android:text="High Score: 525"
+        android:text="High Score: 0"
         android:textAllCaps="true"
         android:textColor="@color/white_blue"
         />
@@ -156,7 +157,7 @@
                     android:id="@+id/fallingShoesResultScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="789"
+                    android:text="0"
                     android:textSize="20sp"
                     android:textColor="@color/gold"
                     />
@@ -173,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    android:text="1,232"
+                    android:text="0"
                     android:textColor="@color/gold"
                     />
 

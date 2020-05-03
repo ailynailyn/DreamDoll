@@ -1,31 +1,16 @@
 package com.example.edu.utap.dreamdoll
 
-import android.app.Activity
-import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.*
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
+import android.widget.LinearLayout
+import android.widget.SeekBar
+import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthActionCodeException
-import kotlinx.android.synthetic.main.edit_features.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.falling_shoes.*
-import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -44,6 +29,8 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     private lateinit var curShoe: Shoe
     private lateinit var nextShoe: Shoe
     private var playing = false
+    private var curHighScore = 0
+    private val db = Firebase.firestore
 
     private val seed = 2
     private var rand = Random(seed.toLong())
@@ -114,6 +101,8 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
             playFallingShoes()
         }
 
+        var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
+        resultsLayout.visibility = View.GONE
         resetGameBoard()
 
     }
@@ -125,6 +114,8 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     private fun resetStats() {
         curScore = 0
+        var resultScoreTV = findViewById<TextView>(R.id.fallingShoesResultScoreTV)
+        resultScoreTV.text = curScore.toString()
         shoesCaught = 0
         curLevel = 1
     }
@@ -138,11 +129,24 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         curDropDelay = initDropDelay
         updateScoreTV()
         playing = false
+    }
 
-        // Also displays the play now layout for preparing a new game.
-        fallingShoesPlayButton.visibility = View.VISIBLE
-        var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
-        resultsLayout.visibility = View.GONE
+    // Updates the hihg score tv and the database.
+    private fun updateHighScore(curScore: Int) {
+        curHighScore = curScore
+        var hsTV = findViewById<TextView>(R.id.shoesHighScore)
+        hsTV.text = "high score: $curHighScore"
+        val highScore = hashMapOf("fallingShoesHighScore" to curScore.toString())
+
+        db.collection("users")
+            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .set(highScore)
+            .addOnSuccessListener {
+                Log.d("added highscore", "$curScore")
+            }
+            .addOnFailureListener {
+                Log.d("couldnt add highscore to database", "failed")
+            }
     }
 
     // Adds text view with score.
@@ -156,6 +160,11 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         playFallingPlayLayout.visibility = View.VISIBLE
         resultsCoinsTV.text = coinsEarned.toString()
         resultsLayout.visibility = View.VISIBLE
+        if(curScore > curHighScore) {
+            updateHighScore(curScore)
+        }
+        // Also displays the play now layout for preparing a new game.
+        fallingShoesPlayButton.visibility = View.VISIBLE
     }
 
     // Falling Shoes game.
@@ -205,12 +214,11 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         // Update score.
         curScore += curLevel    // THIS ALL DEPENDS ON US. HOW WE WANT TO COUNT POINTS
         updateScoreTV()
-
     }
 
     private fun gameOver() {
-        resetGameBoard()
         displayResults()
+        resetGameBoard()
     }
 
     // Begins the tetronimo's slow drop down.
