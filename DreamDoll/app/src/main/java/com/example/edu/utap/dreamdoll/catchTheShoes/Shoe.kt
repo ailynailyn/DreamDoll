@@ -110,33 +110,6 @@ class Shoe(columns: Int, rows: Int) : SGrid(columns, rows) {
         return shift(0, 1)
     }
 
-    fun shiftRight(): Boolean {
-        return shift(1, 0)
-    }
-
-    fun shiftLeft(): Boolean {
-        return shift(-1, 0)
-    }
-
-    // return a transpose of the current grid
-    private fun transpose(): ArrayList<ArrayList<SCell?>> {
-        ////take the transpose
-        val transpose = ArrayList<ArrayList<SCell?>>()
-        for (i in 0 until this.rows) {
-            val nextRow = ArrayList<SCell?>()
-            for (j in 0 until this.columns) {
-                nextRow.add(null)
-            }
-            transpose.add(nextRow)
-        }
-        for (i in 0 until this.rows) {
-            for (j in 0 until this.columns) {
-                transpose[i][j] = this.grid[j][i]
-            }
-        }
-        return transpose
-    }
-
     //attempt to move down as far as possible
     fun zoomDown() {
         while (shiftDown()) {}

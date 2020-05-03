@@ -50,17 +50,8 @@ open class SGrid(val columns: Int, val rows: Int) {
         }
     }
 
-    fun visitCells(canvas: Canvas, paint: Paint, visitor: CellVisitor) {
-        Log.d("visitCells()", "yup")
-        for (i in 0 until this.height) {
-            for (j in 0 until this.width)
-                visitor.visitCell(canvas, paint, grid[i][j])
-        }
-    }
-
     //return a pointer to the cell at a position (X,Y)
     fun getCellAt(X: Int, Y: Int): SCell? {
-//        Log.d("getCellAt()", "x:$X, y:$Y")
         return if (X < 0 || X >= this.width || Y < 0 || Y >= this.height) {
             null
         } else this.grid[Y][X]
@@ -68,7 +59,6 @@ open class SGrid(val columns: Int, val rows: Int) {
 
     //same as getCellAt(X,Y), except this function also removes it from the grid
     private fun extractCellAt(X: Int, Y: Int): SCell? {
-        Log.d("extractCellAt", "x:$X, y:$Y")
         if (X < 0 || X >= this.width || Y < 0 || Y >= this.height) {
             return null
         }
@@ -80,19 +70,6 @@ open class SGrid(val columns: Int, val rows: Int) {
     //insert a cell into the grid
     open fun putCell(X: Int, Y: Int, cell: SCell): Boolean {
         Log.d("putCell", "x:$X, y:$Y")
-        if (X < 0 || X >= this.width || Y < 0 || Y >= this.height) {
-            return false
-        }
-        cell.xPosition = X
-        cell.yPosition = Y
-        this.grid[Y][X] = cell
-        return true
-    }
-
-
-    //insert a cell into the grid
-    open fun putShoeCell(X: Int, Y: Int, cell: SCell): Boolean {
-        Log.d("putShoeCell", "x:$X, y:$Y")
         if (X < 0 || X >= this.width || Y < 0 || Y >= this.height) {
             return false
         }

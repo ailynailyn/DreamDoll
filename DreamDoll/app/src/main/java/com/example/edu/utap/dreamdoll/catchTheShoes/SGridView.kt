@@ -52,28 +52,19 @@ open class SGridView : View {
     // Draws the current grid.
     fun drawGrid(canvas: Canvas) {
 
-//        var d = resources.getDrawable(R.drawable.pink_bow_platforms, null)
-//        d.setBounds(4, 10, 4, 4)
-//        d.draw(canvas)
-
-        // Skip first two lines.
-        for(x in 0..(visibleColumns - 1)) {
-            for(y in 0..(visibleRows - 1)) {
+        for(x in 0..(visibleColumns)) {
+            for(y in 0..(visibleRows)) {
                 var drawX = x * cellSz
                 var drawY = y * cellSz
                 var cell = grid.getCellAt(x, y)
                 if(cell != null) {  // Paint non-null cells.
-                    Log.d("cell ($x, $y)is not null", "will check if it should draw")
-
                     if(cell!!.bitmap != null) {
                         Log.d("going to draw cell with bitmap", "x:$x, y:$y, BTMP:${cell!!.bitmap}")
                         var left = drawX.toFloat()
-                        var right = drawX + (4* cellSz)
+                        var right = drawX + (20 * cellSz) // THESE DEPEND ON THE SIZE OF SHOE USED
                         var top = drawY.toFloat()
-                        var bottom = drawY + (2 * cellSz)
+                        var bottom = drawY + (30 * cellSz)
                         var shoeRect = RectF(left, top, right, bottom)
-                        canvas.drawRect(drawX, drawY, drawX + (2*cellSz), drawY + (2*cellSz), borderPaint)
-//                        canvas.drawBitmap(cell!!.bitmap!!, 10f, 10f, null)
                         canvas.drawBitmap(cell!!.bitmap!!, null, shoeRect, Paint())
                     }
                 }
@@ -94,9 +85,14 @@ open class SGridView : View {
 
         val w = visibleColumns * cellSz   // NEED TO MULTIPLY BY CELL WIDTH
         val h = visibleRows * cellSz    // NEED TO MULTIPLY BY CELL HEIGHT
+        Log.d("onDraw", "visibleRows:$visibleRows\nvisibleCols:$visibleColumns\ncellSz:$cellSz\nw:$w h:$h")
 
         canvas.drawRect(x.toFloat(), y.toFloat(), (x + w).toFloat(), (y + h).toFloat(), backgroundPaint)
         drawGrid(canvas)
+    }
+
+    fun getCellSize() : Float {
+        return cellSz
     }
 
 

@@ -1,25 +1,45 @@
 package com.example.edu.utap.dreamdoll
 
-
+import android.app.Activity
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.opengl.Visibility
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthActionCodeException
+import kotlinx.android.synthetic.main.edit_features.*
 import kotlinx.android.synthetic.main.falling_shoes.*
+import kotlinx.android.synthetic.main.login.*
+import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.coroutines.*
 import java.util.*
+
 
 // EditFaceFrag.kt & edit_features.xml
 class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
-    private val rows = 23
-    private val cols = 20
+    private val rows = 240
+    private val cols = 200
     private var curScore = 0
     private var curLevel = 1
     private var shoesCaught = 0
-    private var dropDelay = 1000L
+    private val initDropDelay = 20L
+    private var curDropDelay = initDropDelay
     private lateinit var grid : SGrid
     private lateinit var curShoe: Shoe
     private lateinit var nextShoe: Shoe
@@ -30,54 +50,38 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     private fun pinkShoe(): Shoe {
         val pinkHeelsBtmp = BitmapFactory.decodeResource(
-            resources, R.drawable.pink_heels)
+            resources, R.drawable.pink_heel_game)
         Log.d("pinkShoe()", "btmp: $pinkHeelsBtmp")
-        return Shoe(2, 2).apply {
+        return Shoe(30, 20).apply {
             putCell(0, 0, SCell(pinkHeelsBtmp))
-            putCell(0, 1, SCell(null))
-            putCell(1, 0, SCell(null))
-            putCell(1, 1, SCell(null))
         }
     }
 
     private fun blackPlatforms(): Shoe {
         val blackPlatformsBtmp = BitmapFactory.decodeResource(
-            resources, R.drawable.black_platforms)
+            resources, R.drawable.black_platforms_game)
         Log.d("blackPlatforms()", "btmp: $blackPlatformsBtmp")
-        return Shoe(2, 2).apply {
+        return Shoe(30, 20).apply {
             putCell(0, 0, SCell(blackPlatformsBtmp))
-            putCell(0, 1, SCell(null))
-            putCell(1, 0, SCell(null))
-            putCell(1, 1, SCell(null))
         }
     }
 
-    private fun pinkBowPlatforms(): Shoe {
-        val pinkBowPlatformsBtmp = BitmapFactory.decodeResource(
-            resources, R.drawable.pink_bow_platforms)
-        Log.d("pinkBowPlatforms()", "btmp: $pinkBowPlatformsBtmp")
-        return Shoe(2, 2).apply {
-            putCell(0, 0, SCell(pinkBowPlatformsBtmp))
-            putCell(0, 1, SCell(null))
-            putCell(1, 0, SCell(null))
-            putCell(1, 1, SCell(null))
-        }
-    }
-
-    fun randomShoe(): Shoe? {
-        var tet = rand.nextInt(3)
+    // Returns a random shoe object.
+    private fun randomShoe(): Shoe? {
+        var tet = rand.nextInt(2)
         return when (tet) {
             0 -> pinkShoe()
             1 -> blackPlatforms()
-            2 -> pinkBowPlatforms()
             else -> null
         }
     }
 
+    // Resets the random with the given seed.
     fun resetRandom() {
         rand = Random(seed.toLong())
     }
 
+    // Called when back is pressed.
     override fun onBackPressed() {
         super.onBackPressed()
         Log.d("falling shoes activity","onbackpressed")
@@ -105,11 +109,12 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         // Set on click listener for the play button.
         fallingShoesPlayButton.setOnClickListener {
             // New game.
-            playFallingPlayLayout.visibility = View.GONE
+            resetStats()
+            playFallingPlayLayout.visibility = View.INVISIBLE
             playFallingShoes()
         }
 
-        resetGame()
+        resetGameBoard()
 
     }
 
@@ -118,20 +123,39 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         scoreTV.text = curScore.toString()
     }
 
-    // Resets the game data.
-    private fun resetGame() {
-        coroutineContext.cancelChildren()
-        grid.clear()
-        sgrid_view.refresh()
-        dropDelay = 1000L
+    private fun resetStats() {
         curScore = 0
         shoesCaught = 0
         curLevel = 1
+    }
+
+    // Resets the game data.
+    private fun resetGameBoard() {
+        Log.d("reset game", "xxx")
+        coroutineContext.cancelChildren()
+        grid.clear()
+        sgrid_view.refresh()
+        curDropDelay = initDropDelay
         updateScoreTV()
         playing = false
 
         // Also displays the play now layout for preparing a new game.
         fallingShoesPlayButton.visibility = View.VISIBLE
+        var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
+        resultsLayout.visibility = View.GONE
+    }
+
+    // Adds text view with score.
+    private fun displayResults() {
+        Log.d("displayResults()", "d")
+        var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
+        var resultScoreTV = findViewById<TextView>(R.id.fallingShoesResultScoreTV)
+        var resultsCoinsTV = findViewById<TextView>(R.id.fallingShoesResultsCoinsTV)
+        resultScoreTV.text = curScore.toString()
+        var coinsEarned = curScore  // Depends on how we want to award coins.
+        playFallingPlayLayout.visibility = View.VISIBLE
+        resultsCoinsTV.text = coinsEarned.toString()
+        resultsLayout.visibility = View.VISIBLE
     }
 
     // Falling Shoes game.
@@ -140,23 +164,25 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         // Get the current shoe and place at top.
         if(!playing) {
             // Initial.
-            curShoe = randomShoe()!!//ShoeBuilder.random()!!
+            curShoe = randomShoe()!!
             Log.d("Inital.", "curShoe: ${curShoe.toString()}")
         } else {
             curShoe = nextShoe
             Log.d("swapping next", "nextshoe -> curShoe: ${curShoe.toString()}")
         }
-        var added = curShoe.insertIntoGrid(4, 8, grid)
-        Log.d("Added?", "$added")
+        var randX = rand.nextInt(cols - curShoe.width) // width of a shoe
+        var added = curShoe.insertIntoGrid(randX, 0, grid)
+        Log.d("Added?", "$added x: $randX, y: 0")
         if(!added) {
+            Log.d("couldnt add", "the shoe")
             // Game over.
-            Toast.makeText(this, "You lose", Toast.LENGTH_SHORT).show()
             playing = false
             coroutineContext.cancelChildren()
+            gameOver()
         } else {
             playing = true
             // Get the next tetronimo ready.
-            nextShoe = randomShoe()!!//ShoeBuilder.random()!!
+            nextShoe = randomShoe()!!
             launch {
                 dropShoe()
             }
@@ -167,9 +193,10 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     // Level up.
     private fun levelUp() {
         curLevel += 1
-        dropDelay = (dropDelay * .8).toLong()
+        curDropDelay = (curDropDelay * .8).toLong()
     }
 
+    // Called when a shoe was successfully caught. Updates stats.
     private fun caughtShoe() {
         shoesCaught++
         if(shoesCaught % 5 == 0) {  // THIS IS ALL UP TO US. RANDOM NUMS FOR NOW
@@ -181,10 +208,15 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     }
 
+    private fun gameOver() {
+        resetGameBoard()
+        displayResults()
+    }
 
     // Begins the tetronimo's slow drop down.
     private suspend fun dropShoe() {
         while(coroutineContext.isActive) {
+            Log.d("dropShoe", "while coroutine is active")
             var shifted = curShoe.shiftDown()
             sgrid_view.refresh()
             if(!shifted) {
@@ -195,20 +227,34 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
                 var yPos = curShoe.yPos
                 var caught = false
                 Log.d("shoe landed", "($xPos, $yPos) is it caught? will check")
+                var seekbar = findViewById<SeekBar>(R.id.shoesGameSeekBar)
+                var bagPos = seekbar.progress
+                Log.d("progress", "$bagPos")
+                var bagWidth = 80
+                var shoeWidth = curShoe.width
+                Log.d("droppedshoe", "bagWidth:$bagWidth, shoeWdth:$shoeWidth")
+                var shoeMin = bagPos - (shoeWidth / 2)
+                var shoeMax = bagPos + bagWidth + (shoeWidth / 2)
+                Log.d("shoe at bottom", "shoeMin: $shoeMin, shoeMax: $shoeMax")
+                if((xPos > shoeMin) && (xPos < shoeMax)) {
+                    caught = true
+                }
 
                 // Clear the shoe.
-                grid.deleteRow(1)   // Should delete ?
+                //grid.deleteRow(0)   // Should delete ?
+                curShoe.removeFromGrid()
                 sgrid_view.refresh()
 
                 if(caught) {
                     caughtShoe()
+                    playFallingShoes()
+                } else {
+                    coroutineContext.cancelChildren()
+                    gameOver()
                 }
-
-                coroutineContext.cancelChildren()
-                playFallingShoes()
             }
-            Log.d("Dropped. delaying:", "$dropDelay")
-            delay(dropDelay.toLong())
+            Log.d("Dropped. delaying:", "$curDropDelay")
+            delay(curDropDelay.toLong())
         }
     }
 

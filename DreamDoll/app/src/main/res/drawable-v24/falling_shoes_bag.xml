@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item>
+        <shape android:shape="rectangle">
+            <size
+                android:height="70dp"
+                android:width="80dp"
+                />
+            <corners
+                android:bottomRightRadius="5dp"
+                android:bottomLeftRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp"/>
+        </shape>
+    </item>
+    <item android:drawable="@drawable/temporary_bag"
+        android:height="70dp"
+        android:width="80dp"
+        android:gravity="center"
+        />
+
+</layer-list>
