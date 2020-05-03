@@ -193,4 +193,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/menuContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/shoesGameLayout"
+        app:layout_constraintLeft_toLeftOf="@id/shoesGameLayout"
+        app:layout_constraintRight_toRightOf="@id/shoesGameLayout"
+        app:layout_constraintBottom_toBottomOf="@id/shoesGameLayout"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
@@ -26,35 +27,35 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     private var shoesCaught = 0
     private val initDropDelay = 20L
     private var curDropDelay = initDropDelay
-    private lateinit var grid : SGrid
-    private lateinit var curShoe: Shoe
-    private lateinit var nextShoe: Shoe
     private var playing = false
     private var curHighScore = 0
     private val db = Firebase.firestore
-
     private val seed = 2
     private var rand = Random(seed.toLong())
+    private lateinit var grid : SGrid
+    private lateinit var curShoe: Shoe
+    private lateinit var nextShoe: Shoe
 
+    // Called when the activity is resumed.
     override fun onResume() {
         super.onResume()
         Log.d("onresume", "yup")
         setInitialData()
     }
 
+    // Returns a pink ribbon shoe.
     private fun pinkShoe(): Shoe {
         val pinkHeelsBtmp = BitmapFactory.decodeResource(
             resources, R.drawable.pink_heel_game)
-        Log.d("pinkShoe()", "btmp: $pinkHeelsBtmp")
         return Shoe(30, 20).apply {
             putCell(0, 0, SCell(pinkHeelsBtmp))
         }
     }
 
+    // Returns a black platform shoe.
     private fun blackPlatforms(): Shoe {
         val blackPlatformsBtmp = BitmapFactory.decodeResource(
             resources, R.drawable.black_platforms_game)
-        Log.d("blackPlatforms()", "btmp: $blackPlatformsBtmp")
         return Shoe(30, 20).apply {
             putCell(0, 0, SCell(blackPlatformsBtmp))
         }
@@ -77,54 +78,69 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     // Called when back is pressed.
     override fun onBackPressed() {
-        super.onBackPressed()
-        Log.d("falling shoes activity","onbackpressed")
-        finish()
+        // If the menu frag is preseent, remove it.
+        var menuFrag = supportFragmentManager.findFragmentByTag("fallingShoesMenuFrag")
+        if(menuFrag != null) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+            Log.d("falling shoes activity", "onbackpressed")
+            finish()
+        }
     }
 
+    // Sets the user high score tv and coin tv.
     private fun setInitialData() {
         // High Score and coins.
         db.collection("users")
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
             .get()
             .addOnSuccessListener { document ->
-                Log.d("got user data", "$curScore")
                 var data = document.data
                 if(data != null) {
                     // High Score
                     Log.d("get user data", "$data")
                     var hs = data!!["fallingShoesHighScore"]
                     if(hs != null && hs is Number) {
-                        Log.d("hs: ", hs.toString())
                         updateHighScore(hs.toInt())
                     }
                     // Coins
                     var coins = data!!["coins"]
                     if(coins != null && coins is Number) {
-                        Log.d("coins: ", "coins")
                         updateCoins(coins.toInt())
                     }
                 }
 
             }
             .addOnFailureListener {
-                Log.d("couldnt get user data from database", "failed")
+                Log.d("Could not get user data from database", "FAILED")
             }
     }
 
+    private fun initButtons() {
+        var menuButton = findViewById<Button>(R.id.shoesMenuButton)
+        menuButton.setOnClickListener {
+            Log.d("Menu clicked", "will open menu")
+            var menuFrag = supportFragmentManager.findFragmentByTag("fallingShoesMenuFrag")
+            if(menuFrag != null) {
+                supportFragmentManager.popBackStack()
+            } else {
+//                coroutineContext.
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.menuContainer, FallingShoesMenuFrag(), "fallingShoesMenuFrag")
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+    }
+
+    // Called on Activity creation.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.falling_shoes)
         displayOptionsMenu(true)
         // INIT BUTTONS
-//        initButtons()
-
-        // Get extra information.
-        var extras = intent.extras
-        if(extras != null) {
-            var title = intent.extras!!.getString("title")
-            Log.d("oncreate falling shoes", "$title")
-        }
+        initButtons()
 
         // Create the grid.
         grid = SGrid(cols, rows)
@@ -146,11 +162,13 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     }
 
+    // Updates the score tv.
     private fun updateScoreTV() {
         var scoreTV = findViewById<TextView>(R.id.shoesScoreTV)
         scoreTV.text = curScore.toString()
     }
 
+    // Resets per-game stats.
     private fun resetStats() {
         curScore = 0
         var resultScoreTV = findViewById<TextView>(R.id.fallingShoesResultScoreTV)
@@ -161,7 +179,6 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
 
     // Resets the game data.
     private fun resetGameBoard() {
-        Log.d("reset game", "xxx")
         coroutineContext.cancelChildren()
         grid.clear()
         sgrid_view.refresh()
@@ -175,7 +192,6 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         curHighScore = curScore
         var hsTV = findViewById<TextView>(R.id.shoesHighScore)
         hsTV.text = "high score: $curHighScore"
-//        val highScore = hashMapOf("fallingShoesHighScore" to curScore)
 
         db.collection("users")
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
@@ -184,7 +200,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
                 Log.d("added highscore", "$curScore")
             }
             .addOnFailureListener {
-                Log.d("couldnt add highscore to database", "failed")
+                Log.d("Could not add highscore to database", "FAILED")
             }
     }
 
@@ -193,7 +209,6 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         curCoins = newCoins
         var coinsTV = findViewById<TextView>(R.id.shoesCoinsTV)
         coinsTV.text = "coins\n$newCoins"
-//        val coins = hashMapOf("coins" to curCoins)
 
         db.collection("users")
             .document(FirebaseAuth.getInstance().currentUser!!.uid)
@@ -202,13 +217,12 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
                 Log.d("added coins", "$curCoins")
             }
             .addOnFailureListener {
-                Log.d("couldnt add coins to database", "failed")
+                Log.d("Could not add coins to database", "FAILED")
             }
     }
 
     // Adds text view with score.
     private fun displayResults() {
-        Log.d("displayResults()", "d")
         var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
         var resultScoreTV = findViewById<TextView>(R.id.fallingShoesResultScoreTV)
         var resultsCoinsTV = findViewById<TextView>(R.id.fallingShoesResultsCoinsTV)
@@ -239,16 +253,14 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         if(!playing) {
             // Initial.
             curShoe = randomShoe()!!
-            Log.d("Inital.", "curShoe: ${curShoe.toString()}")
         } else {
             curShoe = nextShoe
-            Log.d("swapping next", "nextshoe -> curShoe: ${curShoe.toString()}")
         }
         var randX = rand.nextInt(cols - curShoe.width) // width of a shoe
         var added = curShoe.insertIntoGrid(randX, 0, grid)
         Log.d("Added?", "$added x: $randX, y: 0")
         if(!added) {
-            Log.d("couldnt add", "the shoe")
+            Log.d("Could not add", "the shoe")
             // Game over.
             playing = false
             coroutineContext.cancelChildren()
@@ -267,7 +279,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     // Level up.
     private fun levelUp() {
         curLevel += 1
-        curDropDelay = (curDropDelay * .8).toLong()
+        curDropDelay = (curDropDelay - 1).toLong()
     }
 
     // Called when a shoe was successfully caught. Updates stats.
@@ -281,6 +293,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         updateScoreTV()
     }
 
+    // Called when the game is over.
     private fun gameOver() {
         displayResults()
         resetGameBoard()
