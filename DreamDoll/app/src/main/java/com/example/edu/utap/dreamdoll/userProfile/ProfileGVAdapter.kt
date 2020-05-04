@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.edu.utap.dreamdoll.DollItem
-import com.example.edu.utap.dreamdoll.NewsfeedItem
-import com.example.edu.utap.dreamdoll.R
-import com.example.edu.utap.dreamdoll.UserProfileActivity
+import com.example.edu.utap.dreamdoll.*
 
 class ProfileGVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -21,6 +18,7 @@ class ProfileGVAdapter()
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
+        internal lateinit var postItem : NewsfeedItem
 
         init {
 
@@ -29,13 +27,20 @@ class ProfileGVAdapter()
                 // Open up the picture.
 //                var picLayout = findViewById<FrameLayout>(R.id.singlePostLayout)
 //                picLayout.visibility = View.VISIBLE
-
+                val intent = Intent(itemView.context, SinglePostActivity::class.java)
+                intent.putExtra("username", postItem.username)
+                intent.putExtra("profilePicID", postItem.profilePicID)
+                intent.putExtra("imageID", postItem.imageID)
+                intent.putExtra("likes", postItem.likes)
+                intent.putExtra("caption", postItem.caption)
+                itemView.context.startActivity(intent)
             }
         }
 
         // The grid of post pictures.
         fun bindView(item: NewsfeedItem) {
             Log.d("GVAdapter", "bindView(item: NewsfeedItem)")
+            postItem = item
             var imageID = item.imageID
             if(imageID == null) {
                 imageView.setImageResource(R.drawable.falling_shoes_bag)

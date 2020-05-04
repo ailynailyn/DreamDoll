@@ -1,11 +1,14 @@
 package com.example.edu.utap.dreamdoll
 
+import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.example.edu.utap.dreamdoll.startUp.StartupFrag
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.coroutines.CoroutineContext
@@ -113,11 +116,19 @@ open class BaseActivity :
         startActivity(intent)
     }
 
+    protected fun setAppTitle(title: String) {
+        var titleTV = findViewById<TextView>(R.id.actionBarTitle)
+        titleTV.text = title
+    }
 
 
+
+    @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar!!.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+        supportActionBar!!.setCustomView(R.layout.action_bar_layout)
 
         mAuth = FirebaseAuth.getInstance()
 

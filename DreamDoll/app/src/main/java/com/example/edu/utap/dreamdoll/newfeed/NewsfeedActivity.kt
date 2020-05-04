@@ -1,5 +1,7 @@
 package com.example.edu.utap.dreamdoll
 
+import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
@@ -45,10 +47,12 @@ class NewsfeedActivity : BaseActivity() {
             .commit()
     }
 
+    @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         displayOptionsMenu(true)
+        setAppTitle("Newsfeed")
 
         // Get extra information.
         var extras = intent.extras

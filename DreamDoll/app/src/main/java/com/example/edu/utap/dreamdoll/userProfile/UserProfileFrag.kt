@@ -53,7 +53,7 @@ class UserProfileFrag(username : String) : Fragment() {
                 posts.forEach {
                     var curPost = it.data
                     Log.d("curPost", curPost.toString())
-                    val username: String = curPost["username"].toString()
+                    val username: String = curUsername
                     val profilePicID: String? = null
                     val imageID: String? = curPost["pictureUUID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
