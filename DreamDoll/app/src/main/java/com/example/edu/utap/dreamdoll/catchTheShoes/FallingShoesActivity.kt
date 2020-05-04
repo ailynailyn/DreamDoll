@@ -25,7 +25,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     private var curLevel = 1
     private var curCoins = 0
     private var shoesCaught = 0
-    private val initDropDelay = 20L
+    private val initDropDelay = 16L
     private var curDropDelay = initDropDelay
     private var playing = false
     private var curHighScore = 0
@@ -279,13 +279,13 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     // Level up.
     private fun levelUp() {
         curLevel += 1
-        curDropDelay = (curDropDelay - 1).toLong()
+        curDropDelay = (curDropDelay - 1L).toLong()
     }
 
     // Called when a shoe was successfully caught. Updates stats.
     private fun caughtShoe() {
         shoesCaught++
-        if(shoesCaught % 5 == 0) {  // THIS IS ALL UP TO US. RANDOM NUMS FOR NOW
+        if(shoesCaught % 10 == 0) {  // THIS IS ALL UP TO US. RANDOM NUMS FOR NOW
             levelUp()  // Might want to level up based on time instead of shoes cleared?
         }
         // Update score.
