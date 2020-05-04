@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.android.synthetic.main.signup.*
@@ -24,6 +26,7 @@ class SignupFrag : Fragment() {
 
     private var mAuth = FirebaseAuth.getInstance();
     var signUpSuccessListener: SignUpSuccessListener? = null
+    private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +46,7 @@ class SignupFrag : Fragment() {
         signup_passwordET.getText().clear()
         signup_invalidEmailTV.visibility = View.INVISIBLE
         signup_invalidPasswordTV.visibility = View.INVISIBLE
+        signup_invalidUsernameTV.visibility = View.INVISIBLE
     }
 
     // Code to hide the keyboard.
@@ -67,38 +71,117 @@ class SignupFrag : Fragment() {
             hideKeyboard()
             var email = signup_emailET.text.toString()
             var password = signup_passwordET.text.toString()
+            var username = signup_usernameET.text.toString()
             signup_invalidEmailTV.visibility = View.INVISIBLE
             signup_invalidPasswordTV.visibility = View.INVISIBLE
-            if(!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                // Check firebase.
-                Log.d("sign up", "email: $email. password: $password")
-                mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            // Sign up success.
-                            Log.d("XXX", "signUPWithEmail:success");
-                            // Go to main screen.
-                            signUpSuccessListener?.signUpSuccessful()
+            signup_invalidUsernameTV.visibility = View.INVISIBLE
+            if(!email.isNullOrEmpty() && !password.isNullOrEmpty() && !username.isNullOrEmpty()) {
+
+
+
+                // First check if the provided username is valid.
+                var isValid = false
+                val usersRef = db.collection("users").document(username)
+
+//                usersRef.get()
+//                    .addOnCompleteListener { task ->
+//                        if(task.isSuccessful) {
+//                            var doc = task.result
+//                            if (doc != null && doc.exists()) {
+//                                Log.d("document exists", username)
+//                                isValid = false
+//                            } else {
+//                                isValid = true
+//                            }
+//                        } else {
+//                            isValid = false // should this be set as false or true?
+//                        }
+//                    }
+
+                db.collection("users").document(username).get()
+                    .addOnSuccessListener {
+                        Log.d("username exists.", "${it.data}")
+                        if(it.data == null) {
+                            Log.d("username does not exist.", "create user.")
+                            isValid = true
+                            createUser(email, password, username)
                         } else {
-                            // Sign up failed. Display message.
-                            Log.w("XXX", "signUPWithEmail:failure", task.getException());
-                            Log.w("XXX", "signInWithEmail:localizedMessage: ${task.getException()!!.localizedMessage}");
-                            var errorMsg = task.getException()!!.localizedMessage
-                            if(Regex("email address is badly formatted").containsMatchIn(errorMsg)) {
-                                signup_invalidEmailTV.visibility = View.VISIBLE
-                                Log.d("XXX", "in email address badly format")
-                            } else if(Regex("should be at least 6 characters").containsMatchIn(errorMsg)) {
-                                signup_invalidPasswordTV.setText("Password should be at least 6 characters.")
-                                signup_invalidPasswordTV.visibility = View.VISIBLE
-                                Log.d("XXX", "in should be at least 6 characters")
-                            } else {
-                                signup_invalidPasswordTV.text = errorMsg
-                                signup_invalidPasswordTV.visibility = View.VISIBLE
-                            }
+                            isValid = false
+                            signup_invalidUsernameTV.visibility = View.VISIBLE
                         }
+
                     }
+                    .addOnFailureListener {
+                        Log.d("get doc failure", "couldnt do it?.")
+                    }
+
+
+
+//
+//                if(isValid) {
+//                    createUser(email, password)
+//                } else {
+//                    signup_invalidUsernameTV.visibility = View.VISIBLE
+//                }
             }
         }
+    }
+
+    private fun createUser(email: String, password: String, username: String) {
+        // Check firebase.
+        Log.d("sign up", "email: $email. password: $password")
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Sign up success.
+                    Log.d("XXX", "signUPWithEmail:success");
+                    // Create user storage.
+                    val userData = hashMapOf(
+                        "coins" to "0",
+                        "fallingShoesHighScore" to "0",
+                        "email" to "$email",
+                        "userID" to mAuth.currentUser!!.uid
+                    )
+                    db.collection("users")
+                        .document(username)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            Log.d("added data", "initial userdata")
+                            // Go to main screen.
+                            signUpSuccessListener?.signUpSuccessful()
+                        }
+                        .addOnFailureListener {
+                            Log.d("Could not add initial coins to database", "FAILED")
+                        }
+
+
+                } else {
+                    // Sign up failed. Display message.
+                    Log.w("XXX", "signUPWithEmail:failure", task.getException());
+                    Log.w(
+                        "XXX",
+                        "signInWithEmail:localizedMessage: ${task.getException()!!.localizedMessage}"
+                    );
+                    var errorMsg = task.getException()!!.localizedMessage
+                    if (Regex("email address is badly formatted").containsMatchIn(
+                            errorMsg
+                        )
+                    ) {
+                        signup_invalidEmailTV.visibility = View.VISIBLE
+                        Log.d("XXX", "in email address badly format")
+                    } else if (Regex("should be at least 6 characters").containsMatchIn(
+                            errorMsg
+                        )
+                    ) {
+                        signup_invalidPasswordTV.setText("Password should be at least 6 characters.")
+                        signup_invalidPasswordTV.visibility = View.VISIBLE
+                        Log.d("XXX", "in should be at least 6 characters")
+                    } else {
+                        signup_invalidPasswordTV.text = errorMsg
+                        signup_invalidPasswordTV.visibility = View.VISIBLE
+                    }
+                }
+            }
     }
 
     /// makes sure interfaces are implemented
