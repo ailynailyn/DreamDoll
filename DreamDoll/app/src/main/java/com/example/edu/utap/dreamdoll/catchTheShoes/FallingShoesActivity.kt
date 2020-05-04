@@ -211,7 +211,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         coinsTV.text = "coins\n$newCoins"
 
         db.collection("users")
-            .document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .document(mAuth.currentUser!!.uid)
             .update("coins", curCoins)
             .addOnSuccessListener {
                 Log.d("added coins", "$curCoins")

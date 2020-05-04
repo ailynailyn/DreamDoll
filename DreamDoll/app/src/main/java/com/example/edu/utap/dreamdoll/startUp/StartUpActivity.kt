@@ -43,10 +43,11 @@ class StartUpActivity : BaseActivity(),
     }
 
     // Sign in. Do any necessary updates.
-    override fun signUpSuccessful() {
+    override fun signUpSuccessful(username: String) {
         Log.d("MainActivity", "signInSuccessful")
         val intent = Intent(this, NewsfeedActivity::class.java)
         intent.putExtra("title", "sign up succesful . to newsffed")
+        intent.putExtra("username", username)
         startActivity(intent)
     }
 

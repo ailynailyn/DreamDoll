@@ -43,10 +43,10 @@ class UserProfileFrag(username : String) : Fragment() {
         return inflater.inflate(R.layout.user_profile, container, false)
     }
 
-    fun genUserPosts() {
+    private fun genUserPosts(uuid: String) {
         var postsList = mutableListOf<NewsfeedItem>()
         db.collection("users")
-            .document(curUsername)
+            .document(uuid)
             .collection("posts")
             .get()
             .addOnSuccessListener { posts ->
@@ -72,6 +72,20 @@ class UserProfileFrag(username : String) : Fragment() {
             .addOnFailureListener {
                 Log.d("Could not get user posts data from database", "FAILED")
             }
+
+    }
+
+    private fun prepareProfile() {
+        // Get user id from database.
+        db.collection("usernames").document(curUsername).get()
+            .addOnSuccessListener {  doc ->
+                var userID = doc.get("uuid").toString()
+                Log.d("data grabbed for $curUsername", userID)
+                genUserPosts(userID)
+            }
+            .addOnFailureListener {
+                Log.d("couldnt find existing user in username database", "FAILED")
+            }
     }
 
     private fun setUserData() {
@@ -89,7 +103,7 @@ class UserProfileFrag(username : String) : Fragment() {
         setUserData()
 
         // Need to get the user pics from the database.
-        genUserPosts()
+        prepareProfile()
 
         // Fetch the information about the user. Will have to get data from srver
         //profileGVAdapter.setItemList(userPosts)//repository.fetchUserPics())

@@ -41,7 +41,7 @@ class NewsFeedFrag : Fragment() {
 
         // Fetch data.
         var sampleList = listOf<NewsfeedItem>(
-            NewsfeedItem("ailyn",null, null, 3, "Caption for my picture. Woo!" ),
+            NewsfeedItem("cupofcoffee",null, null, 3, "Caption for my picture. Woo!" ),
             NewsfeedItem("lexi",null, null, 35, "Check out this doll!!!" ),
             NewsfeedItem("patrick",null, null, 435, "Fancy lil pic here" )
             )

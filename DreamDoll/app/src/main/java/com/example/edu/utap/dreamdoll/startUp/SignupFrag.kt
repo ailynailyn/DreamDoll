@@ -38,7 +38,7 @@ class SignupFrag : Fragment() {
     }
 
     interface SignUpSuccessListener {
-        fun signUpSuccessful()
+        fun signUpSuccessful(username: String)
     }
 
     fun reset() {
@@ -77,26 +77,9 @@ class SignupFrag : Fragment() {
             signup_invalidUsernameTV.visibility = View.INVISIBLE
             if(!email.isNullOrEmpty() && !password.isNullOrEmpty() && !username.isNullOrEmpty()) {
 
-
-
                 // First check if the provided username is valid.
                 var isValid = false
                 val usersRef = db.collection("users").document(username)
-
-//                usersRef.get()
-//                    .addOnCompleteListener { task ->
-//                        if(task.isSuccessful) {
-//                            var doc = task.result
-//                            if (doc != null && doc.exists()) {
-//                                Log.d("document exists", username)
-//                                isValid = false
-//                            } else {
-//                                isValid = true
-//                            }
-//                        } else {
-//                            isValid = false // should this be set as false or true?
-//                        }
-//                    }
 
                 db.collection("users").document(username).get()
                     .addOnSuccessListener {
@@ -114,15 +97,6 @@ class SignupFrag : Fragment() {
                     .addOnFailureListener {
                         Log.d("get doc failure", "couldnt do it?.")
                     }
-
-
-
-//
-//                if(isValid) {
-//                    createUser(email, password)
-//                } else {
-//                    signup_invalidUsernameTV.visibility = View.VISIBLE
-//                }
             }
         }
     }
@@ -135,44 +109,46 @@ class SignupFrag : Fragment() {
                 if (task.isSuccessful) {
                     // Sign up success.
                     Log.d("XXX", "signUPWithEmail:success");
+                    var uuid = mAuth.currentUser!!.uid
                     // Create user storage.
                     val userData = hashMapOf(
                         "coins" to "0",
                         "fallingShoesHighScore" to "0",
                         "email" to "$email",
-                        "userID" to mAuth.currentUser!!.uid
+                        "userID" to uuid,
+                        "username" to username
                     )
                     db.collection("users")
-                        .document(username)
+                        .document(uuid)
                         .set(userData)
                         .addOnSuccessListener {
                             Log.d("added data", "initial userdata")
-                            // Go to main screen.
-                            signUpSuccessListener?.signUpSuccessful()
+                            // Add username to usernames collection.
+                            var usernameData = hashMapOf("uuid" to uuid)
+                            db.collection("usernames")
+                                .document(username)
+                                .set(usernameData)
+                                .addOnSuccessListener {
+                                    // Go to main screen.
+                                    signUpSuccessListener?.signUpSuccessful(username)
+                                }
+                                .addOnFailureListener {
+                                    Log.d("Couldn't add username to database.", "FAILED")
+                                }
+
                         }
                         .addOnFailureListener {
-                            Log.d("Could not add initial coins to database", "FAILED")
+                            Log.d("Could not add initial user data to database", "FAILED")
                         }
-
-
                 } else {
                     // Sign up failed. Display message.
                     Log.w("XXX", "signUPWithEmail:failure", task.getException());
-                    Log.w(
-                        "XXX",
-                        "signInWithEmail:localizedMessage: ${task.getException()!!.localizedMessage}"
-                    );
+                    Log.w("XXX", "signInWithEmail:localizedMessage: ${task.getException()!!.localizedMessage}");
                     var errorMsg = task.getException()!!.localizedMessage
-                    if (Regex("email address is badly formatted").containsMatchIn(
-                            errorMsg
-                        )
-                    ) {
+                    if (Regex("email address is badly formatted").containsMatchIn(errorMsg)) {
                         signup_invalidEmailTV.visibility = View.VISIBLE
                         Log.d("XXX", "in email address badly format")
-                    } else if (Regex("should be at least 6 characters").containsMatchIn(
-                            errorMsg
-                        )
-                    ) {
+                    } else if (Regex("should be at least 6 characters").containsMatchIn(errorMsg)) {
                         signup_invalidPasswordTV.setText("Password should be at least 6 characters.")
                         signup_invalidPasswordTV.visibility = View.VISIBLE
                         Log.d("XXX", "in should be at least 6 characters")
