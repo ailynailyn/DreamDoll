@@ -81,6 +81,7 @@ class UserProfileFrag(username : String) : Fragment() {
             .addOnSuccessListener {  doc ->
                 var userID = doc.get("uuid").toString()
                 Log.d("data grabbed for $curUsername", userID)
+                setUserData(userID)
                 genUserPosts(userID)
             }
             .addOnFailureListener {
@@ -88,9 +89,23 @@ class UserProfileFrag(username : String) : Fragment() {
             }
     }
 
-    private fun setUserData() {
+    private fun setUserData(uuid: String) {
         var usernameTV = view!!.findViewById<TextView>(R.id.userProfile_username)
+        var highScoreTV = view!!.findViewById<TextView>(R.id.userProfile_highScoreTV)
+        var coinsTV = view!!.findViewById<TextView>(R.id.userProfile_coinsTV)
         usernameTV.text = curUsername
+        db.collection("users").document(uuid).get()
+            .addOnSuccessListener {  doc ->
+                var highScore = doc.get("fallingShoesHighScore").toString()
+                var coins = doc.get("coins").toString()
+                Log.d("high score grabbed for $curUsername", highScore)
+                Log.d("coins grabbed for $curUsername", coins)
+                highScoreTV.text = highScore.toString()
+                coinsTV.text = coins.toString()
+            }
+            .addOnFailureListener {
+                Log.d("couldnt find existing user in username database", "FAILED")
+            }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -100,7 +115,7 @@ class UserProfileFrag(username : String) : Fragment() {
         // Set adapter.
         userProfileRV.adapter = profileGVAdapter
 
-        setUserData()
+        //setUserData()
 
         // Need to get the user pics from the database.
         prepareProfile()
