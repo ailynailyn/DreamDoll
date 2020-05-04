@@ -41,9 +41,9 @@ class NewsFeedFrag : Fragment() {
 
         // Fetch data.
         var sampleList = listOf<NewsfeedItem>(
-            NewsfeedItem("cupofcoffee",null, null, 3, "Caption for my picture. Woo!" ),
-            NewsfeedItem("lexi",null, null, 35, "Check out this doll!!!" ),
-            NewsfeedItem("patrick",null, null, 435, "Fancy lil pic here" )
+            NewsfeedItem("cupofcoffee",null, null, 3, "Caption for my picture. Woo! temproray" ),
+            NewsfeedItem("ilovedressupgames",null, null, 35, "Check out this doll!!! placeholder " ),
+            NewsfeedItem("patrick",null, null, 435, "this is a temporary caption" )
             )
         rvAdapter.setItemList(sampleList)
 

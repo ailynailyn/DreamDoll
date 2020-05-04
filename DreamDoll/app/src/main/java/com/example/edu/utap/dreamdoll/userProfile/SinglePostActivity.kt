@@ -38,7 +38,6 @@ class SinglePostActivity : BaseActivity() {
     private fun setupPost(extras: Bundle) {
         val profilePicIV = findViewById<ImageView>(R.id.singlePostProfilePic)
         val usernameTV = findViewById<TextView>(R.id.singlePostUsername)
-        val backButton = findViewById<Button>(R.id.singlePostBackButton)
         var postIV = findViewById<ImageView>(R.id.singlePostImage)
         val likesTV = findViewById<TextView>(R.id.singlePostLikesTV)
         val likeButton = findViewById<Button>(R.id.singlePostLikeButton)
@@ -59,11 +58,6 @@ class SinglePostActivity : BaseActivity() {
         val tmp = "$likes Likes"
         likesTV.text = tmp
         captionTV.text = caption
-
-
-        backButton.setOnClickListener {
-            Log.d("SinglePostActivity", "backbuttonpressed")
-        }
 
         likeButton.setOnClickListener {
             Log.d("SinglePostActivity", "backButtonPressed")

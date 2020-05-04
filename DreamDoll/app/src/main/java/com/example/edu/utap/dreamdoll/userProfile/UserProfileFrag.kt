@@ -43,6 +43,7 @@ class UserProfileFrag(username : String) : Fragment() {
         return inflater.inflate(R.layout.user_profile, container, false)
     }
 
+    // Grabs user info to generate posts and grid view.
     private fun genUserPosts(uuid: String) {
         var postsList = mutableListOf<NewsfeedItem>()
         db.collection("users")
@@ -75,6 +76,7 @@ class UserProfileFrag(username : String) : Fragment() {
 
     }
 
+    // Uses the username collection to get the uuid of the given user.
     private fun prepareProfile() {
         // Get user id from database.
         db.collection("usernames").document(curUsername).get()
@@ -89,6 +91,7 @@ class UserProfileFrag(username : String) : Fragment() {
             }
     }
 
+    // Sets the username, likes and high score.
     private fun setUserData(uuid: String) {
         var usernameTV = view!!.findViewById<TextView>(R.id.userProfile_username)
         var highScoreTV = view!!.findViewById<TextView>(R.id.userProfile_highScoreTV)
@@ -115,13 +118,8 @@ class UserProfileFrag(username : String) : Fragment() {
         // Set adapter.
         userProfileRV.adapter = profileGVAdapter
 
-        //setUserData()
-
         // Need to get the user pics from the database.
         prepareProfile()
-
-        // Fetch the information about the user. Will have to get data from srver
-        //profileGVAdapter.setItemList(userPosts)//repository.fetchUserPics())
 
     }
 
