@@ -9,6 +9,8 @@ data class NewsfeedItem(val username: String,
                         val caption: String
                         )
 
+data class HighScoreItem(val username: String, val score: String)
+
 class Repository {
 
     companion object {

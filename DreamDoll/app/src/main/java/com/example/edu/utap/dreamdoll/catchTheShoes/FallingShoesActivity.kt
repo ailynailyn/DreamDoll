@@ -35,6 +35,8 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     private lateinit var grid : SGrid
     private lateinit var curShoe: Shoe
     private lateinit var nextShoe: Shoe
+    private lateinit var userID : String //FirebaseAuth.getInstance().currentUser!!.uid
+
 
     // Called when the activity is resumed.
     override fun onResume() {
@@ -81,6 +83,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         // If the menu frag is preseent, remove it.
         var menuFrag = supportFragmentManager.findFragmentByTag("fallingShoesMenuFrag")
         if(menuFrag != null) {
+            activatePlayButton(true)
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
@@ -117,15 +120,30 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
             }
     }
 
+    private fun setRules() {
+        var rulesTV = findViewById<LinearLayout>(R.id.fallingShoesRulesLayout)
+        rulesTV.visibility = View.VISIBLE
+        var scoreLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
+        scoreLayout.visibility = View.GONE
+    }
+
+    private fun activatePlayButton(shouldActivate: Boolean) {
+        var playButton = findViewById<Button>(R.id.fallingShoesPlayButton)
+        playButton.isClickable = shouldActivate
+    }
+
     private fun initButtons() {
         var menuButton = findViewById<Button>(R.id.shoesMenuButton)
         menuButton.setOnClickListener {
             Log.d("Menu clicked", "will open menu")
             var menuFrag = supportFragmentManager.findFragmentByTag("fallingShoesMenuFrag")
             if(menuFrag != null) {
+                // Activate play button.
+                activatePlayButton(true)
                 supportFragmentManager.popBackStack()
             } else {
-//                coroutineContext.
+                // Deactivate play button.
+                activatePlayButton(false)
                 supportFragmentManager.beginTransaction()
                     .add(R.id.menuContainer, FallingShoesMenuFrag(), "fallingShoesMenuFrag")
                     .addToBackStack(null)
@@ -139,8 +157,11 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.falling_shoes)
         displayOptionsMenu(true)
+        userID = FirebaseAuth.getInstance().currentUser!!.uid
+
         // INIT BUTTONS
         initButtons()
+        setRules()
 
         // Create the grid.
         grid = SGrid(cols, rows)
@@ -163,9 +184,9 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
     }
 
     // Updates the score tv.
-    private fun updateScoreTV() {
+    private fun updateScoreTV(score: Int) {
         var scoreTV = findViewById<TextView>(R.id.shoesScoreTV)
-        scoreTV.text = curScore.toString()
+        scoreTV.text = score.toString()//curScore.toString()
     }
 
     // Resets per-game stats.
@@ -183,11 +204,11 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         grid.clear()
         sgrid_view.refresh()
         curDropDelay = initDropDelay
-        updateScoreTV()
+        updateScoreTV(0)
         playing = false
     }
 
-    // Updates the hihg score tv and the database.
+    // Updates the high score tv and the database.
     private fun updateHighScore(curScore: Int) {
         curHighScore = curScore
         var hsTV = findViewById<TextView>(R.id.shoesHighScore)
@@ -226,17 +247,17 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         var resultsLayout = findViewById<LinearLayout>(R.id.fallingShoesResultsLayout)
         var resultScoreTV = findViewById<TextView>(R.id.fallingShoesResultScoreTV)
         var resultsCoinsTV = findViewById<TextView>(R.id.fallingShoesResultsCoinsTV)
-
-        resultScoreTV.text = curScore.toString()
-
+        var rulesTV = findViewById<LinearLayout>(R.id.fallingShoesRulesLayout)
         var coinsEarned = curScore  // Depends on how we want to award coins.
 
-        // Update total coins.
-        updateCoins(curCoins + coinsEarned)
-
+        resultScoreTV.text = curScore.toString()
+        rulesTV.visibility = View.GONE
         playFallingPlayLayout.visibility = View.VISIBLE
         resultsCoinsTV.text = coinsEarned.toString()
         resultsLayout.visibility = View.VISIBLE
+
+        // Update total coins.
+        updateCoins(curCoins + coinsEarned)
 
         if(curScore > curHighScore) {
             updateHighScore(curScore)
@@ -290,7 +311,7 @@ class FallingShoesActivity : BaseActivity(), CoroutineScope by MainScope()  {
         }
         // Update score.
         curScore += curLevel    // THIS ALL DEPENDS ON US. HOW WE WANT TO COUNT POINTS
-        updateScoreTV()
+        updateScoreTV(curScore)
     }
 
     // Called when the game is over.
