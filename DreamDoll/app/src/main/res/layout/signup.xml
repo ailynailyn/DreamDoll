@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/navy"
-    tools:context=".MainActivity"
+    tools:context=".StartUpActivity"
     android:orientation="vertical"
     >
 
@@ -143,6 +143,67 @@
             android:layout_weight="4"
             android:background="@color/navy"
             android:text="Invalid password."
+            android:textAllCaps="false"
+            android:textColor="@color/gold"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:theme="@style/MyEditText"
+            android:id="@+id/signup_usernameET"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@color/navy"
+            android:textAllCaps="true"
+            android:textColor="@color/gold"
+            android:hint="USERNAME"
+            android:textColorHint="@color/gold"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/signup_invalidUsernameTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@color/navy"
+            android:text="Invalid username."
             android:textAllCaps="false"
             android:textColor="@color/gold"
             android:textSize="12sp" />

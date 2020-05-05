@@ -3,8 +3,8 @@ package com.example.edu.utap.dreamdoll
 data class DollItem(val name: String, val imgID: Int)
 
 data class NewsfeedItem(val username: String,
-                        val profilePicID: Int?,
-                        val imageID: Int?,
+                        val profilePicID: String?,
+                        val imageID: String?,
                         val likes: Int,
                         val caption: String
                         )
@@ -73,6 +73,11 @@ class Repository {
             DollItem("black platforms", R.drawable.black_platforms),
             DollItem("pink bow platforms", R.drawable.pink_bow_platforms)
         )
+
+        private var sampleUserPics = listOf(
+            DollItem("", R.drawable.doll_face),
+            DollItem("", R.drawable.doll_face)
+        )
     }
 
     fun fetchEyeColors() : List<DollItem> {
@@ -117,5 +122,9 @@ class Repository {
 
     fun fetchEyeDemo() : List<DollItem> {
         return eyeDemoList
+    }
+
+    fun fetchUserPics() : List<DollItem> {
+        return sampleUserPics
     }
 }

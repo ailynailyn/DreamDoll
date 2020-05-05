@@ -19,7 +19,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.edu.utap.dreamdoll.startUp.StartupFrag
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -29,40 +28,34 @@ import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFaceFrag.kt & edit_features.xml
-class StartUpActivity : BaseActivity(),
-    SignupFrag.SignUpSuccessListener
-    {
+class EarnCoinsActivity : BaseActivity() {
 
-    private var startupFrag = StartupFrag()
-
-    private fun beginStartUpFrag() {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.container, startupFrag)
-            .commit()
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d("earn coins activity","onbackpressed")
+        finish()
     }
 
-    // Sign in. Do any necessary updates.
-    override fun signUpSuccessful(username: String) {
-        Log.d("MainActivity", "signInSuccessful")
-        val intent = Intent(this, NewsfeedActivity::class.java)
-        intent.putExtra("title", "sign up succesful . to newsffed")
-        intent.putExtra("username", username)
-        startActivity(intent)
+    private fun beginEarnCoinsFrag() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .add(R.id.container, earnCoinsFrag)
+            .commit()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        displayOptionsMenu(true)
 
         // Get extra information.
         var extras = intent.extras
         if(extras != null) {
             var title = intent.extras!!.getString("title")
-            Log.d("oncreate startup activity", "$title")
+            Log.d("oncreate earn coins", "$title")
         }
 
-        beginStartUpFrag()
+        beginEarnCoinsFrag()
 
     }
 

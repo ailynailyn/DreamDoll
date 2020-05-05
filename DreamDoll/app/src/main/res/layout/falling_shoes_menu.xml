@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:background="@drawable/custom0menu0box0dark"
+    tools:context=".FallingShoesActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+
+    <TextView
+        android:layout_margin="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Catch the\nfalling shoes"
+        android:textAllCaps="true"
+        android:gravity="center"
+        android:textColor="@color/gold"
+        android:textSize="23sp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/fallingShoesMenuButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:layout_margin="10dp"
+            android:id="@+id/fallingShoesHowToPlayButton"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:background="@drawable/custom0menu0box0light"
+            android:text="How to play"
+            android:textAllCaps="true"
+            android:textColor="@color/gold"
+            />
+
+        <Button
+            android:id="@+id/fallingShoesLeadershipBoardButton"
+            android:layout_margin="10dp"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:background="@drawable/custom0menu0box0light"
+            android:text="Leadership Board"
+            android:textAllCaps="true"
+            android:textColor="@color/gold"
+            />
+
+        <Button
+            android:id="@+id/fallingShoesQuitButton"
+            android:layout_margin="10dp"
+            android:layout_width="180dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:background="@drawable/custom0menu0box0light"
+            android:text="Quit"
+            android:textAllCaps="true"
+            android:textColor="@color/gold"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/howToPlayFallingShoesLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="How to play"
+            android:textAllCaps="true"
+            android:textColor="@color/white_blue"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:padding="15sp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Catch as many shoes as you can!\nYou will earn coins based on your score.\nNeed to finish this explanation."
+            android:textColor="@color/white_blue"
+            />
+
+        <Button
+            android:id="@+id/howToPlayFallingShoesBackButton"
+            android:layout_margin="20dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Back"
+            android:textAllCaps="true"
+            android:textColor="@color/gold"
+            android:background="@drawable/custom0menu0box0light"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/leadershipBoardFallingShoesLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Leadership board"
+            android:textAllCaps="true"
+            android:textColor="@color/white_blue"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/leadershipBoardRV"
+            android:layout_width="230dp"
+            android:layout_height="170dp"
+            />
+
+        <Button
+            android:id="@+id/leadershipButtonBackButton"
+            android:layout_margin="20dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Back"
+            android:textAllCaps="true"
+            android:textColor="@color/gold"
+            android:background="@drawable/custom0menu0box0light"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

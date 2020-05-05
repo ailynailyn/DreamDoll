@@ -1,7 +1,5 @@
 package com.example.edu.utap.dreamdoll
 
-import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
@@ -29,39 +27,55 @@ import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFaceFrag.kt & edit_features.xml
-class NewsfeedActivity : BaseActivity() {
+class SinglePostActivity : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Log.d("newfeed activity","onbackpressed")
-        finishAffinity()
+        Log.d("single post activity","onbackpressed")
         finish()
     }
 
-    var newsfeedFrag = NewsFeedFrag()
+    private fun setupPost(extras: Bundle) {
+        val profilePicIV = findViewById<ImageView>(R.id.singlePostProfilePic)
+        val usernameTV = findViewById<TextView>(R.id.singlePostUsername)
+        var postIV = findViewById<ImageView>(R.id.singlePostImage)
+        val likesTV = findViewById<TextView>(R.id.singlePostLikesTV)
+        val likeButton = findViewById<Button>(R.id.singlePostLikeButton)
+        val captionTV = findViewById<TextView>(R.id.singlePostCaption)
+        val profilePicID = extras.getString("profilePicID")
+        val username = extras.getString("username")
+        val postImage = extras.getString("imageID")
+        val likes = extras.getInt("likes")
+        val caption = extras.getString("caption")
 
-    private fun beginNewsfeedFrag() {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .add(R.id.container, newsfeedFrag)
-            .commit()
+        // Set profile pic.
+        //
+
+        usernameTV.text = username
+        // Set image pic.
+        //
+
+        val tmp = "$likes Likes"
+        likesTV.text = tmp
+        captionTV.text = caption
+
+        likeButton.setOnClickListener {
+            Log.d("SinglePostActivity", "backButtonPressed")
+        }
+
     }
 
-    @SuppressLint("WrongConstant")
+    // note to self: this might be more work than needed
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.profile_single_post)
         displayOptionsMenu(true)
-        setAppTitle("Newsfeed")
 
         // Get extra information.
         var extras = intent.extras
         if(extras != null) {
-            var title = intent.extras!!.getString("title")
-            Log.d("oncreate newsfeed", "$title")
+            setupPost(extras)
         }
-
-        beginNewsfeedFrag()
 
     }
 

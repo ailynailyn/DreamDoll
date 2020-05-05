@@ -1,30 +1,12 @@
 package com.example.edu.utap.dreamdoll
 
-import android.app.Activity
-import android.content.Context
-import android.graphics.Bitmap
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthActionCodeException
-import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login_signup.*
 
 class GVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -45,12 +27,12 @@ class GVAdapter()
         fun bindView(item: DollItem) {
             Log.d("GVAdapter", "bindView(item: DollItem)")
             imageView.setImageResource(item.imgID)
-            captionTV.setText(item.name)
+            captionTV.text = item.name
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.grid_item, parent, false))
+        return VH(LayoutInflater.from(parent.context).inflate(R.layout.features_grid_item, parent, false))
     }
 
     override fun getItemCount(): Int {

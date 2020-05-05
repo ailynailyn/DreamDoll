@@ -1,36 +1,19 @@
-package com.example.edu.utap.dreamdoll
+package com.example.edu.utap.dreamdoll.newfeed
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthActionCodeException
-import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login_signup.*
-import kotlin.coroutines.coroutineContext
+import com.example.edu.utap.dreamdoll.NewsfeedItem
+import com.example.edu.utap.dreamdoll.R
+import com.example.edu.utap.dreamdoll.UserProfileActivity
 
-class RVAdapter()
+class NewsfeedRVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listOfItems = listOf<NewsfeedItem>()

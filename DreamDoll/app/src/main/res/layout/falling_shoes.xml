@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/navy"
+    tools:context=".FallingShoesActivity"
+    >
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="@id/shoesScoreTV"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/shoesHighScore"
+        android:background="@color/navy"
+        >
+        <Button
+            android:layout_margin="3dp"
+            android:id="@+id/shoesMenuButton"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="Menu"
+            android:gravity="center"
+            android:textColor="@color/white_blue"
+            android:background="@drawable/custom0menu0box0light"
+            />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/shoesScoreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="16dp"
+        android:text="0"
+        android:textSize="60sp"
+        android:gravity="center"
+        android:textColor="@color/gold"
+        />
+
+    <TextView
+        android:id="@+id/shoesCoinsTV"
+        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/shoesScoreTV"
+        app:layout_constraintLeft_toRightOf="@+id/shoesScoreTV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/shoesHighScore"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="@color/white_blue"
+        android:text="Coins\n0"
+        />
+
+    <TextView
+        android:id="@+id/shoesHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/shoesScoreTV"
+        app:layout_constraintLeft_toLeftOf="@id/shoesScoreTV"
+        app:layout_constraintRight_toRightOf="@id/shoesScoreTV"
+        app:layout_constraintBottom_toTopOf="@+id/shoesGameLayout"
+        android:text="High Score: 0"
+        android:textAllCaps="true"
+        android:textColor="@color/white_blue"
+        />
+
+    <FrameLayout
+        android:id="@+id/shoesGameLayout"
+        android:layout_width="match_parent"
+        android:layout_marginVertical="25dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/shoesHighScore"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <com.example.edu.utap.dreamdoll.SGridView
+            android:id="@+id/sgrid_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            />
+
+    </FrameLayout>
+
+    <SeekBar
+        android:id="@+id/shoesGameSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/shoesGameLayout"
+        android:progressDrawable="@android:color/transparent"
+        android:background="@android:color/transparent"
+        android:thumb="@drawable/falling_shoes_bag"
+        android:progress="50"
+        />
+
+    <LinearLayout
+        android:id="@+id/playFallingPlayLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/shoesGameLayout"
+        app:layout_constraintLeft_toLeftOf="@id/shoesGameLayout"
+        app:layout_constraintRight_toRightOf="@id/shoesGameLayout"
+        app:layout_constraintBottom_toBottomOf="@id/shoesGameSeekBar"
+        android:background="@color/powder_blue"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom0menu0box0dark"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Catch the\nfalling shoes"
+                android:textAllCaps="true"
+                android:gravity="center"
+                android:textColor="@color/gold"
+                android:textSize="23sp"
+                android:layout_marginBottom="10dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/fallingShoesResultsLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="score"
+                    android:textSize="16sp"
+                    android:textColor="@color/white_blue"
+                    />
+                <TextView
+                    android:id="@+id/fallingShoesResultScoreTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="20sp"
+                    android:textColor="@color/gold"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white_blue"
+                    android:text="coins earned"
+                    android:textSize="16sp"
+                    />
+                <TextView
+                    android:id="@+id/fallingShoesResultsCoinsTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="0"
+                    android:textColor="@color/gold"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fallingShoesPlayButton"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:text="Play Now"
+                android:textAllCaps="true"
+                android:textColor="@color/white_blue"
+                android:background="@drawable/custom0menu0box0light"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/menuContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/shoesGameLayout"
+        app:layout_constraintLeft_toLeftOf="@id/shoesGameLayout"
+        app:layout_constraintRight_toRightOf="@id/shoesGameLayout"
+        app:layout_constraintBottom_toBottomOf="@id/shoesGameLayout"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

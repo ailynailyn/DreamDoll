@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/navy"
+    tools:context=".MainActivity"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Earn Coins"
+        android:textAllCaps="true"
+        android:textColor="@color/gold"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="30sp"
+        />
+
+
+    <Button
+        android:layout_weight="7"
+        android:layout_gravity="center"
+        android:id="@+id/fallingShoesGameButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:background="@drawable/custom0menu0box0light"
+        android:textColor="@color/gold"
+        android:text="Catch the\n Falling Shoes"
+        />
+
+
+    <Button
+        android:layout_weight="7"
+        android:layout_gravity="center"
+        android:id="@+id/purchaseCoinsButton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:textAllCaps="true"
+        android:textSize="20sp"
+        android:background="@drawable/custom0menu0box0dark"
+        android:textColor="@color/gold"
+        android:text="Purchase coins"
+        />
+
+
+</LinearLayout>
