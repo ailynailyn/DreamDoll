@@ -107,6 +107,15 @@
         >
 
         <ImageView
+            android:id="@+id/editFull_hat_back"
+            android:src="@drawable/hat_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/doll_base"
@@ -189,6 +198,14 @@
         <ImageView
             android:id="@+id/editFull_hat"
             android:src="@drawable/black_large_brim"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <ImageView
+            android:src="@drawable/hands_front"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
