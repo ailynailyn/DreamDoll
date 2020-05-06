@@ -10,7 +10,6 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.edu.utap.dreamdoll.editCharacter.FaceTransfer
 import kotlinx.android.synthetic.main.edit_features.*
 
 // EditFeaturesFrag.kt & edit_features.xml
