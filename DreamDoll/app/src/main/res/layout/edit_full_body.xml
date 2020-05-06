@@ -151,8 +151,44 @@
             />
 
         <ImageView
+            android:id="@+id/editFull_top"
+            android:src="@drawable/black_top"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <ImageView
             android:id="@+id/editFull_hair"
             android:src="@drawable/brown_center_full"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <ImageView
+            android:id="@+id/editFull_shoes"
+            android:src="@drawable/black_platforms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <ImageView
+            android:id="@+id/editFull_bottom"
+            android:src="@drawable/black_bell_pants"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            />
+
+        <ImageView
+            android:id="@+id/editFull_hat"
+            android:src="@drawable/black_large_brim"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
