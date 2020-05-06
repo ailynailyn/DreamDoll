@@ -1,6 +1,7 @@
 package com.example.edu.utap.dreamdoll
 
 import android.app.Activity
+import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -18,14 +19,20 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.utap.dreamdoll.catchTheShoes.LeadershipBoardRVAdapter
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.*
+import kotlinx.android.synthetic.main.falling_shoes_menu.*
 import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.android.synthetic.main.news_feed.*
 
 // NewsFeedFrag.kt & news_feed.xml
 class FallingShoesMenuFrag : Fragment() {
 
-    private lateinit var rvAdapter: RVAdapter
+    private val db = Firebase.firestore
+    private lateinit var rvAdapter: LeadershipBoardRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +67,27 @@ class FallingShoesMenuFrag : Fragment() {
     private fun leadershipBoardClicked() {
         setButtonsVisibility(View.GONE)
         setLeadershipBoardVisibility(View.VISIBLE)
+        db.collection("users")
+            .orderBy("fallingShoesHighScore", Query.Direction.DESCENDING)
+            .limit(5)
+            .get()
+            .addOnSuccessListener { docs ->
+                var list = mutableListOf<HighScoreItem>()
+                docs.forEach { doc ->
+                    var username = doc["username"].toString()
+                    var score = doc["fallingShoesHighScore"].toString()
+                    Log.d("Found $username", "hs: $score")
+                    if(score != "0") {
+                        var item = HighScoreItem(username, score)
+                        list.add(item)
+                    }
+                }
+                rvAdapter.setItemList(list)
+            }
+            .addOnFailureListener {
+                Log.d("FAILED", "Unable to get users high scores.")
+            }
+
     }
 
     private fun quitClicked() {
@@ -108,6 +136,9 @@ class FallingShoesMenuFrag : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initButtons()
+        rvAdapter = LeadershipBoardRVAdapter()
+        leadershipBoardRV.adapter = rvAdapter
+        leadershipBoardRV.layoutManager = LinearLayoutManager(this.context)
 
     }
 

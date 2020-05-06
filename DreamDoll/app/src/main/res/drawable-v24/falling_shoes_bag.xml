@@ -15,9 +15,9 @@
                 android:topRightRadius="5dp"/>
         </shape>
     </item>
-    <item android:drawable="@drawable/temporary_bag"
-        android:height="70dp"
-        android:width="80dp"
+    <item android:drawable="@drawable/shoppingbag"
+        android:height="100dp"
+        android:width="100dp"
         android:gravity="center"
         />
 
