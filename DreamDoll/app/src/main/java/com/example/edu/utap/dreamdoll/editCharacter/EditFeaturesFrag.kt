@@ -25,11 +25,12 @@ import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFeaturesFrag.kt & edit_features.xml
-class EditFeaturesFrag : Fragment() {
+class EditFeaturesFrag() : Fragment() {
     lateinit var hairDisplay: ImageView
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
-    private val rvAdapter = GVAdapter()
+    private lateinit var rvAdapter : GVAdapter
+//    private val rvAdapter = GVAdapter()
     private val repository = Repository()
     private val numCols = 3
     private var curCategoryIdx = 0
@@ -50,6 +51,11 @@ class EditFeaturesFrag : Fragment() {
 
     }
 
+    fun setHair(posIDToPass: Int) {
+        //hairDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_hair)
+        hairDisplay.setImageResource(posIDToPass)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -59,6 +65,7 @@ class EditFeaturesFrag : Fragment() {
         initSpinner()
         initButtons()
 
+        rvAdapter = GVAdapter(hairDisplay)
         // Set adapter.
         recyclerView.adapter = rvAdapter
 
@@ -150,7 +157,7 @@ class EditFeaturesFrag : Fragment() {
     }
 
     private fun initInvisibleFeatures() {
-        hairDisplay = view!!.findViewById(R.id.editFeatures_hair)
+        hairDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_hair)
     }
 
     // Initializes the grid recycler view of items.
