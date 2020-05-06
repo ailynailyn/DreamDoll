@@ -19,4 +19,5 @@
         <item>Bottoms</item>
         <item>Shoes</item>
     </string-array>
+    <string name="falling_shoes_rules">Slide your bag to catch as many shoes as you can!\nEarn your score in coins!</string>
 </resources>

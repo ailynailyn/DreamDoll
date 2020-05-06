@@ -115,6 +115,7 @@
         app:layout_constraintBottom_toBottomOf="@id/shoesGameSeekBar"
         android:background="@color/powder_blue"
         android:gravity="center"
+        android:padding="70dp"
         >
 
         <LinearLayout
@@ -136,6 +137,28 @@
                 android:textSize="23sp"
                 android:layout_marginBottom="10dp"
                 />
+
+            <LinearLayout
+                android:id="@+id/fallingShoesRulesLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:padding="15sp"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/falling_shoes_rules"
+                    android:textColor="@color/white_blue"
+                    />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/fallingShoesResultsLayout"

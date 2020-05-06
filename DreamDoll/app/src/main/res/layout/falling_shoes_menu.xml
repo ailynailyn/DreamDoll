@@ -93,7 +93,7 @@
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Catch as many shoes as you can!\nYou will earn coins based on your score.\nNeed to finish this explanation."
+            android:text="@string/falling_shoes_rules"
             android:textColor="@color/white_blue"
             />
 
