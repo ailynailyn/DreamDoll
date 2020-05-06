@@ -26,7 +26,14 @@ import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFeaturesFrag.kt & edit_features.xml
 class EditFeaturesFrag() : Fragment() {
-    lateinit var hairDisplay: ImageView
+
+    // feature variables
+    lateinit var hairDisplay : ImageView
+    lateinit var eyeDisplay : ImageView
+    lateinit var browDisplay : ImageView
+    lateinit var noseDisplay : ImageView
+    lateinit var lipDisplay : ImageView
+
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
     private lateinit var rvAdapter : GVAdapter
@@ -52,7 +59,6 @@ class EditFeaturesFrag() : Fragment() {
     }
 
     fun setHair(posIDToPass: Int) {
-        //hairDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_hair)
         hairDisplay.setImageResource(posIDToPass)
     }
 
@@ -65,7 +71,7 @@ class EditFeaturesFrag() : Fragment() {
         initSpinner()
         initButtons()
 
-        rvAdapter = GVAdapter(hairDisplay)
+        rvAdapter = GVAdapter(hairDisplay, eyeDisplay, browDisplay, noseDisplay, lipDisplay)
         // Set adapter.
         recyclerView.adapter = rvAdapter
 
@@ -158,6 +164,10 @@ class EditFeaturesFrag() : Fragment() {
 
     private fun initInvisibleFeatures() {
         hairDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_hair)
+        eyeDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_eyes)
+        browDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_brows)
+        noseDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_nose)
+        lipDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_lips)
     }
 
     // Initializes the grid recycler view of items.

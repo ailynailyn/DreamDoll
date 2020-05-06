@@ -9,14 +9,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class GVAdapter(hairDisplay: ImageView)
+class GVAdapter(hairDisplay: ImageView, eyeDisplay: ImageView, browDisplay: ImageView, noseDisplay: ImageView, lipDisplay: ImageView)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listOfItems = listOf<DollItem>()
-    private var hair  = hairDisplay
+    private var hair = hairDisplay
+    private var eyes = eyeDisplay
+    private var brows = browDisplay
+    private var nose = noseDisplay
+    private var lips = lipDisplay
 
-
-    inner class VH(itemView: View, hairDisplay: ImageView) : RecyclerView.ViewHolder(itemView) {
+    inner class VH(itemView: View, hairDisplay: ImageView, eyeDisplay: ImageView, browDisplay: ImageView, noseDisplay: ImageView, lipDisplay: ImageView) : RecyclerView.ViewHolder(itemView) {
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
         internal var captionTV = itemView.findViewById<TextView>(R.id.gridItem_caption)
 
@@ -24,22 +27,35 @@ class GVAdapter(hairDisplay: ImageView)
             itemView.setOnClickListener {
                 Log.d("GVAdapter", "item clicked ${captionTV.text}")
                 var posIDToPass = listOfItems[adapterPosition].imgID
-//                val frag = EditFeaturesFrag()
-//                frag.setHair(posIDToPass)
+                var text = captionTV.text.toString()
 
-                hairDisplay.setImageResource(posIDToPass)
+                if(text.contains("hair")) {
+                    hairDisplay.setImageResource(posIDToPass)
+                } else if(text.contains("eye")){
+                    eyeDisplay.setImageResource(posIDToPass)
+                } else if(text.contains("brows")){
+                    browDisplay.setImageResource(posIDToPass)
+                } else if(text.contains("nose")){
+                    noseDisplay.setImageResource(posIDToPass)
+                } else {
+                    lipDisplay.setImageResource(posIDToPass)
+                }
             }
         }
 
         fun bindView(item: DollItem) {
             Log.d("GVAdapter", "bindView(item: DollItem)")
-            imageView.setImageResource(item.imgID)
+            if(item.previewID != null) {
+                imageView.setImageResource(item.previewID)
+            } else {
+                imageView.setImageResource(item.imgID)
+            }
             captionTV.text = item.name
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.features_grid_item, parent, false), hair)
+        return VH(LayoutInflater.from(parent.context).inflate(R.layout.features_grid_item, parent, false), hair, eyes, brows, nose, lips)
     }
 
     override fun getItemCount(): Int {
