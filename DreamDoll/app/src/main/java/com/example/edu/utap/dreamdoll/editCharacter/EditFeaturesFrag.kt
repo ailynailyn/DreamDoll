@@ -145,7 +145,8 @@ class EditFeaturesFrag() : Fragment() {
                     }
                     "Tops" -> {
                         Log.d("xxx", "tops pressed")
-                       goToFullBody()
+                        rvAdapter.setItemList(repository.fetchTops())
+                        goToFullBody()
                     }
                     "Bottoms" -> {
                         Log.d("xxx", "bottoms pressed")

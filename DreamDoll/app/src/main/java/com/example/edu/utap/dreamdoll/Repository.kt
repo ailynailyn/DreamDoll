@@ -13,7 +13,7 @@ open class ImageTransferItem(val image: ImageView, var transferID: Int) {
     }
 }
 
-data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int?)
+data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backImage: Int?)
 
 data class NewsfeedItem(val username: String,
                         val profilePicID: String?,
@@ -45,53 +45,53 @@ class Repository {
 //        )
 
         private var hairDemoList = listOf(
-            DollItem("pink bangs hair", R.drawable.pink_bangs, R.drawable.pink_bang_demo, R.drawable.pink_bang_full),
-            DollItem("brown center part hair", R.drawable.brown_center, R.drawable.center_brown_demo, R.drawable.brown_center_full)
+            DollItem("pink bangs hair", R.drawable.pink_bangs, R.drawable.pink_bang_demo, R.drawable.pink_bang_full, null),
+            DollItem("brown center part hair", R.drawable.brown_center, R.drawable.center_brown_demo, R.drawable.brown_center_full, null)
         )
 
         private var eyeDemoList = listOf(
-            DollItem("green oval eyes", R.drawable.oval_eyes, R.drawable.oval_eyes_demo, R.drawable.oval_eyes_full),
-            DollItem("blue round eyes", R.drawable.round_eyes, R.drawable.round_eyes_demo, R.drawable.round_eyes_full)
+            DollItem("green oval eyes", R.drawable.oval_eyes, R.drawable.oval_eyes_demo, R.drawable.oval_eyes_full, null),
+            DollItem("blue round eyes", R.drawable.round_eyes, R.drawable.round_eyes_demo, R.drawable.round_eyes_full, null)
         )
 
         private var lipsList = listOf(
-            DollItem("oval lips", R.drawable.lips_oval, null, R.drawable.oval_lips_full),
-            DollItem("round lips", R.drawable.lips_round, null, R.drawable.round_lips_full)
+            DollItem("oval lips", R.drawable.lips_oval, null, R.drawable.oval_lips_full, null),
+            DollItem("round lips", R.drawable.lips_round, null, R.drawable.round_lips_full, null)
         )
 
         private var browsList = listOf(
-            DollItem("round brows", R.drawable.round_brows, null, R.drawable.round_brows_full),
-            DollItem("angled brows", R.drawable.angled_brows, null, R.drawable.angled_brows_full)
+            DollItem("round brows", R.drawable.round_brows, null, R.drawable.round_brows_full, null),
+            DollItem("angled brows", R.drawable.angled_brows, null, R.drawable.angled_brows_full, null)
         )
 
         private var noseList = listOf(
-            DollItem("long nose", R.drawable.long_nose, null, R.drawable.long_nose_full),
-            DollItem("button nose", R.drawable.button_nose, null, R.drawable.button_nose_full)
+            DollItem("long nose", R.drawable.long_nose, null, R.drawable.long_nose_full, null),
+            DollItem("button nose", R.drawable.button_nose, null, R.drawable.button_nose_full, null)
         )
 
         private var hatList = listOf(
-            DollItem("pink beret", R.drawable.pink_beret, null, null),
-            DollItem("black large brim", R.drawable.black_large_brim, null, null)
+            DollItem("black large brim", R.drawable.black_large_brim, null, R.drawable.black_large_brim, R.drawable.hat_back),
+            DollItem("pink beret", R.drawable.pink_beret, null, R.drawable.pink_beret, null)
         )
 
         private var bottomsList = listOf(
-            DollItem("bell bottoms", R.drawable.black_bell_pants, null, null),
-            DollItem("pink ruffle skirt", R.drawable.pink_ruffle_skirt, null, null)
+            DollItem("bell bottoms", R.drawable.black_bell_pants, null, R.drawable.black_bell_pants, null),
+            DollItem("pink ruffle skirt", R.drawable.pink_ruffle_skirt, null, R.drawable.pink_ruffle_skirt, null)
         )
 
         private var topsList = listOf(
-            DollItem("wrap top", R.drawable.black_wrap_top, null, null),
-            DollItem("pink ruffle top", R.drawable.pink_lace_top, null, null)
+            DollItem("wrap top", R.drawable.black_wrap_top, null, R.drawable.black_wrap_top, null),
+            DollItem("pink ruffle top", R.drawable.pink_lace_top, null, R.drawable.pink_lace_top, null)
         )
 
         private var shoesList = listOf(
-            DollItem("black platforms", R.drawable.black_platforms, null, null),
-            DollItem("pink bow platforms", R.drawable.pink_bow_platforms, null, null)
+            DollItem("black platforms", R.drawable.black_platforms, null, R.drawable.black_platforms, null),
+            DollItem("pink bow platforms", R.drawable.pink_bow_platforms, null, R.drawable.pink_bow_platforms, null)
         )
 
         private var sampleUserPics = listOf(
-            DollItem("", R.drawable.doll_face, null, null),
-            DollItem("", R.drawable.doll_face, null, null)
+            DollItem("", R.drawable.doll_face, null, R.drawable.doll_face, null),
+            DollItem("", R.drawable.doll_face, null, R.drawable.doll_face, null)
         )
     }
 

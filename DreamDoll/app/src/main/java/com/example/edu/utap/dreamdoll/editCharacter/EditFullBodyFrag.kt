@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
@@ -40,11 +41,30 @@ class EditFullBodyFrag : Fragment() {
     var noseInt = 0
     var lipInt = 0
 
-    // clothing variables
-//    lateinit var hatDisplay : ImageView
-//    lateinit var topDisplay : ImageView
-//    lateinit var pantDisplay : ImageView
-//    lateinit var shoeDisplay : ImageView
+    // clothing views
+    lateinit var hatDisplay : ImageView
+    lateinit var hatDisplayBack: ImageView
+    lateinit var topDisplay : ImageView
+    lateinit var bottomDisplay : ImageView
+    lateinit var shoeDisplay : ImageView
+
+    // clothing lists
+    lateinit var hats : List<DollItem>
+    lateinit var tops : List<DollItem>
+    lateinit var bottoms : List<DollItem>
+    lateinit var shoes : List<DollItem>
+
+    // prev buttons
+    lateinit var prevHat : Button
+    lateinit var prevTop : Button
+    lateinit var prevBottoms : Button
+    lateinit var prevShoes : Button
+
+    // next buttons
+    lateinit var nextHat : Button
+    lateinit var nextTop : Button
+    lateinit var nextBottoms : Button
+    lateinit var nextShoes : Button
 
     private var mAuth = FirebaseAuth.getInstance();
     private val repository = Repository()
@@ -89,6 +109,9 @@ class EditFullBodyFrag : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initFace()
+        initClothingViews()
+        initClothingLists()
+        initButtons()
         reset()
     }
 
@@ -113,6 +136,129 @@ class EditFullBodyFrag : Fragment() {
 
         lipDisplay = view!!.findViewById<ImageView>(R.id.editFull_lips)
         lipDisplay.setImageResource(lipInt)
+    }
+
+    private fun initClothingViews() {
+        hatDisplay = view!!.findViewById<ImageView>(R.id.editFull_hat)
+        hatDisplayBack = view!!.findViewById<ImageView>(R.id.editFull_hat_back)
+        topDisplay = view!!.findViewById<ImageView>(R.id.editFull_top)
+        bottomDisplay = view!!.findViewById<ImageView>(R.id.editFull_bottom)
+        shoeDisplay = view!!.findViewById<ImageView>(R.id.editFull_shoes)
+    }
+
+    private fun initClothingLists() {
+        hats = repository.fetchHats()
+        tops = repository.fetchTops()
+        bottoms = repository.fetchBottoms()
+        shoes = repository.fetchShoes()
+    }
+
+    private fun initButtons() {
+        prevHat = view!!.findViewById<Button>(R.id.editFull_headPrev)
+        prevTop = view!!.findViewById<Button>(R.id.editFull_topsPrev)
+        prevBottoms = view!!.findViewById<Button>(R.id.editFull_bottomsPrev)
+        prevShoes = view!!.findViewById<Button>(R.id.editFull_shoesPrev)
+
+        nextHat = view!!.findViewById<Button>(R.id.editFull_headNext)
+        nextTop = view!!.findViewById<Button>(R.id.editFull_topsNext)
+        nextBottoms = view!!.findViewById<Button>(R.id.editFull_bottomsNext)
+        nextShoes = view!!.findViewById<Button>(R.id.editFull_shoesNext)
+
+        // hat buttons
+        prevHat.setOnClickListener {
+            if(hatIdx <= 0) {
+                hatIdx = hats.size-1
+            } else {
+                hatIdx-=1
+            }
+            var hat = hats[hatIdx]
+            hatDisplay.setImageResource(hat.fullBodyID)
+            if(hat.backImage != null) {
+                hatDisplayBack.visibility = View.VISIBLE
+                hatDisplayBack.setImageResource(hat.backImage!!)
+            } else {
+                hatDisplayBack.visibility = View.GONE
+            }
+        }
+
+        nextHat.setOnClickListener {
+            if(hatIdx >= hats.size-1) {
+                hatIdx = 0
+            } else {
+                hatIdx+=1
+            }
+            var hat = hats[hatIdx]
+            hatDisplay.setImageResource(hat.fullBodyID)
+            if(hat.backImage != null) {
+                hatDisplayBack.visibility = View.VISIBLE
+                hatDisplayBack.setImageResource(hat.backImage!!)
+            } else {
+                hatDisplayBack.visibility = View.GONE
+            }
+        }
+
+        // top buttons
+        prevTop.setOnClickListener {
+            if(topIdx <= 0) {
+                topIdx = tops.size-1
+            } else {
+                topIdx-=1
+            }
+            var top = tops[topIdx]
+            topDisplay.setImageResource(top.fullBodyID)
+        }
+
+        nextTop.setOnClickListener {
+            if(topIdx >= tops.size-1) {
+                topIdx = 0
+            } else {
+                topIdx+=1
+            }
+            var top = tops[topIdx]
+            topDisplay.setImageResource(top.fullBodyID)
+        }
+
+        // bottom buttons
+        prevBottoms.setOnClickListener {
+            if(bottomIdx <= 0) {
+                bottomIdx = bottoms.size-1
+            } else {
+                bottomIdx-=1
+            }
+            var bottom = bottoms[bottomIdx]
+            bottomDisplay.setImageResource(bottom.fullBodyID)
+        }
+
+        nextBottoms.setOnClickListener {
+            if(bottomIdx >= bottoms.size-1) {
+                bottomIdx = 0
+            } else {
+                bottomIdx+=1
+            }
+            var bottom = bottoms[bottomIdx]
+            bottomDisplay.setImageResource(bottom.fullBodyID)
+        }
+
+        // shoe buttons
+        prevShoes.setOnClickListener {
+            if(shoeIdx <= 0) {
+                shoeIdx = shoes.size-1
+            } else {
+                shoeIdx-=1
+            }
+            var shoe = shoes[shoeIdx]
+            shoeDisplay.setImageResource(shoe.fullBodyID)
+        }
+
+        nextShoes.setOnClickListener {
+            if(shoeIdx >= shoes.size-1) {
+                shoeIdx = 0
+            } else {
+                shoeIdx+=1
+            }
+            var shoe = shoes[shoeIdx]
+            shoeDisplay.setImageResource(shoe.fullBodyID)
+        }
     }
 
 }

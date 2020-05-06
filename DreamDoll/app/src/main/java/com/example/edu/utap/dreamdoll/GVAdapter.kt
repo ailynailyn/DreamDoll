@@ -23,18 +23,12 @@ class GVAdapter(hairDisplay: ImageTransferItem, eyeDisplay: ImageTransferItem, b
     inner class VH(itemView: View, hairDisplay: ImageTransferItem, eyeDisplay: ImageTransferItem, browDisplay: ImageTransferItem, noseDisplay: ImageTransferItem, lipDisplay: ImageTransferItem) : RecyclerView.ViewHolder(itemView) {
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
         internal var captionTV = itemView.findViewById<TextView>(R.id.gridItem_caption)
-        internal var fullBody = 0
 
         init {
             itemView.setOnClickListener {
                 Log.d("GVAdapter", "item clicked ${captionTV.text}")
                 var displayID = listOfItems[adapterPosition].imgID
-                var fullBodyID = displayID
-                var fullDisplayId = listOfItems[adapterPosition].fullBodyID
-
-                if(fullDisplayId != null) {
-                    fullBodyID = fullDisplayId
-                }
+                var fullBodyID = listOfItems[adapterPosition].fullBodyID
 
                 var text = captionTV.text.toString()
 
