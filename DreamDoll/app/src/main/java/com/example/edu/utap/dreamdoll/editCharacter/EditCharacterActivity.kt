@@ -1,30 +1,7 @@
 package com.example.edu.utap.dreamdoll
 
-import android.app.Activity
-import android.content.Context
-import android.graphics.Bitmap
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.*
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthActionCodeException
-import kotlinx.android.synthetic.main.edit_features.*
-import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFaceFrag.kt & edit_features.xml
 class EditCharacterActivity : BaseActivity() {
@@ -45,9 +22,21 @@ class EditCharacterActivity : BaseActivity() {
             .commit()
     }
 
-    fun beginFullBodyFrag() {
+    fun beginFullBodyFrag(hair: Int, eyes: Int, brows: Int, nose: Int, lips: Int) {
         Log.d("xx", "beginFullBodyFrag was called!!")
-        supportFragmentManager.beginTransaction()
+
+        // add features
+        val bundle = Bundle()
+        bundle.putInt("hair", hair)
+        bundle.putInt("eyes", eyes)
+        bundle.putInt("brows", brows)
+        bundle.putInt("nose", nose)
+        bundle.putInt("lips", lips)
+
+        val transaction = supportFragmentManager.beginTransaction()
+        editFullBody_frag.arguments = bundle
+
+        transaction
             .addToBackStack(null)
             .add(R.id.container, editFullBody_frag)
             .commit()

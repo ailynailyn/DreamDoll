@@ -1,28 +1,17 @@
 package com.example.edu.utap.dreamdoll
 
-import android.app.Activity
 import android.content.Context
-import android.graphics.Bitmap
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthActionCodeException
+import com.example.edu.utap.dreamdoll.editCharacter.FaceTransfer
 import kotlinx.android.synthetic.main.edit_features.*
-import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login_signup.*
 
 // EditFeaturesFrag.kt & edit_features.xml
 class EditFeaturesFrag() : Fragment() {
@@ -34,10 +23,17 @@ class EditFeaturesFrag() : Fragment() {
     lateinit var noseDisplay : ImageView
     lateinit var lipDisplay : ImageView
 
+    // transfer feature variables
+    lateinit var hairTransfer : ImageTransferItem
+    lateinit var eyeTransfer : ImageTransferItem
+    lateinit var browTransfer : ImageTransferItem
+    lateinit var noseTransfer : ImageTransferItem
+    lateinit var lipTransfer : ImageTransferItem
+
+
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
     private lateinit var rvAdapter : GVAdapter
-//    private val rvAdapter = GVAdapter()
     private val repository = Repository()
     private val numCols = 3
     private var curCategoryIdx = 0
@@ -52,14 +48,14 @@ class EditFeaturesFrag() : Fragment() {
     }
 
     fun goToFullBody() {
-
+        Log.d("XXX", "goToFullBody was called!!")
         var editActivity : EditCharacterActivity = activity as EditCharacterActivity
-        editActivity.beginFullBodyFrag()
 
-    }
+        var hairToPass = hairTransfer.getID()
+        Log.d("XXY", "$hairToPass")
+        Log.d("XXX", "got past the featureList!!")
+        editActivity.beginFullBodyFrag(hairTransfer.getID(), eyeTransfer.getID(), browTransfer.getID(), noseTransfer.getID(), lipTransfer.getID())
 
-    fun setHair(posIDToPass: Int) {
-        hairDisplay.setImageResource(posIDToPass)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,12 +67,19 @@ class EditFeaturesFrag() : Fragment() {
         initSpinner()
         initButtons()
 
-        rvAdapter = GVAdapter(hairDisplay, eyeDisplay, browDisplay, noseDisplay, lipDisplay)
+        hairTransfer = ImageTransferItem(hairDisplay, 0)
+        eyeTransfer = ImageTransferItem(eyeDisplay, 0)
+        browTransfer = ImageTransferItem(browDisplay, 0)
+        noseTransfer = ImageTransferItem(noseDisplay, 0)
+        lipTransfer = ImageTransferItem(lipDisplay, 0)
+
+        rvAdapter = GVAdapter(hairTransfer, eyeTransfer, browTransfer, noseTransfer, lipTransfer)
+
         // Set adapter.
         recyclerView.adapter = rvAdapter
 
         // Init with eyes
-        rvAdapter.setItemList(repository.fetchEyeColors())
+        rvAdapter.setItemList(repository.fetchEyeDemo())
     }
 
     /// makes sure interfaces are implemented
@@ -138,7 +141,7 @@ class EditFeaturesFrag() : Fragment() {
                     "Hats" -> {
                         Log.d("xxx", "hats pressed")
                         rvAdapter.setItemList(repository.fetchHats())
-                        Log.d("xx", "hates. going to listen full body frag")
+                        Log.d("xx", "hats. going to listen full body frag")
                         goToFullBody()
                     }
                     "Tops" -> {

@@ -9,36 +9,50 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class GVAdapter(hairDisplay: ImageView, eyeDisplay: ImageView, browDisplay: ImageView, noseDisplay: ImageView, lipDisplay: ImageView)
+class GVAdapter(hairDisplay: ImageTransferItem, eyeDisplay: ImageTransferItem, browDisplay: ImageTransferItem, noseDisplay: ImageTransferItem, lipDisplay: ImageTransferItem)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listOfItems = listOf<DollItem>()
+
     private var hair = hairDisplay
     private var eyes = eyeDisplay
     private var brows = browDisplay
     private var nose = noseDisplay
     private var lips = lipDisplay
 
-    inner class VH(itemView: View, hairDisplay: ImageView, eyeDisplay: ImageView, browDisplay: ImageView, noseDisplay: ImageView, lipDisplay: ImageView) : RecyclerView.ViewHolder(itemView) {
+    inner class VH(itemView: View, hairDisplay: ImageTransferItem, eyeDisplay: ImageTransferItem, browDisplay: ImageTransferItem, noseDisplay: ImageTransferItem, lipDisplay: ImageTransferItem) : RecyclerView.ViewHolder(itemView) {
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
         internal var captionTV = itemView.findViewById<TextView>(R.id.gridItem_caption)
+        internal var fullBody = 0
 
         init {
             itemView.setOnClickListener {
                 Log.d("GVAdapter", "item clicked ${captionTV.text}")
-                var posIDToPass = listOfItems[adapterPosition].imgID
+                var displayID = listOfItems[adapterPosition].imgID
+                var fullBodyID = displayID
+                var fullDisplayId = listOfItems[adapterPosition].fullBodyID
+
+                if(fullDisplayId != null) {
+                    fullBodyID = fullDisplayId
+                }
+
                 var text = captionTV.text.toString()
 
                 if(text.contains("hair")) {
-                    hairDisplay.setImageResource(posIDToPass)
+                    hairDisplay.image.setImageResource(displayID)
+                    hairDisplay.setID(fullBodyID)
                 } else if(text.contains("eye")){
-                    eyeDisplay.setImageResource(posIDToPass)
+                    eyeDisplay.image.setImageResource(displayID)
+                    eyeDisplay.setID(fullBodyID)
                 } else if(text.contains("brows")){
-                    browDisplay.setImageResource(posIDToPass)
+                    browDisplay.image.setImageResource(displayID)
+                    browDisplay.setID(fullBodyID)
                 } else if(text.contains("nose")){
-                    noseDisplay.setImageResource(posIDToPass)
+                    noseDisplay.image.setImageResource(displayID)
+                    noseDisplay.setID(fullBodyID)
                 } else {
-                    lipDisplay.setImageResource(posIDToPass)
+                    lipDisplay.image.setImageResource(displayID)
+                    lipDisplay.setID(fullBodyID)
                 }
             }
         }
