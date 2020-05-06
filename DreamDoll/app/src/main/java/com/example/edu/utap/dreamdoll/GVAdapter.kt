@@ -14,13 +14,15 @@ class GVAdapter()
     private var listOfItems = listOf<DollItem>()
 
     inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         internal var imageView = itemView.findViewById<ImageView>(R.id.gridItem_image)
         internal var captionTV = itemView.findViewById<TextView>(R.id.gridItem_caption)
 
         init {
             itemView.setOnClickListener {
                 Log.d("GVAdapter", "item clicked ${captionTV.text}")
+                var posIDToPass = listOfItems[adapterPosition].imgID
+                val frag = EditFeaturesFrag()
+                frag.hairDisplay.setImageResource(posIDToPass)
             }
         }
 

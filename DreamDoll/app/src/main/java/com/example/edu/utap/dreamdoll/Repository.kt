@@ -32,8 +32,8 @@ class Repository {
         )
 
         private var hairDemoList = listOf(
-            DollItem("pink bangs", R.drawable.pink_bang_demo),
-            DollItem("brown center part", R.drawable.center_brown_demo)
+            DollItem("pink bangs hair", R.drawable.pink_bang_demo),
+            DollItem("brown center part hair", R.drawable.center_brown_demo)
         )
 
         private var eyeDemoList = listOf(
