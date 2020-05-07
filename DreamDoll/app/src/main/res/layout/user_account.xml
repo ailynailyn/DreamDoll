@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/powder_blue"
+    tools:context=".MainActivity"
+    >
+
+    <ImageView
+        android:id="@+id/userProfile_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/doll_face"
+        android:contentDescription="User profile picture"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/userProfileRV"
+        />
+
+    <TextView
+        android:id="@+id/userProfile_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/userProfile_image"
+        app:layout_constraintTop_toTopOf="@+id/userProfile_image"
+        android:text="username"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        />
+
+    <TextView
+        android:id="@+id/userProfile_bio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/userProfile_username"
+        app:layout_constraintLeft_toRightOf="@+id/userProfile_image"
+        android:text="Shoe lover"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textAllCaps="true"
+        />
+
+    <TextView
+        android:id="@+id/userProfile_infoCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/userProfile_bio"
+        app:layout_constraintLeft_toRightOf="@+id/userProfile_image"
+        android:text="5 Collections level?"
+        android:textSize="14sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/postLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@+id/userProfile_image"
+        app:layout_constraintTop_toBottomOf="@+id/userProfile_infoCaption"
+        app:layout_constraintBottom_toBottomOf="@+id/userProfile_image"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/userProfile_postsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="POSTS"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/highScoreLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@+id/postLayout"
+        app:layout_constraintTop_toTopOf="@+id/postLayout"
+        app:layout_constraintBottom_toBottomOf="@id/postLayout"
+        android:layout_marginStart="16dp"
+        >
+
+        <TextView
+            android:id="@+id/userProfile_highScoreTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="HIGH SCORE"
+            android:textSize="12sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/coinsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintLeft_toRightOf="@+id/highScoreLayout"
+        app:layout_constraintTop_toTopOf="@+id/postLayout"
+        app:layout_constraintBottom_toBottomOf="@id/postLayout"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:id="@+id/userProfile_coinsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="COINS"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userProfileRV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/menu_blue"
+        app:layout_constraintTop_toBottomOf="@+id/userProfile_image"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </androidx.recyclerview.widget.RecyclerView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

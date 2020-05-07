@@ -44,12 +44,13 @@ class NewsFeedFrag : Fragment() {
                     var curPost = it.data
                     var userID = curPost["userID"].toString()
                     var username = curPost["username"].toString()
+                    var profilePicID = curPost["profilePicID"].toString()
                     var imageID = curPost["pictureID"].toString()       // Need to set correctly.
                     Log.d("got the posts. here is the picture id", " this $imageID")
                     var likes = curPost["likes"].toString()
                     var caption = curPost["caption"].toString()
                     // Generate newsfeeditem for each post.
-                    var item = NewsfeedItem(username,null, imageID, likes.toInt(), caption, postID, userID)
+                    var item = NewsfeedItem(username,profilePicID, imageID, likes.toInt(), caption, postID, userID)
                     list.add(item)
                 }
                 // Submit to adapter.
