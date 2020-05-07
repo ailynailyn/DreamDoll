@@ -172,7 +172,7 @@ class SaveFrag: Fragment() {
         initCurSavedFaceLook()
         initGrid()
 
-        rvAdapter = SVAdapter(curSavedLook)
+        rvAdapter = SVAdapter(curSavedLook, savedList)
 
         // Set adapter.
         recyclerView.adapter = rvAdapter
