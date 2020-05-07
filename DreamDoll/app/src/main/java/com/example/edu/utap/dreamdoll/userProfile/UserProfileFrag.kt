@@ -57,7 +57,7 @@ class UserProfileFrag(username : String) : Fragment() {
                     Log.d("curPost", curPost.toString())
                     val username: String = curUsername
                     val profilePicID: String? = null
-                    val imageID: String? = curPost["pictureUUID"].toString()
+                    val imageID: String? = curPost["pictureID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
                     val caption: String = curPost["caption"].toString()
                     var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid)

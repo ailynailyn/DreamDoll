@@ -1,6 +1,7 @@
 package com.example.edu.utap.dreamdoll.newfeed
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.edu.utap.dreamdoll.NewsfeedItem
 import com.example.edu.utap.dreamdoll.R
 import com.example.edu.utap.dreamdoll.UserProfileActivity
@@ -16,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class NewsfeedRVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -163,6 +166,23 @@ class NewsfeedRVAdapter()
             username = item.username
             usernameTV.text = username
 //            image.setImageResource(item.imageID)
+
+            // Set the image.
+            // Reference to an image file in Cloud Storage
+            Log.d("bidning for imageid: ", "" + item.imageID)
+            if(item.imageID != null && item.imageID != "xxx") {
+                Log.d("imageID: ", item.imageID)
+                val mStorageRef = FirebaseStorage.getInstance().getReference()
+                val childImage = mStorageRef.child(item.imageID!!)
+                childImage.getBytes(1024*1024)
+                    .addOnSuccessListener { bytes ->
+                        var imageBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        image.setImageBitmap(imageBmp)
+                    }
+
+            }
+
+
 //            likesTV.text = "${item.likes} Likes"
             updateLikesTV(item.likes)
             caption.text = item.caption
