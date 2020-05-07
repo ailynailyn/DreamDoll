@@ -53,13 +53,14 @@ class UserProfileFrag(username : String) : Fragment() {
             .addOnSuccessListener { posts ->
                 posts.forEach {
                     var curPost = it.data
+                    var postID = it.id
                     Log.d("curPost", curPost.toString())
                     val username: String = curUsername
                     val profilePicID: String? = null
                     val imageID: String? = curPost["pictureUUID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
                     val caption: String = curPost["caption"].toString()
-                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption)
+                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid)
                     postsList.add(item)
                 }
                 Log.d("postList inside listener: ", postsList.toString())

@@ -111,12 +111,14 @@ class SignupFrag : Fragment() {
                     Log.d("XXX", "signUPWithEmail:success");
                     var uuid = mAuth.currentUser!!.uid
                     // Create user storage.
+                    var emptyArray = listOf<String>()
                     val userData = hashMapOf(
                         "coins" to "0",
                         "fallingShoesHighScore" to "0",
                         "email" to "$email",
                         "userID" to uuid,
-                        "username" to username
+                        "username" to username,
+                        "likes" to emptyArray
                     )
                     db.collection("users")
                         .document(uuid)

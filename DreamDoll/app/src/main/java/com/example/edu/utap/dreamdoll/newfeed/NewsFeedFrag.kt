@@ -48,7 +48,7 @@ class NewsFeedFrag : Fragment() {
                     var likes = curPost["likes"].toString()
                     var caption = curPost["caption"].toString()
                     // Generate newsfeeditem for each post.
-                    var item = NewsfeedItem(username,null, null, likes.toInt(), caption)
+                    var item = NewsfeedItem(username,null, null, likes.toInt(), caption, postID, userID)
                     list.add(item)
                 }
                 // Submit to adapter.
