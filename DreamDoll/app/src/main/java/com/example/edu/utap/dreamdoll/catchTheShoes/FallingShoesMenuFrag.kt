@@ -68,8 +68,9 @@ class FallingShoesMenuFrag : Fragment() {
         setButtonsVisibility(View.GONE)
         setLeadershipBoardVisibility(View.VISIBLE)
         db.collection("users")
+            .whereGreaterThan("fallingShoesHighScore", 0)
             .orderBy("fallingShoesHighScore", Query.Direction.DESCENDING)
-            .limit(5)
+            .limit(6)
             .get()
             .addOnSuccessListener { docs ->
                 var list = mutableListOf<HighScoreItem>()
