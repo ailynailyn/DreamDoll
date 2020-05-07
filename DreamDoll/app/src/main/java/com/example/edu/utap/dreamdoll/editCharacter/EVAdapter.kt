@@ -47,11 +47,20 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
 
                 // switch fragments so they can edit
                 var context = parent.context
-                var editActivity : EditCharacterActivity = context as EditCharacterActivity
                 var face = newSavedLook.face
-                editActivity.beginFeaturesFrag(newSavedLook.hairFull, face.hairFeature, newSavedLook.eyesFull, face.eyesFeature, newSavedLook.browsFull,
-                    face.browsFeature, newSavedLook.noseFull, face.noseFeature, newSavedLook.lipsFull, face.lipsFeature, newSavedLook.hatFull, face.hatFeature,
-                    newSavedLook.hatBackFull, face.hatFeatureBack, newSavedLook.topFull, face.topFeature, newSavedLook.bottomsFull, newSavedLook.shoesFull)
+
+                if(context is EditCharacterActivity) {
+                    var editActivity : EditCharacterActivity = context as EditCharacterActivity
+                    editActivity.beginFeaturesFrag(newSavedLook.hairFull, face.hairFeature, newSavedLook.eyesFull, face.eyesFeature, newSavedLook.browsFull,
+                        face.browsFeature, newSavedLook.noseFull, face.noseFeature, newSavedLook.lipsFull, face.lipsFeature, newSavedLook.hatFull, face.hatFeature,
+                        newSavedLook.hatBackFull, face.hatFeatureBack, newSavedLook.topFull, face.topFeature, newSavedLook.bottomsFull, newSavedLook.shoesFull)
+                } else {
+                    var shopActivity : BuyItemsActivity = context as BuyItemsActivity
+                    shopActivity.beginFeaturesFrag(newSavedLook.hairFull, face.hairFeature, newSavedLook.eyesFull, face.eyesFeature, newSavedLook.browsFull,
+                        face.browsFeature, newSavedLook.noseFull, face.noseFeature, newSavedLook.lipsFull, face.lipsFeature, newSavedLook.hatFull, face.hatFeature,
+                        newSavedLook.hatBackFull, face.hatFeatureBack, newSavedLook.topFull, face.topFeature, newSavedLook.bottomsFull, newSavedLook.shoesFull)
+                }
+
             }
 
             captionTV.onChange {
