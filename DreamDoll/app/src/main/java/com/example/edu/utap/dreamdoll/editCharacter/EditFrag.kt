@@ -15,7 +15,7 @@ import com.example.edu.utap.dreamdoll.*
 import java.io.File
 import java.io.FileInputStream
 
-class SaveFrag: Fragment() {
+class EditFrag: Fragment() {
 
     // store face feature ids
     var hairFeature = 0
@@ -23,7 +23,6 @@ class SaveFrag: Fragment() {
     var browFeature = 0
     var noseFeature = 0
     var lipFeature = 0
-
 
     // clothes features
     var hatFeature = 0
@@ -54,7 +53,7 @@ class SaveFrag: Fragment() {
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
-    private lateinit var rvAdapter : SVAdapter
+    private lateinit var rvAdapter : EVAdapter
     private val repository = Repository()
 
     private val numCols = 1
@@ -64,25 +63,6 @@ class SaveFrag: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        hairInt = arguments?.getInt("hairFull")!!
-        eyeInt = arguments?.getInt("eyesFull")!!
-        browInt = arguments?.getInt("browsFull")!!
-        noseInt = arguments?.getInt("noseFull")!!
-        lipInt = arguments?.getInt("lipsFull")!!
-        hatInt = arguments?.getInt("hatFull")!!
-        hatBackInt = arguments?.getInt("hatBackFull")!!
-        topInt = arguments?.getInt("topFull")!!
-        bottomInt = arguments?.getInt("bottomFull")!!
-        shoeInt = arguments?.getInt("shoeFull")!!
-
-        hairFeature = arguments?.getInt("hairFeature")!!
-        eyeFeature = arguments?.getInt("eyesFeature")!!
-        browFeature = arguments?.getInt("browsFeature")!!
-        noseFeature = arguments?.getInt("noseFeature")!!
-        lipFeature = arguments?.getInt("lipsFeature")!!
-        topFeature = arguments?.getInt("topFeature")!!
-        hatFeature = arguments?.getInt("hatFeature")!!
-        hatBackFeature = arguments?.getInt("hatBackFeature")!!
 
         // Inflate the root view and cache references to vital UI elements.
         return inflater.inflate(R.layout.save_slots, container, false)
@@ -169,7 +149,7 @@ class SaveFrag: Fragment() {
         initCurSavedFaceLook()
         initGrid()
 
-        rvAdapter = SVAdapter(curSavedLook)
+        rvAdapter = EVAdapter(curSavedLook, savedList)
 
         // Set adapter.
         recyclerView.adapter = rvAdapter

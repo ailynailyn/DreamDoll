@@ -11,16 +11,19 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
+import java.io.FileInputStream
 
-class SVAdapter(curSavedLook: SavedLook)
+class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listOfItems = listOf<SavedLook>()
 
-    var savedLook = curSavedLook
+    var savedLook = newSavedLook
+    var savedList = saveList
 
-    inner class VH(itemView: View, curSavedLook: SavedLook, parent: ViewGroup) : RecyclerView.ViewHolder(itemView) {
-        internal var curSavedFace = curSavedLook.face
+    inner class VH(itemView: View, newSavedLook: SavedLook, parent: ViewGroup, saveList: ArrayList<SavedLook>) :
+        RecyclerView.ViewHolder(itemView) {
+        internal var curSavedFace = newSavedLook.face
 
         internal var hairView = itemView.findViewById<ImageView>(R.id.saveSlots_hair)
         internal var eyeView = itemView.findViewById<ImageView>(R.id.saveSlots_eyes)
@@ -36,38 +39,19 @@ class SVAdapter(curSavedLook: SavedLook)
         init {
             itemView.setOnClickListener {
                 Log.d("SVAdapter", "item clicked ${captionTV.text}")
-                // save over the slot
-                hairView.setImageResource(curSavedFace.hairFeature)
-                eyeView.setImageResource(curSavedFace.eyesFeature)
-                browView.setImageResource(curSavedFace.browsFeature)
-                noseView.setImageResource(curSavedFace.noseFeature)
-                lipView.setImageResource(curSavedFace.lipsFeature)
-                topView.setImageResource(curSavedFace.topFeature)
-                hatView.setImageResource(curSavedFace.hatFeature)
-                hatViewBack.setImageResource(curSavedFace.hatFeatureBack)
-
-                hairView.visibility = View.VISIBLE
-                eyeView.visibility = View.VISIBLE
-                browView.visibility = View.VISIBLE
-                lipView.visibility = View.VISIBLE
-                noseView.visibility = View.VISIBLE
-                topView.visibility = View.VISIBLE
-                hatView.visibility = View.VISIBLE
-                hatViewBack.visibility = View.VISIBLE
-                dollView.visibility = View.VISIBLE
-
-                saveToStorage(curSavedLook, parent)
+//                newSavedLook.update(getSavedLook(adapterPosition, parent))
+                newSavedLook.update(saveList[adapterPosition])
             }
 
             captionTV.onChange {
-                curSavedLook.saveTitle = it
+                newSavedLook.saveTitle = it
             }
 
         }
 
         fun bindView(item: SavedLook) {
             Log.d("SVAdapter", "bindView(item: SavedLook)")
-            if(!item.saved) {
+            if (!item.saved) {
                 hairView.visibility = View.GONE
                 eyeView.visibility = View.GONE
                 browView.visibility = View.GONE
@@ -104,7 +88,12 @@ class SVAdapter(curSavedLook: SavedLook)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedLook, parent)
+        return VH(
+            LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false),
+            savedLook,
+            parent,
+            savedList
+        )
     }
 
     override fun getItemCount(): Int {
@@ -122,20 +111,50 @@ class SVAdapter(curSavedLook: SavedLook)
     }
 
     fun EditText.onChange(cb: (String) -> Unit) {
-        this.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) { cb(s.toString()) }
+        this.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                cb(s.toString())
+            }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
-    fun saveToStorage(item: SavedLook, parent: ViewGroup) {
-        var face = item.face
+    fun getSavedLook(position: Int, parent: ViewGroup): SavedLook {
         var ctx = parent.context
         val file = File(ctx.filesDir, "SAVESLOTS5.txt")
         file.createNewFile()
-        item.saved = true
-        val newTitle = item.saveTitle?.replace(" ", ",")
-        file.appendText("${face.getHairInt()} ${face.getEyeInt()} ${face.getBrowInt()} ${face.getNoseInt()} ${face.getLipInt()} ${face.getTopInt()} ${face.getHatInt()} ${face.getHatBackInt()} ${item.hairFull} ${item.eyesFull} ${item.browsFull} ${item.noseFull} ${item.lipsFull} ${item.topFull} ${item.hatFull} ${item.hatBackFull} ${item.bottomsFull} ${item.shoesFull} ${newTitle} ${item.saved}\n")
+        val readSaves = FileInputStream(file).bufferedReader().use { it.readText() }
+        val savesList = readSaves.lines()
+
+        var saveVals = savesList[position].split(" ")
+        var readSavedFace = SavedFace(
+                saveVals[0].toInt(),
+                saveVals[1].toInt(),
+                saveVals[2].toInt(),
+                saveVals[3].toInt(),
+                saveVals[4].toInt(),
+                saveVals[5].toInt(),
+                saveVals[6].toInt(),
+                saveVals[7].toInt()
+            )
+        var newTitle = saveVals[18].replace(",", " ")
+        var readSavedLook = SavedLook(
+                readSavedFace,
+                saveVals[8].toInt(),
+                saveVals[9].toInt(),
+                saveVals[10].toInt(),
+                saveVals[11].toInt(),
+                saveVals[12].toInt(),
+                saveVals[13].toInt(),
+                saveVals[14].toInt(),
+                saveVals[15].toInt(),
+                saveVals[16].toInt(),
+                saveVals[17].toInt(),
+                newTitle,
+                true
+        )
+        return readSavedLook
     }
 }

@@ -2,6 +2,7 @@ package com.example.edu.utap.dreamdoll
 
 import android.os.Bundle
 import android.util.Log
+import com.example.edu.utap.dreamdoll.editCharacter.EditFrag
 import com.example.edu.utap.dreamdoll.editCharacter.SaveFrag
 
 // EditFaceFrag.kt & edit_features.xml
@@ -9,6 +10,7 @@ class EditCharacterActivity : BaseActivity() {
 
     var editFeaturesFrag = EditFeaturesFrag()
     var editFullBodyFrag = EditFullBodyFrag()
+    var editFrag = EditFrag()
     var saveFrag = SaveFrag()
 
     override fun onBackPressed() {
@@ -40,10 +42,10 @@ class EditCharacterActivity : BaseActivity() {
 //            .commit()
 //    }
 
-    private fun beginSaveFrag() {
+    private fun beginEditFrag() {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.container, saveFrag)
+            .add(R.id.container, editFrag)
             .commit()
     }
 
@@ -55,7 +57,7 @@ class EditCharacterActivity : BaseActivity() {
 //        bundle.putInt("hairFull", hairFull)
 //        bundle.putInt("hairFeature", hairFeature)
 //        bundle.putInt("eyesFull", eyesFull)
-//        bundle.putInt("eyesFeature", eyesFeature)
+//        bundrle.putInt("eyesFeature", eyesFeature)
 //        bundle.putInt("browsFull", browsFull)
 //        bundle.putInt("browsFeature", browsFeature)
 //        bundle.putInt("noseFull", noseFull)
@@ -85,7 +87,7 @@ class EditCharacterActivity : BaseActivity() {
         }
 
 //        beginFeaturesFrag()
-        beginSaveFrag()
+        beginEditFrag()
 
     }
 

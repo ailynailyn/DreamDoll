@@ -21,7 +21,23 @@ open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureI
     }
 }
 
-data class SavedLook(var face: SavedFace, var hairFull: Int, var eyesFull: Int, var browsFull: Int, var noseFull: Int, var lipsFull: Int, var topFull: Int, var hatFull: Int, var hatBackFull: Int, var bottomsFull: Int, var shoesFull: Int, var saveTitle: String?, var saved: Boolean)
+data class SavedLook(var face: SavedFace, var hairFull: Int, var eyesFull: Int, var browsFull: Int, var noseFull: Int, var lipsFull: Int, var topFull: Int, var hatFull: Int, var hatBackFull: Int, var bottomsFull: Int, var shoesFull: Int, var saveTitle: String?, var saved: Boolean) {
+    fun update(save: SavedLook) {
+        face = save.face
+        hairFull = save.hairFull
+        eyesFull = save.eyesFull
+        browsFull = save.browsFull
+        noseFull = save.noseFull
+        lipsFull = save.lipsFull
+        topFull = save.topFull
+        hatFull = save.hatFull
+        hatBackFull = save.hatBackFull
+        bottomsFull = save.bottomsFull
+        shoesFull = save.shoesFull
+        saveTitle = save.saveTitle
+        saved = save.saved
+    }
+}
 data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int) {
     fun getHairInt(): Int {
        return hairFeature
