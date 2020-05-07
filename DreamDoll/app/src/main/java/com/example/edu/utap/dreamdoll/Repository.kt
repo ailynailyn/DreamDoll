@@ -55,9 +55,9 @@ class Repository {
 //        )
 
         var defaultSaveSlots = arrayListOf(
-            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_top, R.drawable.hat_front, R.drawable.hat_back, "save slot 1"),
-            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_top, R.drawable.hat_front, R.drawable.hat_back, "save slot 2"),
-            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_top, R.drawable.hat_front, R.drawable.hat_back, "save slot 3")
+            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev, "save slot 1"),
+            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev, "save slot 2"),
+            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev, "save slot 3")
         )
 
         private var hairDemoList = listOf(
@@ -86,8 +86,8 @@ class Repository {
         )
 
         private var hatList = listOf(
-            DollItem("black large brim", R.drawable.black_large_brim, null, R.drawable.black_large_brim, R.drawable.hat_back, null),
-            DollItem("pink beret", R.drawable.pink_beret, null, R.drawable.pink_beret, null, null)
+            DollItem("black large brim", R.drawable.black_hat_prev, null, R.drawable.black_large_brim, R.drawable.hat_back, R.drawable.black_hat_back_prev),
+            DollItem("pink beret", R.drawable.pink_beret_prev, null, R.drawable.pink_beret, null, null)
         )
 
         private var bottomsList = listOf(
@@ -96,8 +96,8 @@ class Repository {
         )
 
         private var topsList = listOf(
-            DollItem("wrap top", R.drawable.black_wrap_top, null, R.drawable.black_wrap_top, null, null),
-            DollItem("pink ruffle top", R.drawable.pink_lace_top, null, R.drawable.pink_lace_top, null, null)
+            DollItem("wrap top", R.drawable.black_wrap_top_prev, null, R.drawable.black_wrap_top, null, null),
+            DollItem("pink ruffle top", R.drawable.pink_top_prev, null, R.drawable.pink_lace_top, null, null)
         )
 
         private var shoesList = listOf(

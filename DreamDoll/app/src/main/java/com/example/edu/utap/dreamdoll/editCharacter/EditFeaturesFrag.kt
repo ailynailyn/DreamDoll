@@ -51,7 +51,7 @@ class EditFeaturesFrag() : Fragment() {
         var editActivity : CreateCharacterActivity = activity as CreateCharacterActivity
 
         Log.d("XXX", "got past the featureList!!")
-        editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFullBodyID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID())
+        editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID())
 
     }
 

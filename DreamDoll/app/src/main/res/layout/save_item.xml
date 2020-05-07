@@ -21,6 +21,17 @@
         >
 
         <ImageView
+            android:id="@+id/saveSlots_hat_back"
+            android:src="@drawable/black_hat_back_prev"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            />
+
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/doll_face"
@@ -31,29 +42,7 @@
 
         <ImageView
             android:id="@+id/saveSlots_top"
-            android:src="@drawable/cloak"
-            app:layout_constraintLeft_toLeftOf="@id/doll"
-            app:layout_constraintRight_toRightOf="@id/doll"
-            app:layout_constraintTop_toTopOf="@id/doll"
-            app:layout_constraintBottom_toBottomOf="@id/doll"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            />
-
-        <ImageView
-            android:id="@+id/saveSlots_hat"
-            android:src="@drawable/cloak"
-            app:layout_constraintLeft_toLeftOf="@id/doll"
-            app:layout_constraintRight_toRightOf="@id/doll"
-            app:layout_constraintTop_toTopOf="@id/doll"
-            app:layout_constraintBottom_toBottomOf="@id/doll"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            />
-
-        <ImageView
-            android:id="@+id/saveSlots_hat_back"
-            android:src="@drawable/cloak"
+            android:src="@drawable/pink_top_prev"
             app:layout_constraintLeft_toLeftOf="@id/doll"
             app:layout_constraintRight_toRightOf="@id/doll"
             app:layout_constraintTop_toTopOf="@id/doll"
@@ -116,6 +105,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
+
+        <ImageView
+            android:id="@+id/saveSlots_hat"
+            android:src="@drawable/black_hat_prev"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            />
+
     </FrameLayout>
 
     <EditText
