@@ -23,7 +23,6 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
 
     inner class VH(itemView: View, newSavedLook: SavedLook, parent: ViewGroup, saveList: ArrayList<SavedLook>) :
         RecyclerView.ViewHolder(itemView) {
-        internal var curSavedFace = newSavedLook.face
 
         internal var hairView = itemView.findViewById<ImageView>(R.id.saveSlots_hair)
         internal var eyeView = itemView.findViewById<ImageView>(R.id.saveSlots_eyes)
@@ -39,8 +38,15 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
         init {
             itemView.setOnClickListener {
                 Log.d("SVAdapter", "item clicked ${captionTV.text}")
-//                newSavedLook.update(getSavedLook(adapterPosition, parent))
                 newSavedLook.update(saveList[adapterPosition])
+
+                // switch fragments so they can edit
+                var context = parent.context
+                var editActivity : EditCharacterActivity = context as EditCharacterActivity
+                var face = newSavedLook.face
+                editActivity.beginFeaturesFrag(newSavedLook.hairFull, face.hairFeature, newSavedLook.eyesFull, face.eyesFeature, newSavedLook.browsFull,
+                    face.browsFeature, newSavedLook.noseFull, face.noseFeature, newSavedLook.lipsFull, face.lipsFeature, newSavedLook.hatFull, face.hatFeature,
+                    newSavedLook.hatBackFull, face.hatFeatureBack, newSavedLook.topFull, face.topFeature, newSavedLook.bottomsFull, newSavedLook.shoesFull)
             }
 
             captionTV.onChange {
@@ -119,42 +125,5 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-    }
-
-    fun getSavedLook(position: Int, parent: ViewGroup): SavedLook {
-        var ctx = parent.context
-        val file = File(ctx.filesDir, "SAVESLOTS5.txt")
-        file.createNewFile()
-        val readSaves = FileInputStream(file).bufferedReader().use { it.readText() }
-        val savesList = readSaves.lines()
-
-        var saveVals = savesList[position].split(" ")
-        var readSavedFace = SavedFace(
-                saveVals[0].toInt(),
-                saveVals[1].toInt(),
-                saveVals[2].toInt(),
-                saveVals[3].toInt(),
-                saveVals[4].toInt(),
-                saveVals[5].toInt(),
-                saveVals[6].toInt(),
-                saveVals[7].toInt()
-            )
-        var newTitle = saveVals[18].replace(",", " ")
-        var readSavedLook = SavedLook(
-                readSavedFace,
-                saveVals[8].toInt(),
-                saveVals[9].toInt(),
-                saveVals[10].toInt(),
-                saveVals[11].toInt(),
-                saveVals[12].toInt(),
-                saveVals[13].toInt(),
-                saveVals[14].toInt(),
-                saveVals[15].toInt(),
-                saveVals[16].toInt(),
-                saveVals[17].toInt(),
-                newTitle,
-                true
-        )
-        return readSavedLook
     }
 }

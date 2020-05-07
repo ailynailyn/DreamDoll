@@ -48,11 +48,17 @@ class EditFeaturesFrag() : Fragment() {
 
     fun goToFullBody() {
         Log.d("XXX", "goToFullBody was called!!")
-        var editActivity : CreateCharacterActivity = activity as CreateCharacterActivity
 
-        Log.d("XXX", "got past the featureList!!")
-        editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID())
+        if(activity is CreateCharacterActivity) {
+            var createActivity : CreateCharacterActivity = activity as CreateCharacterActivity
+            createActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID())
+            Log.d("XXX", "got past the featureList!!")
 
+        } else {
+            var editActivity : EditCharacterActivity = activity as EditCharacterActivity
+            editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), 0, 0, 0, 0, 0, 0, 0, 0)
+            Log.d("XXX", "got past the featureList!!")
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
