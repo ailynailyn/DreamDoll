@@ -21,7 +21,7 @@ open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureI
     }
 }
 
-data class SavedDoll(val hairFull: Int, val hairFeature: Int, val eyesFull: Int, val eyesFeature: Int, val browsFull: Int, val browsFeature: Int, val noseFull: Int, val noseFeature: Int, val lipsFull: Int, val lipsFeature: Int, val hatFull: Int, val hatFeature: Int, val hatBackFull: Int?, val hatBackFeature: Int?, val topFull: Int, val TopFeature: Int, val bottomsFull: Int, val shoesFull: Int)
+data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int, val saveTitle: String?)
 
 data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backFull: Int?, val backID: Int?)
 
@@ -53,6 +53,12 @@ class Repository {
 //            DollItem("blue", R.drawable.doll_face, null, null),
 //            DollItem("white", R.drawable.doll_face, null, null)
 //        )
+
+        var defaultSaveSlots = arrayListOf(
+            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_top, R.drawable.hat_front, R.drawable.hat_back, "save slot 1"),
+            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_top, R.drawable.hat_front, R.drawable.hat_back, "save slot 2"),
+            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_top, R.drawable.hat_front, R.drawable.hat_back, "save slot 3")
+        )
 
         private var hairDemoList = listOf(
             DollItem("pink bangs hair", R.drawable.pink_bangs, R.drawable.pink_bang_demo, R.drawable.pink_bang_full, null, null),
@@ -151,5 +157,9 @@ class Repository {
 
     fun fetchUserPics() : List<DollItem> {
         return sampleUserPics
+    }
+
+    fun fetchDefaultSlots() : ArrayList<SavedFace> {
+        return defaultSaveSlots
     }
 }
