@@ -124,27 +124,27 @@ class Repository {
             DollItem("angled brows", R.drawable.angled_brows, null, R.drawable.angled_brows_full, null, null)
         )
 
-        private var noseList = listOf(
+        private var noseList = arrayListOf(
             DollItem("long nose", R.drawable.long_nose, null, R.drawable.long_nose_full, null,null),
             DollItem("button nose", R.drawable.button_nose, null, R.drawable.button_nose_full, null, null)
         )
 
-        private var hatList = listOf(
+        private var hatList = arrayListOf(
             DollItem("black large brim", R.drawable.black_hat_prev, null, R.drawable.black_large_brim, R.drawable.hat_back, R.drawable.black_hat_back_prev),
             DollItem("pink beret", R.drawable.pink_beret_prev, null, R.drawable.pink_beret, null, null)
         )
 
-        private var bottomsList = listOf(
+        private var bottomsList = arrayListOf(
             DollItem("bell bottoms", R.drawable.black_bell_pants, null, R.drawable.black_bell_pants, null, null),
             DollItem("pink ruffle skirt", R.drawable.pink_ruffle_skirt, null, R.drawable.pink_ruffle_skirt, null, null)
         )
 
-        private var topsList = listOf(
+        private var topsList = arrayListOf(
             DollItem("wrap top", R.drawable.black_wrap_top_prev, null, R.drawable.black_wrap_top, null, null),
             DollItem("pink ruffle top", R.drawable.pink_top_prev, null, R.drawable.pink_lace_top, null, null)
         )
 
-        private var shoesList = listOf(
+        private var shoesList = arrayListOf(
             DollItem("black platforms", R.drawable.black_platforms, null, R.drawable.black_platforms, null, null),
             DollItem("pink bow platforms", R.drawable.pink_bow_platforms, null, R.drawable.pink_bow_platforms, null, null)
         )
@@ -175,19 +175,19 @@ class Repository {
         return noseList
     }
 
-    fun fetchHats() : List<DollItem> {
+    fun fetchHats() : ArrayList<DollItem> {
         return hatList
     }
 
-    fun fetchBottoms() : List<DollItem> {
+    fun fetchBottoms() : ArrayList<DollItem> {
         return bottomsList
     }
 
-    fun fetchTops() : List<DollItem> {
+    fun fetchTops() : ArrayList<DollItem> {
         return topsList
     }
 
-    fun fetchShoes() : List<DollItem> {
+    fun fetchShoes() : ArrayList<DollItem> {
         return shoesList
     }
 

@@ -66,10 +66,10 @@ class EditFullBodyFrag : Fragment() {
     lateinit var shoeDisplay : ImageView
 
     // clothing lists
-    lateinit var hats : List<DollItem>
-    lateinit var tops : List<DollItem>
-    lateinit var bottoms : List<DollItem>
-    lateinit var shoes : List<DollItem>
+    lateinit var hats : ArrayList<DollItem>
+    lateinit var tops : ArrayList<DollItem>
+    lateinit var bottoms : ArrayList<DollItem>
+    lateinit var shoes : ArrayList<DollItem>
 
     // prev buttons
     lateinit var prevHat : Button
@@ -93,6 +93,7 @@ class EditFullBodyFrag : Fragment() {
     private var topIdx = 0
     private var bottomIdx = 0
     private var shoeIdx = 0
+    private var hasArguments = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -120,6 +121,7 @@ class EditFullBodyFrag : Fragment() {
             topFeature = arguments?.getInt("topFeature")!!
             hatFeature = arguments?.getInt("hatFeature")!!
             hatBackFeature = arguments?.getInt("hatBackFeature")!!
+            hasArguments = true
         }
 
         // Inflate the root view and cache references to vital UI elements.
@@ -189,6 +191,17 @@ class EditFullBodyFrag : Fragment() {
         tops = repository.fetchTops()
         bottoms = repository.fetchBottoms()
         shoes = repository.fetchShoes()
+
+//        if(hasArguments) {
+//            shoes.add(DollItem("saved shoes", shoeInt, null, shoeInt, null, null))
+//            bottoms.add(DollItem("saved bottoms", bottomInt, null, bottomInt, null, null))
+//            tops.add(DollItem("saved top", topFeature, null, topInt, null, null))
+//            hats.add(DollItem("saved hat", hatFeature, null, hatInt, hatBackInt, hatBackFeature))
+//            shoeIdx = shoes.size-1
+//            bottomIdx = bottoms.size-1
+//            topIdx = tops.size-1
+//            hatIdx = hats.size-1
+//        }
     }
 
     private fun initButtons() {
