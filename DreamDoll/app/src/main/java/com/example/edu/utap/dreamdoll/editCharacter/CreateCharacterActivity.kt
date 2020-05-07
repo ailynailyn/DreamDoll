@@ -83,10 +83,15 @@ class CreateCharacterActivity : BaseActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         saveFrag.arguments = bundle
 
-        transaction
-            .addToBackStack(null)
-            .add(R.id.container, saveFrag)
-            .commit()
+        if(!saveFrag.isAdded) {
+            transaction
+                .addToBackStack(null)
+                .add(R.id.container, saveFrag)
+                .commit()
+        } else {
+            transaction.show(saveFrag)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

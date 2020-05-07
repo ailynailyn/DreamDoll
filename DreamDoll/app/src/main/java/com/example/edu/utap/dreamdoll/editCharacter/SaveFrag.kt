@@ -3,6 +3,8 @@ package com.example.edu.utap.dreamdoll.editCharacter
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.edu.utap.dreamdoll.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 class SaveFrag: Fragment() {
 
@@ -107,9 +112,45 @@ class SaveFrag: Fragment() {
 
     private fun initSavedList() {
         savedList = arrayListOf<SavedLook>()
+
+        val file = File(context?.filesDir, "SAVESLOTS4.txt")
+        file.createNewFile()
+        val readSaves = FileInputStream(file).bufferedReader().use { it.readText() }
+        val savesList = readSaves.lines()
+        Log.d("YYY", savesList.size.toString())
+
+        for(save in 0 until savesList.size) {
+            var saveVals = savesList[save].split(" ")
+            val size = saveVals.size
+            Log.d("XXX", "it's loading...$size")
+            if(saveVals.size > 19) {
+                val value = saveVals[0]
+                Log.d("Reading..." ,"$value")
+                var readSavedFace = SavedFace(saveVals[0].toInt(), saveVals[1].toInt(), saveVals[2].toInt(), saveVals[3].toInt(), saveVals[4].toInt(), saveVals[5].toInt(), saveVals[6].toInt(), saveVals[7].toInt())
+                if(readSavedFace != null) {
+                    Log.d("got the face", "face")
+                }
+                var readSavedLook = SavedLook(readSavedFace, saveVals[8].toInt(), saveVals[9].toInt(), saveVals[10].toInt(), saveVals[11].toInt(), saveVals[12].toInt(), saveVals[13].toInt(), saveVals[14].toInt(),
+                    saveVals[15].toInt(), saveVals[16].toInt(), saveVals[17].toInt(), saveVals[18], saveVals[19].toBoolean())
+                if(readSavedLook != null) {
+                    Log.d("got the look", "look")
+                }
+                savedList.add(readSavedLook)
+            }
+        }
+
+        Log.d("Size", "${savedList.size}")
+        // default
         if(savedList.size == 0) {
             savedList = repository.fetchDefaultSlots()
         }
+
+//        if(savedList.size <= 3) {
+//            var blankSlots = repository.fetchDefaultSlots()
+//            for(blanks in 0 until blankSlots.size) {
+//                savedList.add(blankSlots[blanks])
+//            }
+//        }
     }
 
     // Initializes the grid recycler view of items.

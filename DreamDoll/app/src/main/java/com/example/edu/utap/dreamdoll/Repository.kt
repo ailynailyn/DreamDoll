@@ -22,7 +22,32 @@ open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureI
 }
 
 data class SavedLook(var face: SavedFace, var hairFull: Int, var eyesFull: Int, var browsFull: Int, var noseFull: Int, var lipsFull: Int, var topFull: Int, var hatFull: Int, var hatBackFull: Int, var bottomsFull: Int, var shoesFull: Int, var saveTitle: String?, var saved: Boolean)
-data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int)
+data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int) {
+    fun getHairInt(): Int {
+       return hairFeature
+    }
+    fun getEyeInt(): Int {
+        return eyesFeature
+    }
+    fun getBrowInt(): Int {
+        return browsFeature
+    }
+    fun getNoseInt(): Int {
+        return noseFeature
+    }
+    fun getLipInt(): Int {
+        return lipsFeature
+    }
+    fun getTopInt(): Int {
+        return topFeature
+    }
+    fun getHatInt(): Int {
+        return hatFeature
+    }
+    fun getHatBackInt(): Int {
+        return hatFeatureBack
+    }
+}
 
 data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backFull: Int?, val backID: Int?)
 

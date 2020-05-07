@@ -14,6 +14,9 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
+import java.io.FileInputStream
+import java.security.AccessController.getContext
 
 class SVAdapter(curSavedLook: SavedLook)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -22,7 +25,7 @@ class SVAdapter(curSavedLook: SavedLook)
 
     var savedLook = curSavedLook
 
-    inner class VH(itemView: View, curSavedLook: SavedLook) : RecyclerView.ViewHolder(itemView) {
+    inner class VH(itemView: View, curSavedLook: SavedLook, parent: ViewGroup) : RecyclerView.ViewHolder(itemView) {
         internal var curSavedFace = curSavedLook.face
 
         internal var hairView = itemView.findViewById<ImageView>(R.id.saveSlots_hair)
@@ -59,12 +62,11 @@ class SVAdapter(curSavedLook: SavedLook)
                 hatViewBack.visibility = View.VISIBLE
                 dollView.visibility = View.VISIBLE
 
-                Repository.defaultSaveSlots[adapterPosition] = curSavedLook
-                Repository.defaultSaveSlots[adapterPosition].saved = true
+                saveToStorage(curSavedLook, parent)
             }
 
             captionTV.onChange {
-                Repository.defaultSaveSlots[adapterPosition].saveTitle = it.toString()
+                curSavedLook.saveTitle = it
             }
 
         }
@@ -106,7 +108,7 @@ class SVAdapter(curSavedLook: SavedLook)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedLook)
+        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedLook, parent)
     }
 
     override fun getItemCount(): Int {
@@ -129,5 +131,13 @@ class SVAdapter(curSavedLook: SavedLook)
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    fun saveToStorage(item: SavedLook, parent: ViewGroup) {
+        var face = item.face
+        var ctx = parent.context
+        val file = File(ctx.filesDir, "SAVESLOTS4.txt")
+        file.createNewFile()
+        file.appendText("${face.getHairInt()} ${face.getEyeInt()} ${face.getBrowInt()} ${face.getNoseInt()} ${face.getLipInt()} ${face.getTopInt()} ${face.getHatInt()} ${face.getHatBackInt()} ${item.hairFull} ${item.eyesFull} ${item.browsFull} ${item.noseFull} ${item.lipsFull} ${item.topFull} ${item.hatFull} ${item.hatBackFull} ${item.bottomsFull} ${item.shoesFull} ${item.saveTitle} true \n")
     }
 }

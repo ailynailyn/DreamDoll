@@ -285,19 +285,12 @@ class EditFullBodyFrag : Fragment() {
             saveLook()
         }
 
-        backButton.setOnClickListener {
-            returnToEditFace()
-        }
     }
 
     fun saveLook() {
         var saveActivity : CreateCharacterActivity = activity as CreateCharacterActivity
         Log.d("save look", "going back to edit character...")
         saveActivity.beginSaveFrag(hairInt, hairFeature, eyeInt, eyeFeature, browInt, browFeature, noseInt, noseFeature, lipInt, lipFeature, hats[hatIdx].fullBodyID, hats[hatIdx].imgID, hats[hatIdx].backFull?:0, hats[hatIdx].backID?:0, tops[topIdx].fullBodyID, tops[topIdx].imgID, bottoms[bottomIdx].fullBodyID, bottoms[bottomIdx].imgID, shoes[shoeIdx].fullBodyID, shoes[shoeIdx].imgID)
-    }
-
-    fun returnToEditFace() {
-
     }
 
 }
