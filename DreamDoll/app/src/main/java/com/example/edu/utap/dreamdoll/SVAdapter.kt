@@ -1,6 +1,8 @@
 package com.example.edu.utap.dreamdoll
 
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
@@ -9,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 
 class SVAdapter(curSavedFace: SavedFace)
@@ -44,6 +48,11 @@ class SVAdapter(curSavedFace: SavedFace)
 
                 Repository.defaultSaveSlots[adapterPosition] = curSavedFace
             }
+
+            captionTV.onChange {
+                Repository.defaultSaveSlots[adapterPosition].saveTitle = it.toString()
+            }
+
         }
 
         fun bindView(item: SavedFace) {
@@ -77,5 +86,13 @@ class SVAdapter(curSavedFace: SavedFace)
     fun setItemList(listOfItems: List<SavedFace>) {
         this.listOfItems = listOfItems
         notifyDataSetChanged()
+    }
+
+    fun EditText.onChange(cb: (String) -> Unit) {
+        this.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) { cb(s.toString()) }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 }

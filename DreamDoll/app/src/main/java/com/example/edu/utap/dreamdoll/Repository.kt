@@ -21,7 +21,7 @@ open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureI
     }
 }
 
-data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int, val saveTitle: String?)
+data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int, var saveTitle: String?)
 
 data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backFull: Int?, val backID: Int?)
 
