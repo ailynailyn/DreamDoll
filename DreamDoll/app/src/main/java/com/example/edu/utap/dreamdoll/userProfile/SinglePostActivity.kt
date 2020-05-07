@@ -54,8 +54,9 @@ class SinglePostActivity : BaseActivity() {
         val caption = extras.getString("caption").toString()
         val postID = extras.getString("postID").toString()
         val userID = extras.getString("userID").toString()
+        val timestamp = extras.getString("timestamp").toString()
 
-        var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, userID)
+        var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, userID, timestamp)
         val list = mutableListOf<NewsfeedItem>()
         list.add(item)
         rvAdapter.setItemList(list)

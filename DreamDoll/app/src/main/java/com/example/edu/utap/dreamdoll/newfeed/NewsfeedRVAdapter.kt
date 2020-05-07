@@ -40,6 +40,7 @@ class NewsfeedRVAdapter()
         internal var likesTV = itemView.findViewById<TextView>(R.id.newsfeed_likesTV)
         internal var likeButton = itemView.findViewById<Button>(R.id.newsfeed_likeButton)
         internal var caption = itemView.findViewById<TextView>(R.id.newfeed_caption)
+        internal val timestampTV = itemView.findViewById<TextView>(R.id.newsfeedItemTimestamp)
 
         init {
             itemView.setOnClickListener {
@@ -215,6 +216,8 @@ class NewsfeedRVAdapter()
             username = item.username
             usernameTV.text = username
 //            image.setImageResource(item.imageID)
+
+            timestampTV.text = item.timestamp
 
             // Set the image.
             // Reference to an image file in Cloud Storage

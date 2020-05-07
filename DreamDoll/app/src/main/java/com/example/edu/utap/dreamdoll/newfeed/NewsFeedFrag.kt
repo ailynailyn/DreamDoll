@@ -77,7 +77,7 @@ class NewsFeedFrag : Fragment() {
                     var timestampStr = convertTimestamp(timestamp.toString())
                     Log.d("timestampStr", timestampStr)
                     // Generate newsfeeditem for each post.
-                    var item = NewsfeedItem(username,profilePicID, imageID, likes.toInt(), caption, postID, userID)
+                    var item = NewsfeedItem(username,profilePicID, imageID, likes.toInt(), caption, postID, userID, timestampStr)
                     list.add(item)
                 }
                 // Submit to adapter.

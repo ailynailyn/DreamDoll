@@ -74,7 +74,8 @@ data class NewsfeedItem(val username: String,
                         val likes: Int,
                         val caption: String,
                         val postID: String,
-                        val userID: String
+                        val userID: String,
+                        val timestamp: String
                         )
 
 data class HighScoreItem(val username: String, val score: String)
