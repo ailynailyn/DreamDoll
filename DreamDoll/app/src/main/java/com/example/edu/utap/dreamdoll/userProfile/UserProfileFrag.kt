@@ -2,6 +2,7 @@ package com.example.edu.utap.dreamdoll
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +20,10 @@ import com.example.edu.utap.dreamdoll.userProfile.ProfileGVAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.login_signup.*
 import kotlinx.android.synthetic.main.news_feed.*
+import kotlinx.android.synthetic.main.user_profile.*
 
 // NewsFeedFrag.kt & news_feed.xml
 class UserProfileFrag(username : String) : Fragment() {
@@ -92,8 +95,32 @@ class UserProfileFrag(username : String) : Fragment() {
             }
     }
 
+    private fun setProfilePic(uuid: String) {
+        var userRef = db.collection("users").document(uuid)
+        userRef.get().addOnSuccessListener {
+            var data = it.data
+            if(data != null) {
+                var profilePicID = data["profilePicID"]
+                Log.d("bidning for profile pic: ", "" + profilePicID)
+                if(profilePicID != null && profilePicID != "xxx") {
+                    Log.d("profilePICID: ", profilePicID.toString())
+                    val mStorageRef = FirebaseStorage.getInstance().getReference()
+                    val childImage = mStorageRef.child(profilePicID.toString())
+                    childImage.getBytes(1024*1024)
+                        .addOnSuccessListener { bytes ->
+                            var imageBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+                            userProfile_image.setImageBitmap(imageBmp)
+                        }
+
+                }
+            }
+        }
+    }
+
     // Sets the username, likes and high score.
     private fun setUserData(uuid: String) {
+        setProfilePic(uuid)
         var usernameTV = view!!.findViewById<TextView>(R.id.userProfile_username)
         var highScoreTV = view!!.findViewById<TextView>(R.id.userProfile_highScoreTV)
         var coinsTV = view!!.findViewById<TextView>(R.id.userProfile_coinsTV)
