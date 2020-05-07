@@ -52,7 +52,6 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
             captionTV.onChange {
                 newSavedLook.saveTitle = it
             }
-
         }
 
         fun bindView(item: SavedLook) {
