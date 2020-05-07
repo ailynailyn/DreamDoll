@@ -1,6 +1,7 @@
-package com.example.edu.utap.dreamdoll.newfeed
+package com.example.edu.utap.dreamdoll.account
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +11,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.edu.utap.dreamdoll.NewsfeedItem
 import com.example.edu.utap.dreamdoll.R
 import com.example.edu.utap.dreamdoll.UserProfileActivity
@@ -20,7 +20,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
-class NewsfeedRVAdapter()
+class AccountRVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listOfItems = listOf<NewsfeedItem>()
@@ -32,14 +32,16 @@ class NewsfeedRVAdapter()
         private var postID = ""
         private var username = ""
         private var userID = ""
+        private var imageID = ""
         private var isLiked = false
         private var postLikes = 0
-        internal var profilePicIV = itemView.findViewById<ImageView>(R.id.newsfeed_profilePic)
-        internal var usernameTV = itemView.findViewById<TextView>(R.id.newsfeed_username)
-        internal var image = itemView.findViewById<ImageView>(R.id.newsfeed_image)
-        internal var likesTV = itemView.findViewById<TextView>(R.id.newsfeed_likesTV)
-        internal var likeButton = itemView.findViewById<Button>(R.id.newsfeed_likeButton)
-        internal var caption = itemView.findViewById<TextView>(R.id.newfeed_caption)
+        internal var profilePicIV = itemView.findViewById<ImageView>(R.id.accountPostProfilePic)
+        internal var usernameTV = itemView.findViewById<TextView>(R.id.accountPostUsername)
+        internal var image = itemView.findViewById<ImageView>(R.id.accountPostImage)
+        internal var likesTV = itemView.findViewById<TextView>(R.id.accountPostLikesTV)
+        internal var likeButton = itemView.findViewById<Button>(R.id.accountPostLikeButton)
+        internal var caption = itemView.findViewById<TextView>(R.id.accountPostCaption)
+        internal val setAsProfilePicButton = itemView.findViewById<Button>(R.id.accountPostProfilePicButton)
 
         init {
             itemView.setOnClickListener {
@@ -105,6 +107,26 @@ class NewsfeedRVAdapter()
                     updatePostInUserLikes(FieldValue.arrayUnion(postID))
 
                 }
+            }
+            setAsProfilePicButton.setOnClickListener {
+                Log.d("set as profile pic clicked", "clicked!")
+                db.collection("users").document(userID)
+                    .update("profilePicID", imageID)
+                    .addOnSuccessListener {
+                        Log.d("updated profiles pic for current user", "$imageID")
+                        // Set the actual image.
+                        val mStorageRef = FirebaseStorage.getInstance().getReference()
+                        val childImage = mStorageRef.child(imageID)
+                        childImage.getBytes(1024*1024)
+                            .addOnSuccessListener { bytes ->
+                                var imageBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                                profilePicIV.setImageBitmap(imageBmp)
+                            }
+                    }
+                    .addOnFailureListener {
+
+                    }
+
             }
         }
 
@@ -207,9 +229,22 @@ class NewsfeedRVAdapter()
         fun bindView(item: NewsfeedItem) {
             Log.d("RVAdapter", "bindView(item: NewsfeedItem)")
 //            profilePicIV.setImageResource(item.profilePicID)
+//            if(item.profilePicID != null && item.profilePicID != "xxx") {
+////                Log.d("profilePicID: ", item.profilePicID)
+////                var profilePicID = item.profilePicID
+////                val mStorageRef = FirebaseStorage.getInstance().getReference()
+////                val childImage = mStorageRef.child(profilePicID)
+////                childImage.getBytes(1024*1024/4)
+////                    .addOnSuccessListener { bytes ->
+////                        var imageBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+////                        profilePicIV.setImageBitmap(imageBmp)
+////                    }
+////
+////            }
+            setProfilePic(mAuth.currentUser!!.uid)
 
-            Log.d("bidning for profilepic id in newsfeed: ", "" + item.profilePicID)
-            setProfilePic(item.userID)
+
+
 
 
             username = item.username
@@ -221,6 +256,7 @@ class NewsfeedRVAdapter()
             Log.d("bidning for imageid: ", "" + item.imageID)
             if(item.imageID != null && item.imageID != "xxx") {
                 Log.d("imageID: ", item.imageID)
+                imageID = item.imageID
                 val mStorageRef = FirebaseStorage.getInstance().getReference()
                 val childImage = mStorageRef.child(item.imageID!!)
                 childImage.getBytes(1024*1024)
@@ -254,7 +290,7 @@ class NewsfeedRVAdapter()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.news_feed_item, parent, false))
+        return VH(LayoutInflater.from(parent.context).inflate(R.layout.account_post_item, parent, false))
     }
 
     override fun getItemCount(): Int {

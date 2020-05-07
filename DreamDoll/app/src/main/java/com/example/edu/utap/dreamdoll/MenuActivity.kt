@@ -52,6 +52,12 @@ class MenuActivity : BaseActivity() {
 
     }
 
+    fun accountButtonClicked() {
+        val intent = Intent(this, UserAccountActivity::class.java)
+        intent.putExtra("title", "madeit")
+        startActivity(intent)
+    }
+
     // Earn coins button was clicked.
     fun earnCoinsButtonClicked() {
         val intent = Intent(this, EarnCoinsActivity::class.java)
@@ -91,6 +97,9 @@ class MenuActivity : BaseActivity() {
             Log.d("options menu fragment", "earn coins button clicked")
             earnCoinsButtonClicked()
         }
+         account.setOnClickListener {
+             accountButtonClicked()
+         }
         logout.setOnClickListener {
             Log.d("options menu fragment", "logout button clicked")
             logoutButtonClicked()

@@ -1,53 +1,57 @@
 package com.example.edu.utap.dreamdoll
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.utap.dreamdoll.account.AccountGVAdapter
 import com.example.edu.utap.dreamdoll.userProfile.ProfileGVAdapter
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthActionCodeException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.edit_features.*
+import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
-import kotlinx.android.synthetic.main.news_feed.*
-import kotlinx.android.synthetic.main.user_profile.*
+import kotlinx.android.synthetic.main.user_account.*
 
-// NewsFeedFrag.kt & news_feed.xml
-class UserProfileFrag(username : String) : Fragment() {
+// EditFaceFrag.kt & edit_features.xml
+class UserAccountActivity : BaseActivity() {
 
-    private lateinit var userProfileRV : RecyclerView
+    private lateinit var userAccountRV : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
-    private val profileGVAdapter = ProfileGVAdapter()
-    private val repository = Repository()
+    private val accountGVAdapter = AccountGVAdapter()
     private val numCols = 3
     private val db = Firebase.firestore
-    private val curUsername = username
+    private val curUsername = ""
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the root view and cache references to vital UI elements.
-        return inflater.inflate(R.layout.user_profile, container, false)
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d("profile activity","onbackpressed")
+        finish()
     }
 
     // Grabs user info to generate posts and grid view.
-    private fun genUserPosts(uuid: String) {
+    private fun genUserPosts(uuid: String, curUsername: String) {
         var postsList = mutableListOf<NewsfeedItem>()
         db.collection("users")
             .document(uuid)
@@ -59,7 +63,7 @@ class UserProfileFrag(username : String) : Fragment() {
                     var postID = it.id
                     Log.d("curPost", curPost.toString())
                     val username: String = curUsername
-                    val profilePicID: String? = null
+                    val profilePicID: String? = curPost["profilePicID"].toString()
                     val imageID: String? = curPost["pictureID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
                     val caption: String = curPost["caption"].toString()
@@ -68,10 +72,10 @@ class UserProfileFrag(username : String) : Fragment() {
                 }
                 Log.d("postList inside listener: ", postsList.toString())
                 // Adjust total posts tv.
-                var totalPostsTV = view!!.findViewById<TextView>(R.id.userProfile_postsTV)
+                var totalPostsTV = findViewById<TextView>(R.id.userProfile_postsTV)
                 totalPostsTV.text = postsList.count().toString()
                 // Submit to adapter.
-                profileGVAdapter.setItemList(postsList)
+                accountGVAdapter.setItemList(postsList)
 
             }
             .addOnFailureListener {
@@ -80,15 +84,22 @@ class UserProfileFrag(username : String) : Fragment() {
 
     }
 
-    // Uses the username collection to get the uuid of the given user.
-    private fun prepareProfile() {
-        // Get user id from database.
-        db.collection("usernames").document(curUsername).get()
+    // Sets the username, likes and high score.
+    private fun setUserData(uuid: String, curUsername: String) {
+        var usernameTV = findViewById<TextView>(R.id.userProfile_username)
+        var highScoreTV = findViewById<TextView>(R.id.userProfile_highScoreTV)
+        var coinsTV = findViewById<TextView>(R.id.userProfile_coinsTV)
+        usernameTV.text = curUsername
+        db.collection("users").document(uuid).get()
             .addOnSuccessListener {  doc ->
-                var userID = doc.get("uuid").toString()
-                Log.d("data grabbed for $curUsername", userID)
-                setUserData(userID)
-                genUserPosts(userID)
+                var highScore = doc.get("fallingShoesHighScore").toString()
+                var coins = doc.get("coins").toString()
+                Log.d("high score grabbed for $curUsername", highScore)
+                Log.d("coins grabbed for $curUsername", coins)
+                highScoreTV.text = highScore.toString()
+                coinsTV.text = coins.toString()
+                // Set profile pic
+                setProfilePic(uuid)
             }
             .addOnFailureListener {
                 Log.d("couldnt find existing user in username database", "FAILED")
@@ -118,44 +129,38 @@ class UserProfileFrag(username : String) : Fragment() {
         }
     }
 
-    // Sets the username, likes and high score.
-    private fun setUserData(uuid: String) {
-        setProfilePic(uuid)
-        var usernameTV = view!!.findViewById<TextView>(R.id.userProfile_username)
-        var highScoreTV = view!!.findViewById<TextView>(R.id.userProfile_highScoreTV)
-        var coinsTV = view!!.findViewById<TextView>(R.id.userProfile_coinsTV)
-        usernameTV.text = curUsername
-        db.collection("users").document(uuid).get()
-            .addOnSuccessListener {  doc ->
-                var highScore = doc.get("fallingShoesHighScore").toString()
-                var coins = doc.get("coins").toString()
-                Log.d("high score grabbed for $curUsername", highScore)
-                Log.d("coins grabbed for $curUsername", coins)
-                highScoreTV.text = highScore.toString()
-                coinsTV.text = coins.toString()
-            }
-            .addOnFailureListener {
-                Log.d("couldnt find existing user in username database", "FAILED")
-            }
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.user_account)
+        displayOptionsMenu(true)
         initGrid()
 
         // Set adapter.
-        userProfileRV.adapter = profileGVAdapter
+        userAccountRV.adapter = accountGVAdapter
 
-        // Need to get the user pics from the database.
-        prepareProfile()
+        var userID = mAuth.currentUser!!.uid
+
+        var ref = db.collection("users").document(userID)
+        ref.get()
+            .addOnSuccessListener {
+                Log.d("it.data", it.data.toString())
+                if(it.data != null) {
+                    var temp = it.data!!["username"]
+                    var username = temp.toString()
+                    setUserData(userID, username)
+                    genUserPosts(userID, username)
+                }
+            }
+
 
     }
 
     // Initializes the grid recycler view of items.
     private fun initGrid() {
-        userProfileRV = view!!.findViewById(R.id.userProfileRV)
-        gridLayoutManager = GridLayoutManager(this.context, numCols)
-        userProfileRV.layoutManager = gridLayoutManager
+        userAccountRV = findViewById(R.id.userProfileRV)
+        gridLayoutManager = GridLayoutManager(this, numCols)
+        userAccountRV.layoutManager = gridLayoutManager
     }
 
 }
