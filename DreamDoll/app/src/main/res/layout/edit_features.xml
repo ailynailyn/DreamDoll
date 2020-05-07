@@ -10,28 +10,12 @@
     >
 
     <Button
-        android:id="@+id/editFeatures_backButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/editFeatures_saveButton"
-        android:text="back"
-        android:textAllCaps="false"
-        android:textSize="32sp"
-        android:layout_marginLeft="16dp"
-        android:textColor="@color/black"
-        android:gravity="left"
-        android:background="?android:attr/selectableItemBackground"
-        />
-
-    <Button
         android:id="@+id/editFeatures_saveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/editFeatures_backButton"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="save"
         android:textAllCaps="false"
         android:textSize="32sp"
@@ -57,7 +41,74 @@
             android:src="@drawable/doll_face"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
+            android:id="@+id/doll"
             />
+
+        <ImageView
+            android:src="@drawable/cloak"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            />
+
+        <ImageView
+            android:src="@drawable/lips_oval"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:id="@+id/editFeatures_lips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <ImageView
+            android:src="@drawable/button_nose"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:id="@+id/editFeatures_nose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <ImageView
+            android:src="@drawable/angled_brows"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:id="@+id/editFeatures_brows"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <ImageView
+            android:src="@drawable/oval_eyes"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:id="@+id/editFeatures_eyes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <ImageView
+            android:src="@drawable/brown_center"
+            app:layout_constraintLeft_toLeftOf="@id/doll"
+            app:layout_constraintRight_toRightOf="@id/doll"
+            app:layout_constraintTop_toTopOf="@id/doll"
+            app:layout_constraintBottom_toBottomOf="@id/doll"
+            android:id="@+id/editFeatures_hair"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
     </FrameLayout>
 
     <Button
