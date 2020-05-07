@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="28dp"
+    android:fontFamily="@font/questrial"
     android:gravity="center"
-    android:textColor="@color/navy"
     android:text="CATEGORY"
     android:textAllCaps="true"
-    />
+    android:textColor="@color/navy"
+    android:textSize="28dp" />
