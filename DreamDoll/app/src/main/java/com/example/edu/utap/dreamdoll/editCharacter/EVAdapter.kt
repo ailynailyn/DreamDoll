@@ -42,7 +42,7 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
 
         init {
             itemView.setOnClickListener {
-                Log.d("SVAdapter", "item clicked ${captionTV.text}")
+                Log.d("EVAdapter", "item clicked ${captionTV.text}")
                 newSavedLook.update(saveList[adapterPosition])
 
                 // switch fragments so they can edit
