@@ -115,7 +115,7 @@
 
         <Button
             android:layout_weight="7"
-            android:id="@+id/buy_items"
+            android:id="@+id/account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/edit_character"
@@ -127,7 +127,7 @@
             android:textSize="20sp"
             android:background="@drawable/custom0menu0box0dark"
             android:textColor="@color/gold"
-            android:text="shop"
+            android:text="account"
             />
 
         <TextView
@@ -171,7 +171,7 @@
 
         <Button
             android:layout_weight="7"
-            android:id="@+id/account"
+            android:id="@+id/logout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
@@ -179,7 +179,7 @@
             android:fontFamily="@font/questrial"
             android:background="@drawable/custom0menu0box0light"
             android:textColor="@color/gold"
-            android:text="account"
+            android:text="logout"
             />
 
         <TextView
@@ -196,7 +196,9 @@
         android:layout_weight="7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
 
         <TextView
             android:layout_weight="1"
@@ -205,7 +207,7 @@
 
         <Button
             android:layout_weight="5"
-            android:id="@+id/logout"
+            android:id="@+id/logoutzzzz"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
