@@ -108,11 +108,11 @@ class PurchaseFeaturesFrag() : Fragment() {
     }
 
     fun goToFullBody() {
-        Log.d("XXX", "goToFullBody was called!!")
-
-            var purchaseActivity : BuyItemsActivity = activity as BuyItemsActivity
-            purchaseActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), hatInt, hatFeature, hatBackInt, hatBackFeature, topInt, topFeature, bottomInt, shoeInt)
-            Log.d("XXX", "got past the featureList!!")
+//        Log.d("XXX", "goToFullBody was called!!")
+//
+//            var purchaseActivity : BuyItemsActivity = activity as BuyItemsActivity
+//            purchaseActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), hatInt, hatFeature, hatBackInt, hatBackFeature, topInt, topFeature, bottomInt, shoeInt)
+//            Log.d("XXX", "got past the featureList!!")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
