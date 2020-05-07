@@ -10,6 +10,7 @@ class EditCharacterActivity : BaseActivity() {
 
     var editFeaturesFrag = EditFeaturesFrag()
     var editFullBodyFrag = EditFullBodyFrag()
+    val editFullTag = "fullBodyFrag"
     var editFrag = EditFrag()
     var saveFrag = SaveFrag()
 
@@ -55,6 +56,9 @@ class EditCharacterActivity : BaseActivity() {
     fun beginFullBodyFrag(hairFull: Int, hairFeature: Int, eyesFull: Int, eyesFeature: Int, browsFull: Int, browsFeature: Int, noseFull: Int, noseFeature: Int, lipsFull: Int, lipsFeature: Int,
                           hatFull: Int, hatFeature: Int, hatBackFull: Int, hatBackFeature: Int, topFull: Int, topFeature: Int, bottomsFull: Int, shoesFull:Int) {
         Log.d("xx", "beginFullBodyFrag was called!!")
+        // Only do this if the full body frag has not already been placed.
+        var frag = supportFragmentManager.findFragmentByTag("fullBodyFrag")
+        if(frag == null) {
 
         // add features
         val bundle = Bundle()
@@ -81,8 +85,9 @@ class EditCharacterActivity : BaseActivity() {
 
         transaction
             .addToBackStack(null)
-            .add(R.id.container, editFullBodyFrag)
+            .add(R.id.container, editFullBodyFrag, editFullTag)
             .commit()
+        }
     }
 
     private fun beginEditFrag() {

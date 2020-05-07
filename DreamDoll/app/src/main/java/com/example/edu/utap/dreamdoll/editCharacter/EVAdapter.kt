@@ -1,15 +1,18 @@
 package com.example.edu.utap.dreamdoll
 
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 
@@ -34,6 +37,8 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
         internal var hatViewBack = itemView.findViewById<ImageView>(R.id.saveSlots_hat_back)
         internal var dollView = itemView.findViewById<ImageView>(R.id.doll)
         internal var captionTV = itemView.findViewById<EditText>(R.id.gridItem_caption)
+        internal var shareTV = itemView.findViewById<TextView>(R.id.gridItem_share)
+
 
         init {
             itemView.setOnClickListener {
@@ -52,6 +57,34 @@ class EVAdapter(newSavedLook: SavedLook, saveList: ArrayList<SavedLook>)
             captionTV.onChange {
                 newSavedLook.saveTitle = it
             }
+
+            shareTV.setOnClickListener {
+                Log.d("share to newsffeed", "clicked")
+                // Need to share post to feed.
+
+                // Create screenshot from image view.
+                var imageLayout = itemView.findViewById<FrameLayout>(R.id.saved_profile)
+                var byteArray = screenShot(imageLayout)
+
+                // Go to share post activity.
+                val intent = Intent(itemView.context, SharePostActivity::class.java)
+                intent.putExtra("imageByteArray", byteArray)
+                itemView.context.startActivity(intent)
+            }
+        }
+
+        fun screenShot(view: View) : ByteArray {
+            // Generate the bitmap of the image.
+            var bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+            var canvas = Canvas(bitmap)
+            view.draw(canvas)
+            Log.d("bitmap", bitmap.toString())
+
+            var stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            var byteArray = stream.toByteArray()
+
+            return byteArray
         }
 
         fun bindView(item: SavedLook) {

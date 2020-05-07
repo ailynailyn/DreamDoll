@@ -1,6 +1,7 @@
 package com.example.edu.utap.dreamdoll.userProfile
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.edu.utap.dreamdoll.*
+import com.google.firebase.storage.FirebaseStorage
 
 class ProfileGVAdapter()
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -33,6 +35,8 @@ class ProfileGVAdapter()
                 intent.putExtra("imageID", postItem.imageID)
                 intent.putExtra("likes", postItem.likes)
                 intent.putExtra("caption", postItem.caption)
+                intent.putExtra("postID", postItem.postID)
+                intent.putExtra("userID", postItem.userID)
                 itemView.context.startActivity(intent)
             }
         }
@@ -42,8 +46,19 @@ class ProfileGVAdapter()
             Log.d("GVAdapter", "bindView(item: NewsfeedItem)")
             postItem = item
             var imageID = item.imageID
-            if(imageID == null) {
-                imageView.setImageResource(R.drawable.falling_shoes_bag)
+            // Set the image.
+            // Reference to an image file in Cloud Storage
+            Log.d("bidning for imageid: ", "" + item.imageID)
+            if(item.imageID != null && item.imageID != "xxx") {
+                Log.d("imageID: ", item.imageID)
+                val mStorageRef = FirebaseStorage.getInstance().getReference()
+                val childImage = mStorageRef.child(item.imageID!!)
+                childImage.getBytes(1024*1024 / 2)
+                    .addOnSuccessListener { bytes ->
+                        var imageBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                        imageView.setImageBitmap(imageBmp)
+                    }
+
             } else {
                 imageView.setImageResource(R.drawable.doll_face)   // use glide???
             }
