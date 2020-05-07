@@ -96,6 +96,8 @@ class SVAdapter(curSavedLook: SavedLook)
             }
 
             var face = item.face
+            var hair = face.hairFeature
+            Log.d("settingSV", "$hair")
             hairView.setImageResource(face.hairFeature)
             eyeView.setImageResource(face.eyesFeature)
             browView.setImageResource(face.browsFeature)
@@ -136,8 +138,10 @@ class SVAdapter(curSavedLook: SavedLook)
     fun saveToStorage(item: SavedLook, parent: ViewGroup) {
         var face = item.face
         var ctx = parent.context
-        val file = File(ctx.filesDir, "SAVESLOTS4.txt")
+        val file = File(ctx.filesDir, "SAVESLOTS5.txt")
         file.createNewFile()
-        file.appendText("${face.getHairInt()} ${face.getEyeInt()} ${face.getBrowInt()} ${face.getNoseInt()} ${face.getLipInt()} ${face.getTopInt()} ${face.getHatInt()} ${face.getHatBackInt()} ${item.hairFull} ${item.eyesFull} ${item.browsFull} ${item.noseFull} ${item.lipsFull} ${item.topFull} ${item.hatFull} ${item.hatBackFull} ${item.bottomsFull} ${item.shoesFull} ${item.saveTitle} true \n")
+        item.saved = true
+        val newTitle = item.saveTitle?.replace(" ", ",")
+        file.appendText("${face.getHairInt()} ${face.getEyeInt()} ${face.getBrowInt()} ${face.getNoseInt()} ${face.getLipInt()} ${face.getTopInt()} ${face.getHatInt()} ${face.getHatBackInt()} ${item.hairFull} ${item.eyesFull} ${item.browsFull} ${item.noseFull} ${item.lipsFull} ${item.topFull} ${item.hatFull} ${item.hatBackFull} ${item.bottomsFull} ${item.shoesFull} ${newTitle} ${item.saved}\n")
     }
 }
