@@ -48,6 +48,16 @@ class EditFullBodyFrag : Fragment() {
     var noseFeature = 0
     var lipFeature = 0
 
+    // extras
+    var hatFeature = 0
+    var topFeature = 0
+    var hatBackFeature = 0
+    var hatInt = 0
+    var hatBackInt = 0
+    var topInt = 0
+    var bottomInt = 0
+    var shoeInt = 0
+
     // clothing views
     lateinit var hatDisplay : ImageView
     lateinit var hatDisplayBack: ImageView
@@ -100,6 +110,17 @@ class EditFullBodyFrag : Fragment() {
         browFeature = arguments?.getInt("browsFeature")!!
         noseFeature = arguments?.getInt("noseFeature")!!
         lipFeature = arguments?.getInt("lipsFeature")!!
+
+        if(arguments?.getInt("hatFull") != null) {
+            hatInt = arguments?.getInt("hatFull")!!
+            hatBackInt = arguments?.getInt("hatBackFull")!!
+            topInt = arguments?.getInt("topFull")!!
+            bottomInt = arguments?.getInt("bottomFull")!!
+            shoeInt = arguments?.getInt("shoeFull")!!
+            topFeature = arguments?.getInt("topFeature")!!
+            hatFeature = arguments?.getInt("hatFeature")!!
+            hatBackFeature = arguments?.getInt("hatBackFeature")!!
+        }
 
         // Inflate the root view and cache references to vital UI elements.
         return inflater.inflate(R.layout.edit_full_body, container, false)
