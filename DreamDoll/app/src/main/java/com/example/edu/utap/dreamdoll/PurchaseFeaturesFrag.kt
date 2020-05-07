@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.edit_features.*
 
 // EditFeaturesFrag.kt & edit_features.xml
-class EditFeaturesFrag() : Fragment() {
+class PurchaseFeaturesFrag() : Fragment() {
 
     // feature variables
     lateinit var hairDisplay : ImageView
@@ -57,7 +57,7 @@ class EditFeaturesFrag() : Fragment() {
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
-    private lateinit var rvAdapter : GVAdapter
+    private lateinit var rvAdapter : PVAdapter
     private val repository = Repository()
     private val numCols = 3
     private var curCategoryIdx = 0
@@ -89,7 +89,7 @@ class EditFeaturesFrag() : Fragment() {
         }
 
         // Inflate the root view and cache references to vital UI elements.
-        return inflater.inflate(R.layout.edit_features, container, false)
+        return inflater.inflate(R.layout.purchase_features, container, false)
     }
 
 
@@ -108,18 +108,11 @@ class EditFeaturesFrag() : Fragment() {
     }
 
     fun goToFullBody() {
-        Log.d("XXX", "goToFullBody was called!!")
-
-        if(activity is CreateCharacterActivity) {
-            var createActivity : CreateCharacterActivity = activity as CreateCharacterActivity
-            createActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID())
-            Log.d("XXX", "got past the featureList!!")
-
-        } else {
-            var editActivity : EditCharacterActivity = activity as EditCharacterActivity
-            editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), hatInt, hatFeature, hatBackInt, hatBackFeature, topInt, topFeature, bottomInt, shoeInt)
-            Log.d("XXX", "got past the featureList!!")
-        }
+//        Log.d("XXX", "goToFullBody was called!!")
+//
+//            var purchaseActivity : BuyItemsActivity = activity as BuyItemsActivity
+//            purchaseActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), hatInt, hatFeature, hatBackInt, hatBackFeature, topInt, topFeature, bottomInt, shoeInt)
+//            Log.d("XXX", "got past the featureList!!")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -168,7 +161,9 @@ class EditFeaturesFrag() : Fragment() {
         noseTransfer = ImageTransferItem(noseDisplay, noseInt, noseFeature)
         lipTransfer = ImageTransferItem(lipDisplay, lipInt, lipFeature)
 
-        rvAdapter = GVAdapter(hairTransfer, eyeTransfer, browTransfer, noseTransfer, lipTransfer)
+        var purchaseList = listOf<String>()
+
+        rvAdapter = PVAdapter(hairTransfer, eyeTransfer, browTransfer, noseTransfer, lipTransfer, purchaseList)
 
         // Set adapter.
         recyclerView.adapter = rvAdapter
@@ -233,27 +228,27 @@ class EditFeaturesFrag() : Fragment() {
                         Log.d("xxx", "lips pressed")
                         rvAdapter.setItemList(repository.fetchLips())
                     }
-                    "Hats" -> {
-                        Log.d("xxx", "hats pressed")
-                        rvAdapter.setItemList(repository.fetchHats())
-                        Log.d("xx", "hats. going to listen full body frag")
-                        goToFullBody()
-                    }
-                    "Tops" -> {
-                        Log.d("xxx", "tops pressed")
-                        rvAdapter.setItemList(repository.fetchTops())
-                        goToFullBody()
-                    }
-                    "Bottoms" -> {
-                        Log.d("xxx", "bottoms pressed")
-                        rvAdapter.setItemList(repository.fetchBottoms())
-                        goToFullBody()
-                    }
-                    "Shoes" -> {
-                        Log.d("xxx", "shoes pressed")
-                        rvAdapter.setItemList(repository.fetchShoes())
-                        goToFullBody()
-                    }
+//                    "Hats" -> {
+//                        Log.d("xxx", "hats pressed")
+//                        rvAdapter.setItemList(repository.fetchHats())
+//                        Log.d("xx", "hats. going to listen full body frag")
+//                        goToFullBody()
+//                    }
+//                    "Tops" -> {
+//                        Log.d("xxx", "tops pressed")
+//                        rvAdapter.setItemList(repository.fetchTops())
+//                        goToFullBody()
+//                    }
+//                    "Bottoms" -> {
+//                        Log.d("xxx", "bottoms pressed")
+//                        rvAdapter.setItemList(repository.fetchBottoms())
+//                        goToFullBody()
+//                    }
+//                    "Shoes" -> {
+//                        Log.d("xxx", "shoes pressed")
+//                        rvAdapter.setItemList(repository.fetchShoes())
+//                        goToFullBody()
+//                    }
                 }
             }
 
@@ -277,6 +272,7 @@ class EditFeaturesFrag() : Fragment() {
     }
 
     private fun initButtons() {
+        var clothes = view!!.findViewById<Button>(R.id.purchaseFeatures_clothesButton)
         var prev = view!!.findViewById<Button>(R.id.editFeature_prev)
         var next = view!!.findViewById<Button>(R.id.editFeature_next)
         prev.setOnClickListener {
@@ -290,7 +286,7 @@ class EditFeaturesFrag() : Fragment() {
                     }
 
                     else -> {
-                        goToFullBody()
+//                        goToFullBody()
                     }
                 }
             }
@@ -306,10 +302,15 @@ class EditFeaturesFrag() : Fragment() {
                         curCategoryIdx = nextPos
                     }
                     else -> {
-                        goToFullBody()
+//                        goToFullBody()
+                        curCategoryIdx = 0
                     }
                 }
             }
+        }
+
+        clothes.setOnClickListener {
+            goToFullBody()
         }
     }
 

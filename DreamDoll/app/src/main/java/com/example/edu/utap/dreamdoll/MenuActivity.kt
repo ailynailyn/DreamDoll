@@ -49,7 +49,9 @@ class MenuActivity : BaseActivity() {
 
     // Buy items button was clicked.
     fun buyItemsButtonClicked() {
-
+        val intent = Intent(this, BuyItemsActivity::class.java)
+        intent.putExtra("title", "in store")
+        startActivity(intent)
     }
 
     fun accountButtonClicked() {
