@@ -46,15 +46,35 @@ class NewsfeedRVAdapter()
                 Log.d("RVAdapter", "item clicked ${usernameTV.text}")
 
             }
+
+            // Find out if the picture is liked.
+            var userRef = db.collection("users").document(mAuth.currentUser!!.uid)
+            userRef.get()
+                .addOnSuccessListener {
+                    var data = it.data
+                    Log.d("data: ", data.toString())
+                    if(data != null) {
+                        var likesList: ArrayList<String> = data["likes"] as ArrayList<String>
+                        likesList.forEach { post ->
+                            if(post == postID) {
+                                isLiked = true
+                            }
+                        }
+                        Log.d("After going through likes", "current post is liked: $isLiked")
+                    }
+                }
+                .addOnFailureListener {
+                    Log.d("Could not get user data", "Failed")
+                }
+
             likeButton.setOnClickListener {
                 Log.d("newfeed adapter", "like button clicked for post $postID")
                 //var isLiked = true
-                // Find out if the picture is liked.
-
 
                 var likes = postLikes
                 if(isLiked) {
                     Log.d("was liked", "going to unlike")
+                    isLiked = false
                     // Change to unlike.
                     likeButton.text = "♡"
 
@@ -70,6 +90,7 @@ class NewsfeedRVAdapter()
 
                 } else {
                     Log.d("was unliked", "going to like")
+                    isLiked = true
                     // Change button to like.
                     likeButton.text = "❤"
 
