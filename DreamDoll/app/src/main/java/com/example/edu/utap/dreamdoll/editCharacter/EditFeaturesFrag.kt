@@ -196,13 +196,13 @@ class EditFeaturesFrag() : Fragment() {
                 // Set data.
                 curCategoryIdx = position
                 when(item) {
+                    "Hairstyle" -> {
+                        Log.d("xxx", "hair pressed")
+                        rvAdapter.setItemList(repository.fetchHairDemo())
+                    }
                     "Eyes" -> {
                         Log.d("xxx", "eyes pressed")
                         rvAdapter.setItemList(repository.fetchEyeDemo())
-                    }
-                    "Hair" -> {
-                        Log.d("xxx", "hair pressed")
-                        rvAdapter.setItemList(repository.fetchHairDemo())
                     }
                     "Eyebrows" -> {
                         Log.d("xxx", "eyebrows pressed")

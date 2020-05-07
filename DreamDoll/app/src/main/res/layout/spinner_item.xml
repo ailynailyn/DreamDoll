@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:textSize="28dp"
     android:gravity="center"
-    android:textColor="@color/black"
+    android:textColor="@color/navy"
     android:text="CATEGORY"
+    android:textAllCaps="true"
     />
