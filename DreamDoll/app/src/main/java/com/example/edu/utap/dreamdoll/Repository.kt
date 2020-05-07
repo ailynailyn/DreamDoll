@@ -21,7 +21,8 @@ open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureI
     }
 }
 
-data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int, var saveTitle: String?, var saved: Boolean)
+data class SavedLook(var face: SavedFace, var hairFull: Int, var eyesFull: Int, var browsFull: Int, var noseFull: Int, var lipsFull: Int, var topFull: Int, var hatFull: Int, var hatBackFull: Int, var bottomsFull: Int, var shoesFull: Int, var saveTitle: String?, var saved: Boolean)
+data class SavedFace(val hairFeature: Int, val eyesFeature: Int, val browsFeature: Int, val noseFeature: Int, val lipsFeature: Int, val topFeature: Int, val hatFeature: Int, val hatFeatureBack: Int)
 
 data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backFull: Int?, val backID: Int?)
 
@@ -54,10 +55,12 @@ class Repository {
 //            DollItem("white", R.drawable.doll_face, null, null)
 //        )
 
+        private var defaultSaveFace = SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev)
+
         var defaultSaveSlots = arrayListOf(
-            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev, "save slot 1", false),
-            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev, "save slot 2", false),
-            SavedFace(R.drawable.brown_center, R.drawable.oval_eyes, R.drawable.round_brows, R.drawable.long_nose, R.drawable.lips_oval, R.drawable.black_wrap_top_prev, R.drawable.black_hat_prev, R.drawable.black_hat_back_prev, "save slot 3", false)
+            SavedLook(defaultSaveFace, R.drawable.pink_bang_full, R.drawable.oval_eyes_full, R.drawable.angled_brows_full, R.drawable.button_nose_full, R.drawable.round_lips_full, R.drawable.black_wrap_top, R.drawable.hat_front, R.drawable.hat_back, R.drawable.black_bell_pants, R.drawable.black_platforms, "Save Slot 1", false),
+            SavedLook(defaultSaveFace, R.drawable.pink_bang_full, R.drawable.oval_eyes_full, R.drawable.angled_brows_full, R.drawable.button_nose_full, R.drawable.round_lips_full, R.drawable.black_wrap_top, R.drawable.hat_front, R.drawable.hat_back, R.drawable.black_bell_pants, R.drawable.black_platforms, "Save Slot 1", false),
+            SavedLook(defaultSaveFace, R.drawable.pink_bang_full, R.drawable.oval_eyes_full, R.drawable.angled_brows_full, R.drawable.button_nose_full, R.drawable.round_lips_full, R.drawable.black_wrap_top, R.drawable.hat_front, R.drawable.hat_back, R.drawable.black_bell_pants, R.drawable.black_platforms, "Save Slot 1", false)
         )
 
         private var hairDemoList = listOf(
@@ -159,7 +162,7 @@ class Repository {
         return sampleUserPics
     }
 
-    fun fetchDefaultSlots() : ArrayList<SavedFace> {
+    fun fetchDefaultSlots() : ArrayList<SavedLook> {
         return defaultSaveSlots
     }
 }

@@ -15,14 +15,16 @@ import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 
-class SVAdapter(curSavedFace: SavedFace)
+class SVAdapter(curSavedLook: SavedLook)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var listOfItems = listOf<SavedFace>()
+    private var listOfItems = listOf<SavedLook>()
 
-    var savedFace = curSavedFace
+    var savedLook = curSavedLook
 
-    inner class VH(itemView: View, curSavedFace: SavedFace) : RecyclerView.ViewHolder(itemView) {
+    inner class VH(itemView: View, curSavedLook: SavedLook) : RecyclerView.ViewHolder(itemView) {
+        internal var curSavedFace = curSavedLook.face
+
         internal var hairView = itemView.findViewById<ImageView>(R.id.saveSlots_hair)
         internal var eyeView = itemView.findViewById<ImageView>(R.id.saveSlots_eyes)
         internal var browView = itemView.findViewById<ImageView>(R.id.saveSlots_brows)
@@ -57,7 +59,7 @@ class SVAdapter(curSavedFace: SavedFace)
                 hatViewBack.visibility = View.VISIBLE
                 dollView.visibility = View.VISIBLE
 
-                Repository.defaultSaveSlots[adapterPosition] = curSavedFace
+                Repository.defaultSaveSlots[adapterPosition] = curSavedLook
                 Repository.defaultSaveSlots[adapterPosition].saved = true
             }
 
@@ -67,8 +69,8 @@ class SVAdapter(curSavedFace: SavedFace)
 
         }
 
-        fun bindView(item: SavedFace) {
-            Log.d("SVAdapter", "bindView(item: SavedFace)")
+        fun bindView(item: SavedLook) {
+            Log.d("SVAdapter", "bindView(item: SavedLook)")
             if(!item.saved) {
                 hairView.visibility = View.GONE
                 eyeView.visibility = View.GONE
@@ -91,21 +93,20 @@ class SVAdapter(curSavedFace: SavedFace)
                 dollView.visibility = View.VISIBLE
             }
 
-            hairView.setImageResource(item.hairFeature)
-            eyeView.setImageResource(item.eyesFeature)
-            browView.setImageResource(item.browsFeature)
-            noseView.setImageResource(item.noseFeature)
-            lipView.setImageResource(item.lipsFeature)
-            topView.setImageResource(item.topFeature)
-            hatView.setImageResource(item.hatFeature)
-            hatViewBack.setImageResource(item.hatFeatureBack)
-            if(item.saveTitle != null && item.saveTitle != "") {
-            }
+            var face = item.face
+            hairView.setImageResource(face.hairFeature)
+            eyeView.setImageResource(face.eyesFeature)
+            browView.setImageResource(face.browsFeature)
+            noseView.setImageResource(face.noseFeature)
+            lipView.setImageResource(face.lipsFeature)
+            topView.setImageResource(face.topFeature)
+            hatView.setImageResource(face.hatFeature)
+            hatViewBack.setImageResource(face.hatFeatureBack)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedFace)
+        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedLook)
     }
 
     override fun getItemCount(): Int {
@@ -117,7 +118,7 @@ class SVAdapter(curSavedFace: SavedFace)
         itemVH.bindView(listOfItems[position])
     }
 
-    fun setItemList(listOfItems: List<SavedFace>) {
+    fun setItemList(listOfItems: List<SavedLook>) {
         this.listOfItems = listOfItems
         notifyDataSetChanged()
     }

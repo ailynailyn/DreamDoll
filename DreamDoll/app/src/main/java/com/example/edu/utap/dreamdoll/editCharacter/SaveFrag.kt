@@ -15,20 +15,6 @@ import com.example.edu.utap.dreamdoll.*
 
 class SaveFrag: Fragment() {
 
-    // feature variables
-    lateinit var hairDisplay : ImageView
-    lateinit var eyeDisplay : ImageView
-    lateinit var browDisplay : ImageView
-    lateinit var noseDisplay : ImageView
-    lateinit var lipDisplay : ImageView
-
-    // clothing views
-    lateinit var hatDisplay : ImageView
-    lateinit var hatDisplayBack: ImageView
-    lateinit var topDisplay : ImageView
-    lateinit var bottomDisplay : ImageView
-    lateinit var shoeDisplay : ImageView
-
     // store face feature ids
     var hairFeature = 0
     var eyeFeature = 0
@@ -55,12 +41,14 @@ class SaveFrag: Fragment() {
     // full clothes
     // these will not be used here
     var hatInt = 0
+    var hatBackInt = 0
     var topInt = 0
     var bottomInt = 0
     var shoeInt = 0
 
-    private lateinit var savedList : ArrayList<SavedFace>
+    private lateinit var savedList : ArrayList<SavedLook>
     private lateinit var curSavedFace: SavedFace
+    private lateinit var curSavedLook: SavedLook
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
@@ -79,6 +67,11 @@ class SaveFrag: Fragment() {
         browInt = arguments?.getInt("browsFull")!!
         noseInt = arguments?.getInt("noseFull")!!
         lipInt = arguments?.getInt("lipsFull")!!
+        hatInt = arguments?.getInt("hatFull")!!
+        hatBackInt = arguments?.getInt("hatBackFull")!!
+        topInt = arguments?.getInt("topFull")!!
+        bottomInt = arguments?.getInt("bottomFull")!!
+        shoeInt = arguments?.getInt("shoeFull")!!
 
         hairFeature = arguments?.getInt("hairFeature")!!
         eyeFeature = arguments?.getInt("eyesFeature")!!
@@ -113,7 +106,7 @@ class SaveFrag: Fragment() {
     }
 
     private fun initSavedList() {
-        savedList = arrayListOf<SavedFace>()
+        savedList = arrayListOf<SavedLook>()
         if(savedList.size == 0) {
             savedList = repository.fetchDefaultSlots()
         }
@@ -126,17 +119,18 @@ class SaveFrag: Fragment() {
         recyclerView.layoutManager = gridLayoutManager
     }
 
-    private fun initCurSavedFace() {
-        curSavedFace = SavedFace(hairFeature, eyeFeature, browFeature, noseFeature, lipFeature, topFeature, hatFeature, hatBackFeature, "NEW LOOK", false)
+    private fun initCurSavedFaceLook() {
+        curSavedFace = SavedFace(hairFeature, eyeFeature, browFeature, noseFeature, lipFeature, topFeature, hatFeature, hatBackFeature)
+        curSavedLook = SavedLook(curSavedFace, hairInt, eyeInt, browInt, noseInt, lipInt, topInt, hatInt, hatBackInt, bottomInt, shoeInt, "NEW LOOK", false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initSavedList()
-        initCurSavedFace()
+        initCurSavedFaceLook()
         initGrid()
 
-        rvAdapter = SVAdapter(curSavedFace)
+        rvAdapter = SVAdapter(curSavedLook)
 
         // Set adapter.
         recyclerView.adapter = rvAdapter
