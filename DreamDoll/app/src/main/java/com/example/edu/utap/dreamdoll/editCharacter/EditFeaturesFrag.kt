@@ -213,7 +213,7 @@ class EditFeaturesFrag() : Fragment() {
                 // Set data.
                 curCategoryIdx = position
                 when(item) {
-                    "Hairstyle" -> {
+                    "Hair" -> {
                         Log.d("xxx", "hair pressed")
                         rvAdapter.setItemList(repository.fetchHairDemo())
                     }
