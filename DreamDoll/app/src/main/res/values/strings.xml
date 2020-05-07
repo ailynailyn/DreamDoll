@@ -9,7 +9,7 @@
     <color name="menu_blue">#e0e8f4</color>
     <color name="white_blue">#edf1f9</color>
     <string-array name="edit_options">
-        <item>Hair</item>
+        <item>Hairstyle</item>
         <item>Eyes</item>
         <item>Eyebrows</item>
         <item>Nose</item>

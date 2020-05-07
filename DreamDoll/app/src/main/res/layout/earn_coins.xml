@@ -51,6 +51,7 @@
         android:background="@drawable/custom0menu0box0dark"
         android:textColor="@color/gold"
         android:text="Purchase coins"
+        android:visibility="gone"
         />
 
 

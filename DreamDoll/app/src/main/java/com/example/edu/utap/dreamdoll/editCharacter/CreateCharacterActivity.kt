@@ -91,7 +91,6 @@ class CreateCharacterActivity : BaseActivity() {
         } else {
             transaction.show(saveFrag)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

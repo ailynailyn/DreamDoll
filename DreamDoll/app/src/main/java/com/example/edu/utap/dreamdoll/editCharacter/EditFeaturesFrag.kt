@@ -1,11 +1,13 @@
 package com.example.edu.utap.dreamdoll
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -74,8 +76,8 @@ class EditFeaturesFrag() : Fragment() {
             hatInt = arguments?.getInt("hatFull")!!
             hatBackInt = arguments?.getInt("hatBackFull")!!
             topInt = arguments?.getInt("topFull")!!
-            bottomInt = arguments?.getInt("bottomFull")!!
-            shoeInt = arguments?.getInt("shoeFull")!!
+            bottomInt = arguments?.getInt("bottomsFull")!!
+            shoeInt = arguments?.getInt("shoesFull")!!
             hairFeature = arguments?.getInt("hairFeature")!!
             eyeFeature = arguments?.getInt("eyesFeature")!!
             browFeature = arguments?.getInt("browsFeature")!!
@@ -90,6 +92,21 @@ class EditFeaturesFrag() : Fragment() {
         return inflater.inflate(R.layout.edit_features, container, false)
     }
 
+
+    // Code to hide the keyboard.
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
+    }
+
     fun goToFullBody() {
         Log.d("XXX", "goToFullBody was called!!")
 
@@ -100,7 +117,7 @@ class EditFeaturesFrag() : Fragment() {
 
         } else {
             var editActivity : EditCharacterActivity = activity as EditCharacterActivity
-            editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), 0, 0, 0, 0, 0, 0, 0, 0)
+            editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), hatInt, hatFeature, hatBackInt, hatBackFeature, topInt, topFeature, bottomInt, shoeInt)
             Log.d("XXX", "got past the featureList!!")
         }
     }
@@ -116,31 +133,31 @@ class EditFeaturesFrag() : Fragment() {
 
         if(hairInt == 0) {
             hairInt = R.drawable.brown_center_full
-            hairFeature = R.drawable.center_brown_demo
+            hairFeature = R.drawable.brown_center
         } else {
             hairDisplay.setImageResource(hairFeature)
         }
         if(eyeInt == 0) {
             eyeInt = R.drawable.oval_eyes_full
-            eyeFeature = R.drawable.oval_eyes_demo
+            eyeFeature = R.drawable.oval_eyes
         } else {
             eyeDisplay.setImageResource(eyeFeature)
         }
         if(browInt == 0) {
             browInt = R.drawable.angled_brows_full
-            browFeature = R.drawable.angle_brow_demo
+            browFeature = R.drawable.angled_brows
         } else {
             browDisplay.setImageResource(browFeature)
         }
         if(noseInt == 0) {
             noseInt = R.drawable.button_nose_full
-            noseFeature = R.drawable.nose_button_demo
+            noseFeature = R.drawable.button_nose
         } else {
             noseDisplay.setImageResource(noseFeature)
         }
         if(lipInt == 0) {
             lipInt = R.drawable.round_lips_full
-            lipFeature = R.drawable.lips_round_demo
+            lipFeature = R.drawable.lips_round
         } else {
             lipDisplay.setImageResource(lipFeature)
         }
@@ -196,13 +213,13 @@ class EditFeaturesFrag() : Fragment() {
                 // Set data.
                 curCategoryIdx = position
                 when(item) {
+                    "Hairstyle" -> {
+                        Log.d("xxx", "hair pressed")
+                        rvAdapter.setItemList(repository.fetchHairDemo())
+                    }
                     "Eyes" -> {
                         Log.d("xxx", "eyes pressed")
                         rvAdapter.setItemList(repository.fetchEyeDemo())
-                    }
-                    "Hair" -> {
-                        Log.d("xxx", "hair pressed")
-                        rvAdapter.setItemList(repository.fetchHairDemo())
                     }
                     "Eyebrows" -> {
                         Log.d("xxx", "eyebrows pressed")

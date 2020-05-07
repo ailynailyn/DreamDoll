@@ -73,8 +73,8 @@ class SaveFrag: Fragment() {
         hatInt = arguments?.getInt("hatFull")!!
         hatBackInt = arguments?.getInt("hatBackFull")!!
         topInt = arguments?.getInt("topFull")!!
-        bottomInt = arguments?.getInt("bottomFull")!!
-        shoeInt = arguments?.getInt("shoeFull")!!
+        bottomInt = arguments?.getInt("bottomsFull")!!
+        shoeInt = arguments?.getInt("shoesFull")!!
 
         hairFeature = arguments?.getInt("hairFeature")!!
         eyeFeature = arguments?.getInt("eyesFeature")!!
@@ -84,6 +84,9 @@ class SaveFrag: Fragment() {
         topFeature = arguments?.getInt("topFeature")!!
         hatFeature = arguments?.getInt("hatFeature")!!
         hatBackFeature = arguments?.getInt("hatBackFeature")!!
+
+        Log.d("BBB", bottomInt.toString())
+        Log.d("SSS", shoeInt.toString())
 
         // Inflate the root view and cache references to vital UI elements.
         return inflater.inflate(R.layout.save_slots, container, false)
@@ -111,7 +114,7 @@ class SaveFrag: Fragment() {
     private fun initSavedList() {
         savedList = arrayListOf<SavedLook>()
 
-        val file = File(context?.filesDir, "SAVESLOTS5.txt")
+        val file = File(context?.filesDir, "SAVESLOTS7.txt")
         file.createNewFile()
         val readSaves = FileInputStream(file).bufferedReader().use { it.readText() }
         val savesList = readSaves.lines()
@@ -171,7 +174,7 @@ class SaveFrag: Fragment() {
         initCurSavedFaceLook()
         initGrid()
 
-        rvAdapter = SVAdapter(curSavedLook)
+        rvAdapter = SVAdapter(curSavedLook, savedList)
 
         // Set adapter.
         recyclerView.adapter = rvAdapter

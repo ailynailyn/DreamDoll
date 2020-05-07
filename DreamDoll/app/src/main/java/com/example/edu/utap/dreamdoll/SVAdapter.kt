@@ -12,14 +12,15 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import java.io.File
 
-class SVAdapter(curSavedLook: SavedLook)
+class SVAdapter(curSavedLook: SavedLook, curSavedList: ArrayList<SavedLook>)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var listOfItems = listOf<SavedLook>()
 
     var savedLook = curSavedLook
+    var savedList = curSavedList
 
-    inner class VH(itemView: View, curSavedLook: SavedLook, parent: ViewGroup) : RecyclerView.ViewHolder(itemView) {
+    inner class VH(itemView: View, curSavedLook: SavedLook, parent: ViewGroup, curSavedList: ArrayList<SavedLook>) : RecyclerView.ViewHolder(itemView) {
         internal var curSavedFace = curSavedLook.face
 
         internal var hairView = itemView.findViewById<ImageView>(R.id.saveSlots_hair)
@@ -56,7 +57,11 @@ class SVAdapter(curSavedLook: SavedLook)
                 hatViewBack.visibility = View.VISIBLE
                 dollView.visibility = View.VISIBLE
 
-                saveToStorage(curSavedLook, parent)
+                if(curSavedList[adapterPosition].saved) {
+                    curSavedList[adapterPosition].update(curSavedLook)
+                } else {
+                    saveToStorage(curSavedLook, parent)
+                }
             }
 
             captionTV.onChange {
@@ -104,7 +109,7 @@ class SVAdapter(curSavedLook: SavedLook)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedLook, parent)
+        return VH(LayoutInflater.from(parent.context).inflate(R.layout.save_item, parent, false), savedLook, parent, savedList)
     }
 
     override fun getItemCount(): Int {
@@ -132,7 +137,7 @@ class SVAdapter(curSavedLook: SavedLook)
     fun saveToStorage(item: SavedLook, parent: ViewGroup) {
         var face = item.face
         var ctx = parent.context
-        val file = File(ctx.filesDir, "SAVESLOTS5.txt")
+        val file = File(ctx.filesDir, "SAVESLOTS7.txt")
         file.createNewFile()
         item.saved = true
         val newTitle = item.saveTitle?.replace(" ", ",")
