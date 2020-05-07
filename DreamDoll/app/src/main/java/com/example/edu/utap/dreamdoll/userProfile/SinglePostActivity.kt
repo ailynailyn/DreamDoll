@@ -3,6 +3,7 @@ package com.example.edu.utap.dreamdoll
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,17 +18,26 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.utap.dreamdoll.newfeed.NewsfeedRVAdapter
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthActionCodeException
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.edit_features.*
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
+import kotlinx.android.synthetic.main.news_feed.*
+import kotlinx.android.synthetic.main.profile_single_post.*
 
 // EditFaceFrag.kt & edit_features.xml
 class SinglePostActivity : BaseActivity() {
+
+    private lateinit var rvAdapter: NewsfeedRVAdapter
+
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -36,32 +46,19 @@ class SinglePostActivity : BaseActivity() {
     }
 
     private fun setupPost(extras: Bundle) {
-        val profilePicIV = findViewById<ImageView>(R.id.singlePostProfilePic)
-        val usernameTV = findViewById<TextView>(R.id.singlePostUsername)
-        var postIV = findViewById<ImageView>(R.id.singlePostImage)
-        val likesTV = findViewById<TextView>(R.id.singlePostLikesTV)
-        val likeButton = findViewById<Button>(R.id.singlePostLikeButton)
-        val captionTV = findViewById<TextView>(R.id.singlePostCaption)
-        val profilePicID = extras.getString("profilePicID")
-        val username = extras.getString("username")
-        val postImage = extras.getString("imageID")
+
+        val username = extras.getString("username").toString()
+        val profilePicID = extras.getString("profilePicID").toString()
+        val imageID = extras.getString("imageID").toString()
         val likes = extras.getInt("likes")
-        val caption = extras.getString("caption")
+        val caption = extras.getString("caption").toString()
+        val postID = extras.getString("postID").toString()
+        val userID = extras.getString("userID").toString()
 
-        // Set profile pic.
-        //
-
-        usernameTV.text = username
-        // Set image pic.
-        //
-
-        val tmp = "$likes Likes"
-        likesTV.text = tmp
-        captionTV.text = caption
-
-        likeButton.setOnClickListener {
-            Log.d("SinglePostActivity", "backButtonPressed")
-        }
+        var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, userID)
+        val list = mutableListOf<NewsfeedItem>()
+        list.add(item)
+        rvAdapter.setItemList(list)
 
     }
 
@@ -70,6 +67,10 @@ class SinglePostActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_single_post)
         displayOptionsMenu(true)
+
+        rvAdapter = NewsfeedRVAdapter()
+        singlePostRV.adapter = rvAdapter
+        singlePostRV.layoutManager = LinearLayoutManager(this)
 
         // Get extra information.
         var extras = intent.extras

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -162,6 +163,7 @@ class SaveFrag: Fragment() {
         curSavedFace = SavedFace(hairFeature, eyeFeature, browFeature, noseFeature, lipFeature, topFeature, hatFeature, hatBackFeature)
         curSavedLook = SavedLook(curSavedFace, hairInt, eyeInt, browInt, noseInt, lipInt, topInt, hatInt, hatBackInt, bottomInt, shoeInt, "NEW LOOK", false)
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
