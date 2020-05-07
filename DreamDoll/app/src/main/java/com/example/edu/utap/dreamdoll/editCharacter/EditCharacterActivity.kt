@@ -10,7 +10,7 @@ class EditCharacterActivity : BaseActivity() {
 
     var editFeaturesFrag = EditFeaturesFrag()
     var editFullBodyFrag = EditFullBodyFrag()
-    val editFullTag = "fullBodyFrag"
+    private val editFullTag = "fullBodyFrag"
     var editFrag = EditFrag()
     var saveFrag = SaveFrag()
 
@@ -57,7 +57,7 @@ class EditCharacterActivity : BaseActivity() {
                           hatFull: Int, hatFeature: Int, hatBackFull: Int, hatBackFeature: Int, topFull: Int, topFeature: Int, bottomsFull: Int, shoesFull:Int) {
         Log.d("xx", "beginFullBodyFrag was called!!")
         // Only do this if the full body frag has not already been placed.
-        var frag = supportFragmentManager.findFragmentByTag("fullBodyFrag")
+        var frag = supportFragmentManager.findFragmentByTag(editFullTag)
         if(frag == null) {
 
         // add features
