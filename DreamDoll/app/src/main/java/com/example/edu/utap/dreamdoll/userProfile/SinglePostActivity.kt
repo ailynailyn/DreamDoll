@@ -3,6 +3,7 @@ package com.example.edu.utap.dreamdoll
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthActionCodeException
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.edit_features.*
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.login_signup.*
@@ -54,6 +56,20 @@ class SinglePostActivity : BaseActivity() {
         usernameTV.text = username
         // Set image pic.
         //
+        // Set the image.
+        // Reference to an image file in Cloud Storage
+        Log.d("bidning for imageid: ", "" + postImage)
+        if(postImage != null && postImage != "xxx") {
+            Log.d("imageID: ", postImage)
+            val mStorageRef = FirebaseStorage.getInstance().getReference()
+            val childImage = mStorageRef.child(postImage)
+            childImage.getBytes(1024*1024)
+                .addOnSuccessListener { bytes ->
+                    var imageBmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    postIV.setImageBitmap(imageBmp)
+                }
+
+        }
 
         val tmp = "$likes Likes"
         likesTV.text = tmp
