@@ -13,10 +13,17 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.quickstart.auth.R
+import com.google.firebase.quickstart.auth.databinding.ActivityAnonymousAuthBinding
+
 
 class MainActivity :
     BaseActivity()
      {
+         private lateinit var auth: FirebaseAuth
 
     // Hides keyboard.
     fun Activity.hideKeyboard() {
@@ -45,10 +52,13 @@ class MainActivity :
         if(curUser == null) {
             Log.d("cur user is null", "going to signuplogin")
             // Start in the login/signup screen.
-            displayOptionsMenu(false)
-            val intent = Intent(this, StartUpActivity::class.java)
-            intent.putExtra("going to start up activity", "madeit")
-            startActivity(intent)
+//            displayOptionsMenu(false)
+//            val intent = Intent(this, StartUpActivity::class.java)
+//            intent.putExtra("going to start up activity", "madeit")
+//            startActivity(intent)
+            auth = Firebase.auth
+            displayOptionsMenu(true)
+
         } else {
             Log.d("signed in.", "going to newsfeed")
             // else bring them to the main feed
