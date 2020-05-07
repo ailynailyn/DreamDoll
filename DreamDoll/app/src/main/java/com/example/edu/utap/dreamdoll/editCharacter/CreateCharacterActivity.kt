@@ -15,6 +15,7 @@ class CreateCharacterActivity : BaseActivity() {
     var editFeaturesFrag = EditFeaturesFrag()
     var editFullBodyFrag = EditFullBodyFrag()
     var saveFrag = SaveFrag()
+    private val editFullTag = "fullBodyFrag"
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -32,26 +33,30 @@ class CreateCharacterActivity : BaseActivity() {
     fun beginFullBodyFrag(hairFull: Int, hairFeature: Int, eyesFull: Int, eyesFeature: Int, browsFull: Int, browsFeature: Int, noseFull: Int, noseFeature: Int, lipsFull: Int, lipsFeature: Int) {
         Log.d("xx", "beginFullBodyFrag was called!!")
 
-        // add features
-        val bundle = Bundle()
-        bundle.putInt("hairFull", hairFull)
-        bundle.putInt("hairFeature", hairFeature)
-        bundle.putInt("eyesFull", eyesFull)
-        bundle.putInt("eyesFeature", eyesFeature)
-        bundle.putInt("browsFull", browsFull)
-        bundle.putInt("browsFeature", browsFeature)
-        bundle.putInt("noseFull", noseFull)
-        bundle.putInt("noseFeature", noseFeature)
-        bundle.putInt("lipsFull", lipsFull)
-        bundle.putInt("lipsFeature", lipsFeature)
+        var frag = supportFragmentManager.findFragmentByTag("fullBodyFrag")
+        if(frag == null) {
 
-        val transaction = supportFragmentManager.beginTransaction()
-        editFullBodyFrag.arguments = bundle
+            // add features
+            val bundle = Bundle()
+            bundle.putInt("hairFull", hairFull)
+            bundle.putInt("hairFeature", hairFeature)
+            bundle.putInt("eyesFull", eyesFull)
+            bundle.putInt("eyesFeature", eyesFeature)
+            bundle.putInt("browsFull", browsFull)
+            bundle.putInt("browsFeature", browsFeature)
+            bundle.putInt("noseFull", noseFull)
+            bundle.putInt("noseFeature", noseFeature)
+            bundle.putInt("lipsFull", lipsFull)
+            bundle.putInt("lipsFeature", lipsFeature)
 
-        transaction
-            .addToBackStack(null)
-            .add(R.id.container, editFullBodyFrag)
-            .commit()
+            val transaction = supportFragmentManager.beginTransaction()
+            editFullBodyFrag.arguments = bundle
+
+            transaction
+                .addToBackStack(null)
+                .add(R.id.container, editFullBodyFrag, editFullTag)
+                .commit()
+        }
     }
 
     fun beginSaveFrag(hairFull: Int, hairFeature: Int, eyesFull: Int, eyesFeature: Int, browsFull: Int, browsFeature: Int, noseFull: Int, noseFeature: Int, lipsFull: Int, lipsFeature: Int,
