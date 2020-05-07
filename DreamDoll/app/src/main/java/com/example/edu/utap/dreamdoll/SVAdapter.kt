@@ -132,7 +132,7 @@ class SVAdapter(curSavedLook: SavedLook)
     fun saveToStorage(item: SavedLook, parent: ViewGroup) {
         var face = item.face
         var ctx = parent.context
-        val file = File(ctx.filesDir, "SAVESLOTS5.txt")
+        val file = File(ctx.filesDir, "SAVESLOTS7.txt")
         file.createNewFile()
         item.saved = true
         val newTitle = item.saveTitle?.replace(" ", ",")

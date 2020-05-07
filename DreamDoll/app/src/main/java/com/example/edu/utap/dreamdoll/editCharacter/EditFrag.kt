@@ -28,8 +28,6 @@ class EditFrag: Fragment() {
     var hatFeature = 0
     var topFeature = 0
     var hatBackFeature = 0
-    var bottomFeature = 0
-    var shoeFeature = 0
 
     // full face storage from bundle
     // these will not be used here
@@ -90,7 +88,7 @@ class EditFrag: Fragment() {
     private fun initSavedList() {
         savedList = arrayListOf<SavedLook>()
 
-        val file = File(context?.filesDir, "SAVESLOTS5.txt")
+        val file = File(context?.filesDir, "SAVESLOTS7.txt")
         file.createNewFile()
         val readSaves = FileInputStream(file).bufferedReader().use { it.readText() }
         val savesList = readSaves.lines()

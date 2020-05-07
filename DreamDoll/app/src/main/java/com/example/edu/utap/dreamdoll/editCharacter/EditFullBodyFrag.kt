@@ -112,7 +112,7 @@ class EditFullBodyFrag : Fragment() {
         noseFeature = arguments?.getInt("noseFeature")!!
         lipFeature = arguments?.getInt("lipsFeature")!!
 
-        if(arguments?.getInt("hatFull") != null) {
+        if(arguments?.getInt("hatFull") != null && arguments?.getInt("hatFull") != 0) {
             hatInt = arguments?.getInt("hatFull")!!
             hatBackInt = arguments?.getInt("hatBackFull")!!
             topInt = arguments?.getInt("topFull")!!
@@ -330,9 +330,16 @@ class EditFullBodyFrag : Fragment() {
     }
 
     fun saveLook() {
-        var saveActivity : CreateCharacterActivity = activity as CreateCharacterActivity
-        Log.d("save look", "going back to edit character...")
-        saveActivity.beginSaveFrag(hairInt, hairFeature, eyeInt, eyeFeature, browInt, browFeature, noseInt, noseFeature, lipInt, lipFeature, hats[hatIdx].fullBodyID, hats[hatIdx].imgID, hats[hatIdx].backFull?:0, hats[hatIdx].backID?:0, tops[topIdx].fullBodyID, tops[topIdx].imgID, bottoms[bottomIdx].fullBodyID, bottoms[bottomIdx].imgID, shoes[shoeIdx].fullBodyID, shoes[shoeIdx].imgID)
+        if(activity is CreateCharacterActivity) {
+            var saveActivity : CreateCharacterActivity = activity as CreateCharacterActivity
+            Log.d("save look", "going back to edit character...")
+            saveActivity.beginSaveFrag(hairInt, hairFeature, eyeInt, eyeFeature, browInt, browFeature, noseInt, noseFeature, lipInt, lipFeature, hats[hatIdx].fullBodyID, hats[hatIdx].imgID, hats[hatIdx].backFull?:0, hats[hatIdx].backID?:0, tops[topIdx].fullBodyID, tops[topIdx].imgID, bottoms[bottomIdx].fullBodyID, bottoms[bottomIdx].imgID, shoes[shoeIdx].fullBodyID, shoes[shoeIdx].imgID)
+        } else {
+            var saveActivity : EditCharacterActivity = activity as EditCharacterActivity
+            Log.d("save look", "going back to edit character...")
+            saveActivity.beginSaveFrag(hairInt, hairFeature, eyeInt, eyeFeature, browInt, browFeature, noseInt, noseFeature, lipInt, lipFeature, hats[hatIdx].fullBodyID, hats[hatIdx].imgID, hats[hatIdx].backFull?:0, hats[hatIdx].backID?:0, tops[topIdx].fullBodyID, tops[topIdx].imgID, bottoms[bottomIdx].fullBodyID, bottoms[bottomIdx].imgID, shoes[shoeIdx].fullBodyID, shoes[shoeIdx].imgID)
+        }
+
     }
 
 }
