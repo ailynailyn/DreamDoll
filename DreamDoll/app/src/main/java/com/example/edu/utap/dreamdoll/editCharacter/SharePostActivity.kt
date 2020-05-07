@@ -9,6 +9,8 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,30 +31,6 @@ class SharePostActivity : BaseActivity() {
         super.onBackPressed()
         Log.d("share post activity","onbackpressed")
     }
-
-//    private fun getImageData(bmp: Bitmap) {
-//        var bao = ByteArrayOutputStream()
-//        bmp.compress(Bitmap.CompressFormat.PNG, 100, bao)
-//        bmp.recycle()
-//        var byteArray = bmp.toByteArray()
-//        var imageB64 = Base64.encodeToString(byteArray, Base64.URL_SAFE)
-//    }
-
-//    fun uploadFile() {
-////
-////        val file: Uri = Uri.fromFile(File("path/to/images/rivers.jpg"))
-////        val riversRef: StorageReference = mStorageRef.child("images/rivers.jpg")
-////
-////        riversRef.putFile(file)
-////            .addOnSuccessListener { taskSnapshot -> // Get a URL to the uploaded content
-////                val downloadUrl: Uri = taskSnapshot.getDownloadUrl()
-////
-////            }
-////            .addOnFailureListener {
-////                // Handle unsuccessful uploads
-////                // ...
-////            }
-////    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,6 +91,11 @@ class SharePostActivity : BaseActivity() {
             var userFields = hashMapOf("caption" to caption, "likes" to 0, "pictureID" to "$postID.png"
             )
 
+            // Use Timestamp.now as timestamp IF user is in OFFLINE MODE!!!!
+//            var timestamp : Timestamp = Timestamp.now()
+//            Log.d("timestamp:", timestamp.toString())
+            val timestamp = FieldValue.serverTimestamp()
+
                 // add to user posts.
             db.collection("users").document(userID)
                 .collection("posts").document(postID).set(userFields)
@@ -120,7 +103,7 @@ class SharePostActivity : BaseActivity() {
                     Log.d("Was able to add post to users posts", "success")
                     // Add to newsfeed database.
                     var newsfeedFields = hashMapOf("caption" to caption,
-                        "likes" to 0, "pictureID" to "$postID.png", "timestamp" to "xx-xx-xxxx-xx-xxxx",           // NEED TO PASS CORRECT THING TO PICTURE ID
+                        "likes" to 0, "pictureID" to "$postID.png", "timestamp" to timestamp,
                         "userID" to userID, "username" to username)
                     db.collection("newsfeed").document(postID)
                         .set(newsfeedFields)

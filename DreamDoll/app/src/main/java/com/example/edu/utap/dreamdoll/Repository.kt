@@ -1,6 +1,7 @@
 package com.example.edu.utap.dreamdoll
 
 import android.widget.ImageView
+import com.google.firebase.Timestamp
 
 open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureID: Int) {
 

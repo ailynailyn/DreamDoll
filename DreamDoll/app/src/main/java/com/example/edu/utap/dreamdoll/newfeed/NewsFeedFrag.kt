@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.edu.utap.dreamdoll.newfeed.NewsfeedRVAdapter
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.login_signup.*
@@ -35,9 +37,30 @@ class NewsFeedFrag : Fragment() {
         return inflater.inflate(R.layout.news_feed, container, false)
     }
 
+    private fun convertTimestamp(timestamp: String) : String {
+        var timestampRegex = Regex("[A-Za-z]+\\s([A-Za-z]+)\\s(\\d+)\\s(\\d+):(\\d+):\\d+\\s([A-Z]+)\\s(\\d+)")
+        // Comes in as "WEEKDAY MONTH DAY HOUR:MIN:SEC TIMEZONE YEAR"
+        var str = ""
+        val match = timestampRegex.find(timestamp)
+        if(match != null) {
+            val (month, day, milHour, min, zone, year) = match.destructured
+            var hour = milHour.toInt()
+            var time = "am"
+            if(hour > 12) {
+                hour -= 12
+                time = "pm"
+            }
+            str = "$month $day, $year at $hour:$min $time"
+            return str
+        }
+        return timestamp
+    }
+
     private fun genNewsfeedList() {
         var list = mutableListOf<NewsfeedItem>()
-        db.collection("newsfeed").get()
+        db.collection("newsfeed")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .get()
             .addOnSuccessListener { posts ->
                 posts.forEach {
                     var postID = it.id
@@ -49,6 +72,10 @@ class NewsFeedFrag : Fragment() {
                     Log.d("got the posts. here is the picture id", " this $imageID")
                     var likes = curPost["likes"].toString()
                     var caption = curPost["caption"].toString()
+                    var timestamp = (curPost["timestamp"] as Timestamp).toDate()
+                    Log.d("current post", "$caption\nHAS TIMEESTAMP: ${timestamp.toString()}")
+                    var timestampStr = convertTimestamp(timestamp.toString())
+                    Log.d("timestampStr", timestampStr)
                     // Generate newsfeeditem for each post.
                     var item = NewsfeedItem(username,profilePicID, imageID, likes.toInt(), caption, postID, userID)
                     list.add(item)
