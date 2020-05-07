@@ -1,11 +1,13 @@
 package com.example.edu.utap.dreamdoll
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -88,6 +90,21 @@ class EditFeaturesFrag() : Fragment() {
 
         // Inflate the root view and cache references to vital UI elements.
         return inflater.inflate(R.layout.edit_features, container, false)
+    }
+
+
+    // Code to hide the keyboard.
+    fun Activity.hideKeyboard() {
+        hideKeyboard(currentFocus ?: View(this))
+    }
+
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun Fragment.hideKeyboard() {
+        view?.let { activity?.hideKeyboard(it) }
     }
 
     fun goToFullBody() {
