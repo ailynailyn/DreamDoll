@@ -9,7 +9,7 @@ import com.example.edu.utap.dreamdoll.editCharacter.SaveFrag
 class BuyItemsActivity : BaseActivity() {
 
     var purchaseFeaturesFrag = PurchaseFeaturesFrag()
-    var editFullBodyFrag = EditFullBodyFrag()
+    var purchaseFullBodyFrag = PurchaseFullBodyFrag()
     val editFullTag = "fullBodyFrag"
     var editFrag = EditFrag()
     var saveFrag = SaveFrag()
@@ -81,11 +81,11 @@ class BuyItemsActivity : BaseActivity() {
             bundle.putInt("bottomsFull", bottomsFull)
             bundle.putInt("shoesFull", shoesFull)
             val transaction = supportFragmentManager.beginTransaction()
-            editFullBodyFrag.arguments = bundle
+            purchaseFullBodyFrag.arguments = bundle
 
             transaction
                 .addToBackStack(null)
-                .add(R.id.container, editFullBodyFrag, editFullTag)
+                .add(R.id.container, purchaseFullBodyFrag, editFullTag)
                 .commit()
         }
     }
