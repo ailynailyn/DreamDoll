@@ -33,14 +33,16 @@ class MenuActivity : BaseActivity() {
         startActivity(intent)
     }
 
-    // Create a character button was clicked.
-    fun createCharButtonClicked() {
-
-    }
-
-    // Edit a character button was clicked.
+    // Edit a character button was clicked
     fun editCharButtonClicked() {
         val intent = Intent(this, EditCharacterActivity::class.java)
+        intent.putExtra("title", "editing time!")
+        startActivity(intent)
+    }
+
+    // Create a character button was clicked.
+    fun createCharButtonClicked() {
+        val intent = Intent(this, CreateCharacterActivity::class.java)
         intent.putExtra("title", "madeit")
         startActivity(intent)
     }
