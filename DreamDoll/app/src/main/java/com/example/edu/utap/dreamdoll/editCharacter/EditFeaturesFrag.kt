@@ -48,12 +48,10 @@ class EditFeaturesFrag() : Fragment() {
 
     fun goToFullBody() {
         Log.d("XXX", "goToFullBody was called!!")
-        var editActivity : EditCharacterActivity = activity as EditCharacterActivity
+        var editActivity : CreateCharacterActivity = activity as CreateCharacterActivity
 
-        var hairToPass = hairTransfer.getID()
-        Log.d("XXY", "$hairToPass")
         Log.d("XXX", "got past the featureList!!")
-        editActivity.beginFullBodyFrag(hairTransfer.getID(), eyeTransfer.getID(), browTransfer.getID(), noseTransfer.getID(), lipTransfer.getID())
+        editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFullBodyID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID())
 
     }
 
@@ -66,11 +64,11 @@ class EditFeaturesFrag() : Fragment() {
         initSpinner()
         initButtons()
 
-        hairTransfer = ImageTransferItem(hairDisplay, 0)
-        eyeTransfer = ImageTransferItem(eyeDisplay, 0)
-        browTransfer = ImageTransferItem(browDisplay, 0)
-        noseTransfer = ImageTransferItem(noseDisplay, 0)
-        lipTransfer = ImageTransferItem(lipDisplay, 0)
+        hairTransfer = ImageTransferItem(hairDisplay, 0, 0)
+        eyeTransfer = ImageTransferItem(eyeDisplay, 0, 0)
+        browTransfer = ImageTransferItem(browDisplay, 0, 0)
+        noseTransfer = ImageTransferItem(noseDisplay, 0, 0)
+        lipTransfer = ImageTransferItem(lipDisplay, 0, 0)
 
         rvAdapter = GVAdapter(hairTransfer, eyeTransfer, browTransfer, noseTransfer, lipTransfer)
 

@@ -10,28 +10,12 @@
     >
 
     <Button
-        android:id="@+id/editFeatures_backButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/editFeatures_saveButton"
-        android:text="back"
-        android:textAllCaps="false"
-        android:textSize="32sp"
-        android:layout_marginLeft="16dp"
-        android:textColor="@color/black"
-        android:gravity="left"
-        android:background="?android:attr/selectableItemBackground"
-        />
-
-    <Button
         android:id="@+id/editFeatures_saveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/editFeatures_backButton"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="save"
         android:textAllCaps="false"
         android:textSize="32sp"

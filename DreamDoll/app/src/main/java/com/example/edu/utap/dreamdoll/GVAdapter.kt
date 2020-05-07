@@ -34,19 +34,24 @@ class GVAdapter(hairDisplay: ImageTransferItem, eyeDisplay: ImageTransferItem, b
 
                 if(text.contains("hair")) {
                     hairDisplay.image.setImageResource(displayID)
-                    hairDisplay.setID(fullBodyID)
+                    hairDisplay.setFullBodyID(fullBodyID)
+                    hairDisplay.setFaceFeatureID(displayID)
                 } else if(text.contains("eye")){
                     eyeDisplay.image.setImageResource(displayID)
-                    eyeDisplay.setID(fullBodyID)
+                    eyeDisplay.setFullBodyID(fullBodyID)
+                    eyeDisplay.setFaceFeatureID(displayID)
                 } else if(text.contains("brows")){
                     browDisplay.image.setImageResource(displayID)
-                    browDisplay.setID(fullBodyID)
+                    browDisplay.setFullBodyID(fullBodyID)
+                    browDisplay.setFaceFeatureID(displayID)
                 } else if(text.contains("nose")){
                     noseDisplay.image.setImageResource(displayID)
-                    noseDisplay.setID(fullBodyID)
+                    noseDisplay.setFullBodyID(fullBodyID)
+                    noseDisplay.setFaceFeatureID(displayID)
                 } else {
                     lipDisplay.image.setImageResource(displayID)
-                    lipDisplay.setID(fullBodyID)
+                    lipDisplay.setFullBodyID(fullBodyID)
+                    lipDisplay.setFaceFeatureID(displayID)
                 }
             }
         }

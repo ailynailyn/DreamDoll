@@ -2,18 +2,28 @@ package com.example.edu.utap.dreamdoll
 
 import android.widget.ImageView
 
-open class ImageTransferItem(val image: ImageView, var transferID: Int) {
+open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureID: Int) {
 
-    fun setID(identifier: Int) {
-        transferID = identifier
+    fun setFullBodyID(identifier: Int) {
+        fullID = identifier
     }
 
-    fun getID(): Int {
-        return transferID
+    fun getFullBodyID(): Int {
+        return fullID
+    }
+
+    fun setFaceFeatureID(magnified: Int) {
+        featureID = magnified
+    }
+
+    fun getFaceFeatureID() : Int {
+        return featureID
     }
 }
 
-data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backImage: Int?)
+data class SavedDoll(val hairFull: Int, val hairFeature: Int, val eyesFull: Int, val eyesFeature: Int, val browsFull: Int, val browsFeature: Int, val noseFull: Int, val noseFeature: Int, val lipsFull: Int, val lipsFeature: Int, val hatFull: Int, val hatFeature: Int, val hatBackFull: Int?, val hatBackFeature: Int?, val topFull: Int, val TopFeature: Int, val bottomsFull: Int, val shoesFull: Int)
+
+data class DollItem(val name: String, val imgID: Int, val previewID: Int?, val fullBodyID: Int, val backFull: Int?, val backID: Int?)
 
 data class NewsfeedItem(val username: String,
                         val profilePicID: String?,
@@ -45,53 +55,53 @@ class Repository {
 //        )
 
         private var hairDemoList = listOf(
-            DollItem("pink bangs hair", R.drawable.pink_bangs, R.drawable.pink_bang_demo, R.drawable.pink_bang_full, null),
-            DollItem("brown center part hair", R.drawable.brown_center, R.drawable.center_brown_demo, R.drawable.brown_center_full, null)
+            DollItem("pink bangs hair", R.drawable.pink_bangs, R.drawable.pink_bang_demo, R.drawable.pink_bang_full, null, null),
+            DollItem("brown center part hair", R.drawable.brown_center, R.drawable.center_brown_demo, R.drawable.brown_center_full, null, null)
         )
 
         private var eyeDemoList = listOf(
-            DollItem("green oval eyes", R.drawable.oval_eyes, R.drawable.oval_eyes_demo, R.drawable.oval_eyes_full, null),
-            DollItem("blue round eyes", R.drawable.round_eyes, R.drawable.round_eyes_demo, R.drawable.round_eyes_full, null)
+            DollItem("green oval eyes", R.drawable.oval_eyes, R.drawable.oval_eyes_demo, R.drawable.oval_eyes_full, null, null),
+            DollItem("blue round eyes", R.drawable.round_eyes, R.drawable.round_eyes_demo, R.drawable.round_eyes_full, null, null)
         )
 
         private var lipsList = listOf(
-            DollItem("oval lips", R.drawable.lips_oval, null, R.drawable.oval_lips_full, null),
-            DollItem("round lips", R.drawable.lips_round, null, R.drawable.round_lips_full, null)
+            DollItem("oval lips", R.drawable.lips_oval, null, R.drawable.oval_lips_full, null, null),
+            DollItem("round lips", R.drawable.lips_round, null, R.drawable.round_lips_full, null, null)
         )
 
         private var browsList = listOf(
-            DollItem("round brows", R.drawable.round_brows, null, R.drawable.round_brows_full, null),
-            DollItem("angled brows", R.drawable.angled_brows, null, R.drawable.angled_brows_full, null)
+            DollItem("round brows", R.drawable.round_brows, null, R.drawable.round_brows_full, null, null),
+            DollItem("angled brows", R.drawable.angled_brows, null, R.drawable.angled_brows_full, null, null)
         )
 
         private var noseList = listOf(
-            DollItem("long nose", R.drawable.long_nose, null, R.drawable.long_nose_full, null),
-            DollItem("button nose", R.drawable.button_nose, null, R.drawable.button_nose_full, null)
+            DollItem("long nose", R.drawable.long_nose, null, R.drawable.long_nose_full, null,null),
+            DollItem("button nose", R.drawable.button_nose, null, R.drawable.button_nose_full, null, null)
         )
 
         private var hatList = listOf(
-            DollItem("black large brim", R.drawable.black_large_brim, null, R.drawable.black_large_brim, R.drawable.hat_back),
-            DollItem("pink beret", R.drawable.pink_beret, null, R.drawable.pink_beret, null)
+            DollItem("black large brim", R.drawable.black_large_brim, null, R.drawable.black_large_brim, R.drawable.hat_back, null),
+            DollItem("pink beret", R.drawable.pink_beret, null, R.drawable.pink_beret, null, null)
         )
 
         private var bottomsList = listOf(
-            DollItem("bell bottoms", R.drawable.black_bell_pants, null, R.drawable.black_bell_pants, null),
-            DollItem("pink ruffle skirt", R.drawable.pink_ruffle_skirt, null, R.drawable.pink_ruffle_skirt, null)
+            DollItem("bell bottoms", R.drawable.black_bell_pants, null, R.drawable.black_bell_pants, null, null),
+            DollItem("pink ruffle skirt", R.drawable.pink_ruffle_skirt, null, R.drawable.pink_ruffle_skirt, null, null)
         )
 
         private var topsList = listOf(
-            DollItem("wrap top", R.drawable.black_wrap_top, null, R.drawable.black_wrap_top, null),
-            DollItem("pink ruffle top", R.drawable.pink_lace_top, null, R.drawable.pink_lace_top, null)
+            DollItem("wrap top", R.drawable.black_wrap_top, null, R.drawable.black_wrap_top, null, null),
+            DollItem("pink ruffle top", R.drawable.pink_lace_top, null, R.drawable.pink_lace_top, null, null)
         )
 
         private var shoesList = listOf(
-            DollItem("black platforms", R.drawable.black_platforms, null, R.drawable.black_platforms, null),
-            DollItem("pink bow platforms", R.drawable.pink_bow_platforms, null, R.drawable.pink_bow_platforms, null)
+            DollItem("black platforms", R.drawable.black_platforms, null, R.drawable.black_platforms, null, null),
+            DollItem("pink bow platforms", R.drawable.pink_bow_platforms, null, R.drawable.pink_bow_platforms, null, null)
         )
 
         private var sampleUserPics = listOf(
-            DollItem("", R.drawable.doll_face, null, R.drawable.doll_face, null),
-            DollItem("", R.drawable.doll_face, null, R.drawable.doll_face, null)
+            DollItem("", R.drawable.doll_face, null, R.drawable.doll_face, null, null),
+            DollItem("", R.drawable.doll_face, null, R.drawable.doll_face, null, null)
         )
     }
 

@@ -41,6 +41,13 @@ class EditFullBodyFrag : Fragment() {
     var noseInt = 0
     var lipInt = 0
 
+    // store feature ids
+    var hairFeature = 0
+    var eyeFeature = 0
+    var browFeature = 0
+    var noseFeature = 0
+    var lipFeature = 0
+
     // clothing views
     lateinit var hatDisplay : ImageView
     lateinit var hatDisplayBack: ImageView
@@ -66,6 +73,10 @@ class EditFullBodyFrag : Fragment() {
     lateinit var nextBottoms : Button
     lateinit var nextShoes : Button
 
+    // save & back buttons
+    lateinit var saveButton : Button
+    lateinit var backButton : Button
+
     private var mAuth = FirebaseAuth.getInstance();
     private val repository = Repository()
     private var hatIdx = 0
@@ -78,11 +89,17 @@ class EditFullBodyFrag : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        hairInt = arguments?.getInt("hair")!!
-        eyeInt = arguments?.getInt("eyes")!!
-        browInt = arguments?.getInt("brows")!!
-        noseInt = arguments?.getInt("nose")!!
-        lipInt = arguments?.getInt("lips")!!
+        hairInt = arguments?.getInt("hairFull")!!
+        eyeInt = arguments?.getInt("eyesFull")!!
+        browInt = arguments?.getInt("browsFull")!!
+        noseInt = arguments?.getInt("noseFull")!!
+        lipInt = arguments?.getInt("lipsFull")!!
+
+        hairFeature = arguments?.getInt("hairFeature")!!
+        eyeFeature = arguments?.getInt("eyesFeature")!!
+        browFeature = arguments?.getInt("browsFeature")!!
+        noseFeature = arguments?.getInt("noseFeature")!!
+        lipFeature = arguments?.getInt("lipsFeature")!!
 
         // Inflate the root view and cache references to vital UI elements.
         return inflater.inflate(R.layout.edit_full_body, container, false)
@@ -164,6 +181,9 @@ class EditFullBodyFrag : Fragment() {
         nextBottoms = view!!.findViewById<Button>(R.id.editFull_bottomsNext)
         nextShoes = view!!.findViewById<Button>(R.id.editFull_shoesNext)
 
+        saveButton = view!!.findViewById<Button>(R.id.editFull_saveButton)
+        backButton = view!!.findViewById<Button>(R.id.editFull_backButton)
+
         // hat buttons
         prevHat.setOnClickListener {
             if(hatIdx <= 0) {
@@ -173,9 +193,9 @@ class EditFullBodyFrag : Fragment() {
             }
             var hat = hats[hatIdx]
             hatDisplay.setImageResource(hat.fullBodyID)
-            if(hat.backImage != null) {
+            if(hat.backFull != null) {
                 hatDisplayBack.visibility = View.VISIBLE
-                hatDisplayBack.setImageResource(hat.backImage!!)
+                hatDisplayBack.setImageResource(hat.backFull!!)
             } else {
                 hatDisplayBack.visibility = View.GONE
             }
@@ -189,9 +209,9 @@ class EditFullBodyFrag : Fragment() {
             }
             var hat = hats[hatIdx]
             hatDisplay.setImageResource(hat.fullBodyID)
-            if(hat.backImage != null) {
+            if(hat.backFull != null) {
                 hatDisplayBack.visibility = View.VISIBLE
-                hatDisplayBack.setImageResource(hat.backImage!!)
+                hatDisplayBack.setImageResource(hat.backFull!!)
             } else {
                 hatDisplayBack.visibility = View.GONE
             }
@@ -259,6 +279,22 @@ class EditFullBodyFrag : Fragment() {
             var shoe = shoes[shoeIdx]
             shoeDisplay.setImageResource(shoe.fullBodyID)
         }
+
+        saveButton.setOnClickListener {
+            saveLook()
+        }
+
+        saveButton.setOnClickListener {
+            returnToEditFace()
+        }
+    }
+
+    fun saveLook() {
+        var newLook = SavedDoll(hairInt, hairFeature, eyeInt, eyeFeature, browInt, browFeature, noseInt, noseFeature, lipInt, lipFeature, hats[hatIdx].fullBodyID, hats[hatIdx].imgID, hats[hatIdx].backFull, hats[hatIdx].backID, tops[topIdx].fullBodyID, tops[topIdx].imgID, bottoms[bottomIdx].fullBodyID, shoes[shoeIdx].fullBodyID)
+    }
+
+    fun returnToEditFace() {
+
     }
 
 }
