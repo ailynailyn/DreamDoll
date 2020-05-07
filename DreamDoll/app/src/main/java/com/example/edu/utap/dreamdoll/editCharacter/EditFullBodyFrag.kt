@@ -116,8 +116,8 @@ class EditFullBodyFrag : Fragment() {
             hatInt = arguments?.getInt("hatFull")!!
             hatBackInt = arguments?.getInt("hatBackFull")!!
             topInt = arguments?.getInt("topFull")!!
-            bottomInt = arguments?.getInt("bottomFull")!!
-            shoeInt = arguments?.getInt("shoeFull")!!
+            bottomInt = arguments?.getInt("bottomsFull")!!
+            shoeInt = arguments?.getInt("shoesFull")!!
             topFeature = arguments?.getInt("topFeature")!!
             hatFeature = arguments?.getInt("hatFeature")!!
             hatBackFeature = arguments?.getInt("hatBackFeature")!!
@@ -192,16 +192,16 @@ class EditFullBodyFrag : Fragment() {
         bottoms = repository.fetchBottoms()
         shoes = repository.fetchShoes()
 
-//        if(hasArguments) {
-//            shoes.add(DollItem("saved shoes", shoeInt, null, shoeInt, null, null))
-//            bottoms.add(DollItem("saved bottoms", bottomInt, null, bottomInt, null, null))
-//            tops.add(DollItem("saved top", topFeature, null, topInt, null, null))
-//            hats.add(DollItem("saved hat", hatFeature, null, hatInt, hatBackInt, hatBackFeature))
-//            shoeIdx = shoes.size-1
-//            bottomIdx = bottoms.size-1
-//            topIdx = tops.size-1
-//            hatIdx = hats.size-1
-//        }
+        if(hasArguments) {
+            shoes.add(DollItem("saved shoes", shoeInt, null, shoeInt, null, null))
+            bottoms.add(DollItem("saved bottoms", bottomInt, null, bottomInt, null, null))
+            tops.add(DollItem("saved top", topFeature, null, topInt, null, null))
+            hats.add(DollItem("saved hat", hatFeature, null, hatInt, hatBackInt, hatBackFeature))
+            shoeIdx = shoes.size-1
+            bottomIdx = bottoms.size-1
+            topIdx = tops.size-1
+            hatIdx = hats.size-1
+        }
     }
 
     private fun initButtons() {
@@ -217,6 +217,14 @@ class EditFullBodyFrag : Fragment() {
 
         saveButton = view!!.findViewById<Button>(R.id.editFull_saveButton)
         backButton = view!!.findViewById<Button>(R.id.editFull_backButton)
+
+        if(hasArguments) {
+            shoeDisplay.setImageResource(shoeInt)
+            bottomDisplay.setImageResource(bottomInt)
+            topDisplay.setImageResource(topInt)
+            hatDisplay.setImageResource(hatInt)
+            hatDisplayBack.setImageResource(hatBackInt)
+        }
 
         // hat buttons
         prevHat.setOnClickListener {

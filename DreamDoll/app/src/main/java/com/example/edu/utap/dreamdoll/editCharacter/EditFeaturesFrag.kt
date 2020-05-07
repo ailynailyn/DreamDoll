@@ -100,7 +100,7 @@ class EditFeaturesFrag() : Fragment() {
 
         } else {
             var editActivity : EditCharacterActivity = activity as EditCharacterActivity
-            editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), 0, 0, 0, 0, 0, 0, 0, 0)
+            editActivity.beginFullBodyFrag(hairTransfer.getFullBodyID(), hairTransfer.getFaceFeatureID(), eyeTransfer.getFullBodyID(), eyeTransfer.getFaceFeatureID(), browTransfer.getFullBodyID(), browTransfer.getFaceFeatureID(), noseTransfer.getFullBodyID(), noseTransfer.getFaceFeatureID(), lipTransfer.getFullBodyID(), lipTransfer.getFaceFeatureID(), hatInt, hatFeature, hatBackInt, hatBackFeature, topInt, topFeature, bottomInt, shoeInt)
             Log.d("XXX", "got past the featureList!!")
         }
     }
