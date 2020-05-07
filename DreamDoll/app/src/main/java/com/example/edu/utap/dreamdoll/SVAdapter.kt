@@ -31,6 +31,7 @@ class SVAdapter(curSavedFace: SavedFace)
         internal var topView = itemView.findViewById<ImageView>(R.id.saveSlots_top)
         internal var hatView = itemView.findViewById<ImageView>(R.id.saveSlots_hat)
         internal var hatViewBack = itemView.findViewById<ImageView>(R.id.saveSlots_hat_back)
+        internal var dollView = itemView.findViewById<ImageView>(R.id.doll)
         internal var captionTV = itemView.findViewById<EditText>(R.id.gridItem_caption)
 
         init {
@@ -46,7 +47,18 @@ class SVAdapter(curSavedFace: SavedFace)
                 hatView.setImageResource(curSavedFace.hatFeature)
                 hatViewBack.setImageResource(curSavedFace.hatFeatureBack)
 
+                hairView.visibility = View.VISIBLE
+                eyeView.visibility = View.VISIBLE
+                browView.visibility = View.VISIBLE
+                lipView.visibility = View.VISIBLE
+                noseView.visibility = View.VISIBLE
+                topView.visibility = View.VISIBLE
+                hatView.visibility = View.VISIBLE
+                hatViewBack.visibility = View.VISIBLE
+                dollView.visibility = View.VISIBLE
+
                 Repository.defaultSaveSlots[adapterPosition] = curSavedFace
+                Repository.defaultSaveSlots[adapterPosition].saved = true
             }
 
             captionTV.onChange {
@@ -57,6 +69,28 @@ class SVAdapter(curSavedFace: SavedFace)
 
         fun bindView(item: SavedFace) {
             Log.d("SVAdapter", "bindView(item: SavedFace)")
+            if(!item.saved) {
+                hairView.visibility = View.GONE
+                eyeView.visibility = View.GONE
+                browView.visibility = View.GONE
+                lipView.visibility = View.GONE
+                noseView.visibility = View.GONE
+                topView.visibility = View.GONE
+                hatView.visibility = View.GONE
+                hatViewBack.visibility = View.GONE
+                dollView.visibility = View.GONE
+            } else {
+                hairView.visibility = View.VISIBLE
+                eyeView.visibility = View.VISIBLE
+                browView.visibility = View.VISIBLE
+                lipView.visibility = View.VISIBLE
+                noseView.visibility = View.VISIBLE
+                topView.visibility = View.VISIBLE
+                hatView.visibility = View.VISIBLE
+                hatViewBack.visibility = View.VISIBLE
+                dollView.visibility = View.VISIBLE
+            }
+
             hairView.setImageResource(item.hairFeature)
             eyeView.setImageResource(item.eyesFeature)
             browView.setImageResource(item.browsFeature)

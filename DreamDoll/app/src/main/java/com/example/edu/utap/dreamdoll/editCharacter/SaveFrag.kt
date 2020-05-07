@@ -127,7 +127,7 @@ class SaveFrag: Fragment() {
     }
 
     private fun initCurSavedFace() {
-        curSavedFace = SavedFace(hairFeature, eyeFeature, browFeature, noseFeature, lipFeature, topFeature, hatFeature, hatBackFeature, "NEW LOOK")
+        curSavedFace = SavedFace(hairFeature, eyeFeature, browFeature, noseFeature, lipFeature, topFeature, hatFeature, hatBackFeature, "NEW LOOK", false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
