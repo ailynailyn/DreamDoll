@@ -35,6 +35,8 @@ class ProfileGVAdapter()
                 intent.putExtra("imageID", postItem.imageID)
                 intent.putExtra("likes", postItem.likes)
                 intent.putExtra("caption", postItem.caption)
+                intent.putExtra("postID", postItem.postID)
+                intent.putExtra("userID", postItem.userID)
                 itemView.context.startActivity(intent)
             }
         }

@@ -49,7 +49,7 @@ class NewsfeedRVAdapter()
             likeButton.setOnClickListener {
                 Log.d("newfeed adapter", "like button clicked for post $postID")
                 //var isLiked = true
-                    // Find out if the picture is liked.
+                // Find out if the picture is liked.
 
 
                 var likes = postLikes
