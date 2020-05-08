@@ -47,10 +47,14 @@ class EditCharacterActivity : BaseActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         editFeaturesFrag.arguments = bundle
 
-        transaction
-            .addToBackStack(null)
-            .add(R.id.container, editFeaturesFrag)
-            .commit()
+        if(!editFeaturesFrag.isAdded) {
+            transaction
+                .addToBackStack(null)
+                .add(R.id.container, editFeaturesFrag)
+                .commit()
+        } else {
+            transaction.show(editFeaturesFrag)
+        }
     }
 
     fun beginFullBodyFrag(hairFull: Int, hairFeature: Int, eyesFull: Int, eyesFeature: Int, browsFull: Int, browsFeature: Int, noseFull: Int, noseFeature: Int, lipsFull: Int, lipsFeature: Int,
