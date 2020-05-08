@@ -66,6 +66,11 @@ class SVAdapter(curSavedLook: SavedLook, curSavedList: ArrayList<SavedLook>)
 
                 if(curSavedList[adapterPosition].saved) {
                     curSavedList[adapterPosition].update(curSavedLook)
+                    resetStorage(parent)
+                    for(slots in 0 until curSavedList.size) {
+                        saveToStorage(curSavedList[slots], parent)
+                    }
+
                 } else {
                     saveToStorage(curSavedLook, parent)
                 }
@@ -177,5 +182,11 @@ class SVAdapter(curSavedLook: SavedLook, curSavedList: ArrayList<SavedLook>)
         item.saved = true
         val newTitle = item.saveTitle?.replace(" ", ",")
         file.appendText("${face.getHairInt()} ${face.getEyeInt()} ${face.getBrowInt()} ${face.getNoseInt()} ${face.getLipInt()} ${face.getTopInt()} ${face.getHatInt()} ${face.getHatBackInt()} ${item.hairFull} ${item.eyesFull} ${item.browsFull} ${item.noseFull} ${item.lipsFull} ${item.topFull} ${item.hatFull} ${item.hatBackFull} ${item.bottomsFull} ${item.shoesFull} ${newTitle} ${item.saved}\n")
+    }
+
+    fun resetStorage(parent: ViewGroup) {
+        var ctx = parent.context
+        val file = File(ctx.filesDir, "SAVESLOTS7.txt")
+        file.delete()
     }
 }
