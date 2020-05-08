@@ -267,6 +267,7 @@ class EditFeaturesFrag() : Fragment() {
         browDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_brows)
         noseDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_nose)
         lipDisplay = view!!.findViewById<ImageView>(R.id.editFeatures_lips)
+
     }
 
     // Initializes the grid recycler view of items.
