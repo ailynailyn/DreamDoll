@@ -68,9 +68,14 @@ class UserAccountActivity : BaseActivity() {
                     val imageID: String? = curPost["pictureID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
                     val caption: String = curPost["caption"].toString()
-                    val timestamp = curPost["timestamp"].toString()
-                    val timestampStr = convertTimestamp(timestamp)
-                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid, timestamp)
+                    val postTimestamp = curPost["timestamp"]
+                    var timestamp = ""
+                    var timestampStr = ""
+                    if(postTimestamp != null) {
+                        timestamp = (postTimestamp as Timestamp).toDate().toString()
+                        timestampStr = convertTimestamp(timestamp.toString())
+                    }
+                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid, timestampStr)
                     postsList.add(item)
                 }
                 Log.d("postList inside listener: ", postsList.toString())

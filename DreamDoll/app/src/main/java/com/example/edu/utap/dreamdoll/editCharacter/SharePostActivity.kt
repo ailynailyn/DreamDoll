@@ -88,17 +88,18 @@ class SharePostActivity : BaseActivity() {
                     Log.d("unable to add image to storeage", "failed")
                 }
 
-            var userFields = hashMapOf("caption" to caption, "likes" to 0, "pictureID" to "$postID.png"
-            )
+            val timestamp = FieldValue.serverTimestamp()
+            var newsfeedFields = hashMapOf("caption" to caption,
+                "likes" to 0, "pictureID" to "$postID.png", "timestamp" to timestamp,
+                "userID" to userID, "username" to username)
 
             // Use Timestamp.now as timestamp IF user is in OFFLINE MODE!!!!
 //            var timestamp : Timestamp = Timestamp.now()
 //            Log.d("timestamp:", timestamp.toString())
-            val timestamp = FieldValue.serverTimestamp()
 
                 // add to user posts.
             db.collection("users").document(userID)
-                .collection("posts").document(postID).set(userFields)
+                .collection("posts").document(postID).set(newsfeedFields)
                 .addOnSuccessListener {
                     Log.d("Was able to add post to users posts", "success")
                     // Add to newsfeed database.
