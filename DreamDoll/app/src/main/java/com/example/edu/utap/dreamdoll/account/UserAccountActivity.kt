@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.edu.utap.dreamdoll.account.AccountGVAdapter
 import com.example.edu.utap.dreamdoll.userProfile.ProfileGVAdapter
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthActionCodeException
@@ -67,7 +68,14 @@ class UserAccountActivity : BaseActivity() {
                     val imageID: String? = curPost["pictureID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
                     val caption: String = curPost["caption"].toString()
-                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid)
+                    val postTimestamp = curPost["timestamp"]
+                    var timestamp = ""
+                    var timestampStr = ""
+                    if(postTimestamp != null) {
+                        timestamp = (postTimestamp as Timestamp).toDate().toString()
+                        timestampStr = convertTimestamp(timestamp.toString())
+                    }
+                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid, timestampStr)
                     postsList.add(item)
                 }
                 Log.d("postList inside listener: ", postsList.toString())
@@ -82,6 +90,25 @@ class UserAccountActivity : BaseActivity() {
                 Log.d("Could not get user posts data from database", "FAILED")
             }
 
+    }
+
+    private fun convertTimestamp(timestamp: String) : String {
+        var timestampRegex = Regex("[A-Za-z]+\\s([A-Za-z]+)\\s(\\d+)\\s(\\d+):(\\d+):\\d+\\s([A-Z]+)\\s(\\d+)")
+        // Comes in as "WEEKDAY MONTH DAY HOUR:MIN:SEC TIMEZONE YEAR"
+        var str = ""
+        val match = timestampRegex.find(timestamp)
+        if(match != null) {
+            val (month, day, milHour, min, zone, year) = match.destructured
+            var hour = milHour.toInt()
+            var time = "am"
+            if(hour > 12) {
+                hour -= 12
+                time = "pm"
+            }
+            str = "$month $day, $year at $hour:$min $time"
+            return str
+        }
+        return timestamp
     }
 
     // Sets the username, likes and high score.

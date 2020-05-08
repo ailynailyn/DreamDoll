@@ -65,6 +65,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/newsfeed_likeButton"
         android:layout_marginStart="12dp"
+        android:textAllCaps="true"
         />
 
     <Button
@@ -87,10 +88,23 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/newsfeed_likeButton"
         android:textColor="@color/white_blue"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:text="This is a sample caption."
         android:layout_marginHorizontal="12dp"
+        android:paddingBottom="8dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/newsfeedItemTimestamp"
+        app:layout_constraintTop_toBottomOf="@id/newfeed_caption"
+        android:text="January 00, 2020 at 11:00 pm"
+        android:textSize="12sp"
+        android:textColor="@color/white_blue"
+        android:layout_marginHorizontal="12dp"
         android:paddingBottom="12dp"
+        android:textAllCaps="true"
         />
 
 

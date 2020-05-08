@@ -16,8 +16,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.edu.utap.dreamdoll.account.AccountGVAdapter
 import com.example.edu.utap.dreamdoll.userProfile.ProfileGVAdapter
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -30,7 +33,7 @@ class UserProfileFrag(username : String) : Fragment() {
 
     private lateinit var userProfileRV : RecyclerView
     private lateinit var gridLayoutManager : GridLayoutManager
-    private val profileGVAdapter = ProfileGVAdapter()
+    private val accountGVAdapter = AccountGVAdapter()
     private val repository = Repository()
     private val numCols = 3
     private val db = Firebase.firestore
@@ -52,6 +55,7 @@ class UserProfileFrag(username : String) : Fragment() {
         db.collection("users")
             .document(uuid)
             .collection("posts")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { posts ->
                 posts.forEach {
@@ -63,7 +67,15 @@ class UserProfileFrag(username : String) : Fragment() {
                     val imageID: String? = curPost["pictureID"].toString()
                     val likes: Int = (curPost["likes"] as Long).toInt()
                     val caption: String = curPost["caption"].toString()
-                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid)
+                    val postTimestamp = curPost["timestamp"]
+                    var timestamp = ""
+                    var timestampStr = ""
+                    if(postTimestamp != null) {
+                        timestamp = (postTimestamp as Timestamp).toDate().toString()
+                        timestampStr = convertTimestamp(timestamp.toString())
+                    }
+                    Log.d("timestampStr", timestampStr)
+                    var item = NewsfeedItem(username, profilePicID, imageID, likes, caption, postID, uuid, timestampStr)
                     postsList.add(item)
                 }
                 Log.d("postList inside listener: ", postsList.toString())
@@ -71,13 +83,32 @@ class UserProfileFrag(username : String) : Fragment() {
                 var totalPostsTV = view!!.findViewById<TextView>(R.id.userProfile_postsTV)
                 totalPostsTV.text = postsList.count().toString()
                 // Submit to adapter.
-                profileGVAdapter.setItemList(postsList)
+                accountGVAdapter.setItemList(postsList)
 
             }
             .addOnFailureListener {
                 Log.d("Could not get user posts data from database", "FAILED")
             }
 
+    }
+
+    private fun convertTimestamp(timestamp: String) : String {
+        var timestampRegex = Regex("[A-Za-z]+\\s([A-Za-z]+)\\s(\\d+)\\s(\\d+):(\\d+):\\d+\\s([A-Z]+)\\s(\\d+)")
+        // Comes in as "WEEKDAY MONTH DAY HOUR:MIN:SEC TIMEZONE YEAR"
+        var str = ""
+        val match = timestampRegex.find(timestamp)
+        if(match != null) {
+            val (month, day, milHour, min, zone, year) = match.destructured
+            var hour = milHour.toInt()
+            var time = "am"
+            if(hour > 12) {
+                hour -= 12
+                time = "pm"
+            }
+            str = "$month $day, $year at $hour:$min $time"
+            return str
+        }
+        return timestamp
     }
 
     // Uses the username collection to get the uuid of the given user.
@@ -144,7 +175,7 @@ class UserProfileFrag(username : String) : Fragment() {
         initGrid()
 
         // Set adapter.
-        userProfileRV.adapter = profileGVAdapter
+        userProfileRV.adapter = accountGVAdapter
 
         // Need to get the user pics from the database.
         prepareProfile()

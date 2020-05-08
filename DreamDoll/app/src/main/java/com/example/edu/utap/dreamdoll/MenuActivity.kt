@@ -89,10 +89,10 @@ class MenuActivity : BaseActivity() {
             Log.d("options menu fragment", "edit character button clicked")
             editCharButtonClicked()
         }
-        buy_items.setOnClickListener {
-            Log.d("options menu fragment", "buy items button clicked")
-            buyItemsButtonClicked()
-        }
+//        buy_items.setOnClickListener {
+//            Log.d("options menu fragment", "buy items button clicked")
+//            buyItemsButtonClicked()
+//        }
         earn_coins.setOnClickListener {
             Log.d("options menu fragment", "earn coins button clicked")
             earnCoinsButtonClicked()

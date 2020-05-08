@@ -42,6 +42,7 @@ class AccountRVAdapter()
         internal var likeButton = itemView.findViewById<Button>(R.id.accountPostLikeButton)
         internal var caption = itemView.findViewById<TextView>(R.id.accountPostCaption)
         internal val setAsProfilePicButton = itemView.findViewById<Button>(R.id.accountPostProfilePicButton)
+        internal val timestampTV = itemView.findViewById<TextView>(R.id.accountPostTimestamp)
 
         init {
             itemView.setOnClickListener {
@@ -274,6 +275,12 @@ class AccountRVAdapter()
             postID = item.postID
             postLikes = item.likes
             userID = item.userID
+            if(item.timestamp == null || item.timestamp == "null") {
+                timestampTV.text = ""
+            } else {
+                timestampTV.text = item.timestamp
+            }
+
 
             // Set isLiked variable. Depends Also sets the text of the like button.
             setLikedHeart()

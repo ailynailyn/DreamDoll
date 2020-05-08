@@ -36,6 +36,8 @@ class AccountGVAdapter()
                 intent.putExtra("caption", postItem.caption)
                 intent.putExtra("postID", postItem.postID)
                 intent.putExtra("userID", postItem.userID)
+                val timestampStr = convertTimestamp(postItem.timestamp)
+                intent.putExtra("timestamp", timestampStr)
                 itemView.context.startActivity(intent)
             }
         }
@@ -61,6 +63,24 @@ class AccountGVAdapter()
             } else {
                 imageView.setImageResource(R.drawable.doll_face)   // use glide???
             }
+        }
+        private fun convertTimestamp(timestamp: String) : String {
+            var timestampRegex = Regex("[A-Za-z]+\\s([A-Za-z]+)\\s(\\d+)\\s(\\d+):(\\d+):\\d+\\s([A-Z]+)\\s(\\d+)")
+            // Comes in as "WEEKDAY MONTH DAY HOUR:MIN:SEC TIMEZONE YEAR"
+            var str = ""
+            val match = timestampRegex.find(timestamp)
+            if(match != null) {
+                val (month, day, milHour, min, zone, year) = match.destructured
+                var hour = milHour.toInt()
+                var time = "am"
+                if(hour > 12) {
+                    hour -= 12
+                    time = "pm"
+                }
+                str = "$month $day, $year at $hour:$min $time"
+                return str
+            }
+            return timestamp
         }
     }
 

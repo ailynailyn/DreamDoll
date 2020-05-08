@@ -1,6 +1,7 @@
 package com.example.edu.utap.dreamdoll
 
 import android.widget.ImageView
+import com.google.firebase.Timestamp
 
 open class ImageTransferItem(val image: ImageView, var fullID: Int, var featureID: Int) {
 
@@ -73,7 +74,8 @@ data class NewsfeedItem(val username: String,
                         val likes: Int,
                         val caption: String,
                         val postID: String,
-                        val userID: String
+                        val userID: String,
+                        val timestamp: String
                         )
 
 data class HighScoreItem(val username: String, val score: String)
