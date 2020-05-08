@@ -53,6 +53,10 @@
             android:padding="10dp"
             android:background="@drawable/custom0menu0box0light"
             android:text="Leadership Board"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="100sp"
+            android:autoSizeStepGranularity="2sp"
             android:textAllCaps="true"
             android:textColor="@color/gold"
             />
